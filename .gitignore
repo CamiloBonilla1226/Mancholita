@@ -1,0 +1,12 @@
+# --- Java / Spring ---
+backend/target/
+backend/.mvn/
+backend/.classpath
+backend/.project
+backend/.settings/
+backend/.idea/
+backend/*.iml
+
+# --- OS ---
+.DS_Store
+Thumbs.db
