@@ -2,8 +2,7 @@ package com.mancholita.backend.api;
 
 import com.mancholita.backend.domain.Product;
 import com.mancholita.backend.infrastructure.ProductRepository;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -17,7 +16,24 @@ public class PublicProductController {
     }
 
     @GetMapping("/api/public/products")
-    public List<Product> listActive() {
+    public List<Product> listActive(
+            @RequestParam(required = false) Long categoryId,
+            @RequestParam(required = false) Long parentCategoryId
+    ) {
+
+        // 🔹 Filtrar por subcategoría (Jeans, Camisas, etc.)
+        if (categoryId != null) {
+            return productRepository
+                    .findByCategoryIdAndActiveTrueOrderByIdDesc(categoryId);
+        }
+
+        // 🔹 Filtrar por categoría raíz (Hombre/Mujer)
+        if (parentCategoryId != null) {
+            return productRepository
+                    .findByCategoryParentIdAndActiveTrueOrderByIdDesc(parentCategoryId);
+        }
+
+        // 🔹 Todos los activos
         return productRepository.findByActiveTrueOrderByIdDesc();
     }
 }
