@@ -26,7 +26,15 @@ public class AdminProductController {
         Category category = categoryRepository.findById(req.categoryId)
                 .orElseThrow(() -> new IllegalArgumentException("Category not found: " + req.categoryId));
 
-        Product product = new Product(req.name, req.description, req.price, active, category);
+        Product product = new Product(
+                req.name,
+                req.description,
+                req.price,
+                active,
+                req.imageUrl,
+                category
+        );
+
         return productRepository.save(product);
     }
 
@@ -38,7 +46,14 @@ public class AdminProductController {
         Category category = categoryRepository.findById(req.categoryId)
                 .orElseThrow(() -> new IllegalArgumentException("Category not found: " + req.categoryId));
 
-        product.update(req.name, req.description, req.price, category);
+        product.update(
+                req.name,
+                req.description,
+                req.price,
+                req.imageUrl,
+                category
+        );
+
         return productRepository.save(product);
     }
 }

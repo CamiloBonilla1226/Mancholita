@@ -2,11 +2,11 @@ package com.mancholita.backend.infrastructure;
 
 import com.mancholita.backend.api.dto.ProductPublicDto;
 import com.mancholita.backend.domain.Product;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-
-import java.util.List;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
@@ -15,6 +15,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             p.id,
             p.name,
             p.description,
+            p.imageUrl,
             p.price,
             p.active,
             c.id,
@@ -27,11 +28,12 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
         left join c.parent parent
         where p.active = true
           and (:categoryId is null or c.id = :categoryId)
-          and (:parentCategoryId is null or parent.id = :parentCategoryId)
+          and (:genderId is null or parent.id = :genderId)
         order by p.id desc
     """)
-    List<ProductPublicDto> findPublicProducts(
+    Page<ProductPublicDto> findPublicProducts(
             @Param("categoryId") Long categoryId,
-            @Param("parentCategoryId") Long parentCategoryId
+            @Param("genderId") Long genderId,
+            Pageable pageable
     );
 }

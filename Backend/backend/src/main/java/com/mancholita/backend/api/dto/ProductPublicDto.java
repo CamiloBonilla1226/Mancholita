@@ -7,19 +7,21 @@ public class ProductPublicDto {
     public Long id;
     public String name;
     public String description;
+    public String imageUrl;
     public BigDecimal price;
     public boolean active;
 
     public Long categoryId;
     public String categoryName;
 
-    public Long genderId;      // Hombre(1) / Mujer(2)
-    public String genderName;  // "Hombre" / "Mujer"
+    public Long genderId;
+    public String genderName;
 
     public ProductPublicDto(
             Long id,
             String name,
             String description,
+            String imageUrl,
             BigDecimal price,
             boolean active,
             Long categoryId,
@@ -30,6 +32,7 @@ public class ProductPublicDto {
         this.id = id;
         this.name = name;
         this.description = description;
+        this.imageUrl = imageUrl;
         this.price = price;
         this.active = active;
         this.categoryId = categoryId;
