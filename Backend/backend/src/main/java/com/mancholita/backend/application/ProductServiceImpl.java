@@ -87,9 +87,24 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+@Transactional
+public ProductAdminDto setActive(Long id, boolean active) {
+
+    Product product = productRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Product not found: " + id));
+
+    product.setActive(active);
+
+    Product saved = productRepository.save(product);
+    return ProductMapper.toAdminDto(saved);
+}
+
+    @Override
     @Transactional(readOnly = true)
     public Page<ProductPublicDto> listPublic(Long categoryId, Long genderId, String q, Pageable pageable) {
         String normalizedQ = (q == null || q.trim().isEmpty()) ? null : q.trim();
         return productRepository.findPublicProducts(categoryId, genderId, normalizedQ, pageable);
     }
+
+
 }

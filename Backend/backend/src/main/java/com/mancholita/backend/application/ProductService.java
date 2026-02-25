@@ -15,6 +15,10 @@ public interface ProductService {
 
     Page<ProductAdminDto> listAdmin(Long categoryId, Boolean active, String q, Pageable pageable);
 
+    ProductAdminDto setActive(Long id, boolean active);
+
     // Public
     Page<ProductPublicDto> listPublic(Long categoryId, Long genderId, String q, Pageable pageable);
+
+    
 }

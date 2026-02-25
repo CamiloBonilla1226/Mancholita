@@ -1,5 +1,6 @@
 package com.mancholita.backend.api;
 
+import com.mancholita.backend.api.dto.ProductActiveRequest;
 import com.mancholita.backend.api.dto.ProductAdminDto;
 import com.mancholita.backend.api.dto.ProductCreateRequest;
 import com.mancholita.backend.application.ProductService;
@@ -37,4 +38,10 @@ public class AdminProductController {
     ) {
         return productService.listAdmin(categoryId, active, q, pageable);
     }
+
+    @PatchMapping("/api/admin/products/{id}/active")
+        public ProductAdminDto setActive(@PathVariable Long id,
+                                         @Valid @RequestBody ProductActiveRequest req) {
+            return productService.setActive(id, req.active);
+        }
 }
