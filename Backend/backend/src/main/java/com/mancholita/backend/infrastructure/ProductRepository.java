@@ -29,11 +29,17 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
         where p.active = true
           and (:categoryId is null or c.id = :categoryId)
           and (:genderId is null or parent.id = :genderId)
+          and (
+                :q is null
+                or lower(p.name) like lower(concat('%', :q, '%'))
+                or lower(p.description) like lower(concat('%', :q, '%'))
+          )
         order by p.id desc
     """)
     Page<ProductPublicDto> findPublicProducts(
             @Param("categoryId") Long categoryId,
             @Param("genderId") Long genderId,
+            @Param("q") String q,
             Pageable pageable
     );
 }
