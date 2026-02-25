@@ -4,6 +4,8 @@ import com.mancholita.backend.api.dto.ProductAdminDto;
 import com.mancholita.backend.api.dto.ProductCreateRequest;
 import com.mancholita.backend.application.ProductService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -23,5 +25,16 @@ public class AdminProductController {
     @PutMapping("/api/admin/products/{id}")
     public ProductAdminDto update(@PathVariable Long id, @Valid @RequestBody ProductCreateRequest req) {
         return productService.update(id, req);
+    }
+
+    // ✅ NUEVO: listar productos admin (paginado + filtros)
+    @GetMapping("/api/admin/products")
+    public Page<ProductAdminDto> list(
+            @RequestParam(required = false) Long categoryId,
+            @RequestParam(required = false) Boolean active,
+            @RequestParam(required = false) String q,
+            Pageable pageable
+    ) {
+        return productService.listAdmin(categoryId, active, q, pageable);
     }
 }

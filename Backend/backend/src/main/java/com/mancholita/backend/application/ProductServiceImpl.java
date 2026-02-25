@@ -34,6 +34,7 @@ public class ProductServiceImpl implements ProductService {
         Category category = categoryRepository.findById(req.categoryId)
                 .orElseThrow(() -> new IllegalArgumentException("Category not found: " + req.categoryId));
 
+        // Regla: solo categoría hoja
         if (categoryRepository.hasChildren(category.getId())) {
             throw new IllegalArgumentException("Products can only be assigned to leaf categories.");
         }
@@ -61,6 +62,7 @@ public class ProductServiceImpl implements ProductService {
         Category category = categoryRepository.findById(req.categoryId)
                 .orElseThrow(() -> new IllegalArgumentException("Category not found: " + req.categoryId));
 
+        // Regla: solo categoría hoja
         if (categoryRepository.hasChildren(category.getId())) {
             throw new IllegalArgumentException("Products can only be assigned to leaf categories.");
         }
@@ -75,6 +77,13 @@ public class ProductServiceImpl implements ProductService {
 
         Product saved = productRepository.save(product);
         return ProductMapper.toAdminDto(saved);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<ProductAdminDto> listAdmin(Long categoryId, Boolean active, String q, Pageable pageable) {
+        String normalizedQ = (q == null || q.trim().isEmpty()) ? null : q.trim();
+        return productRepository.findAdminProducts(categoryId, active, normalizedQ, pageable);
     }
 
     @Override

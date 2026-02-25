@@ -8,9 +8,13 @@ import org.springframework.data.domain.Pageable;
 
 public interface ProductService {
 
+    // Admin
     ProductAdminDto create(ProductCreateRequest req);
 
     ProductAdminDto update(Long id, ProductCreateRequest req);
 
+    Page<ProductAdminDto> listAdmin(Long categoryId, Boolean active, String q, Pageable pageable);
+
+    // Public
     Page<ProductPublicDto> listPublic(Long categoryId, Long genderId, String q, Pageable pageable);
 }
