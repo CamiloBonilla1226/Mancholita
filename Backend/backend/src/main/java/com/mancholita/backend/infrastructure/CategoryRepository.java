@@ -2,14 +2,21 @@ package com.mancholita.backend.infrastructure;
 
 import com.mancholita.backend.domain.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 
-    // Raíces: Hombre, Mujer
-    List<Category> findByParentIsNullAndActiveTrueOrderByNameAsc();
-
-    // Hijas por padre: Jeans/Camisas de Hombre, etc.
-    List<Category> findByParentIdAndActiveTrueOrderByNameAsc(Long parentId);
+    @Query("""
+        select
+            c.id as id,
+            c.name as name,
+            p.id as parentId
+        from Category c
+        left join c.parent p
+        where c.active = true
+        order by c.id asc
+    """)
+    List<CategoryRow> findActiveFlat();
 }
