@@ -12,6 +12,7 @@ import org.springframework.data.repository.query.Param;
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
     // ✅ PÚBLICO: filtros + búsqueda + paginación (DTO)
+    // (Mantengo order by para mostrar "más nuevos" primero)
     @Query("""
         select new com.mancholita.backend.api.dto.ProductPublicDto(
             p.id,
@@ -46,6 +47,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     );
 
     // ✅ ADMIN: listar todo (activos o inactivos) + filtros + búsqueda + paginación (DTO)
+    // ⚠️ IMPORTANTE: sin ORDER BY para permitir sort dinámico desde Pageable
     @Query("""
         select new com.mancholita.backend.api.dto.ProductAdminDto(
             p.id,
@@ -65,7 +67,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
                 or lower(p.name) like lower(concat('%', :q, '%'))
                 or lower(p.description) like lower(concat('%', :q, '%'))
           )
-        order by p.id desc
     """)
     Page<ProductAdminDto> findAdminProducts(
             @Param("categoryId") Long categoryId,

@@ -44,4 +44,17 @@ public class AdminProductController {
                                          @Valid @RequestBody ProductActiveRequest req) {
             return productService.setActive(id, req.active);
         }
+
+    @GetMapping("/api/admin/products/{id}")
+public ProductAdminDto getById(@PathVariable Long id) {
+    return productService.getById(id);
+}
+
+    @DeleteMapping("/api/admin/products/{id}")
+public void delete(@PathVariable Long id) {
+    productService.delete(id);
+}
+
+
+
 }

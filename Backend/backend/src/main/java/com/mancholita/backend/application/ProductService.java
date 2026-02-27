@@ -1,10 +1,11 @@
 package com.mancholita.backend.application;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.mancholita.backend.api.dto.ProductAdminDto;
 import com.mancholita.backend.api.dto.ProductCreateRequest;
 import com.mancholita.backend.api.dto.ProductPublicDto;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 public interface ProductService {
 
@@ -16,6 +17,10 @@ public interface ProductService {
     Page<ProductAdminDto> listAdmin(Long categoryId, Boolean active, String q, Pageable pageable);
 
     ProductAdminDto setActive(Long id, boolean active);
+
+    ProductAdminDto getById(Long id);
+
+    void delete(Long id);
 
     // Public
     Page<ProductPublicDto> listPublic(Long categoryId, Long genderId, String q, Pageable pageable);

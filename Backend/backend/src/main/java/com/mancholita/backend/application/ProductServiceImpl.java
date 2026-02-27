@@ -79,6 +79,16 @@ public class ProductServiceImpl implements ProductService {
         return ProductMapper.toAdminDto(saved);
     }
 
+        @Override
+@Transactional(readOnly = true)
+public ProductAdminDto getById(Long id) {
+
+    Product product = productRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Product not found: " + id));
+
+    return ProductMapper.toAdminDto(product);
+}
+
     @Override
     @Transactional(readOnly = true)
     public Page<ProductAdminDto> listAdmin(Long categoryId, Boolean active, String q, Pageable pageable) {
@@ -105,6 +115,17 @@ public ProductAdminDto setActive(Long id, boolean active) {
         String normalizedQ = (q == null || q.trim().isEmpty()) ? null : q.trim();
         return productRepository.findPublicProducts(categoryId, genderId, normalizedQ, pageable);
     }
+    @Override
+@Transactional
+public void delete(Long id) {
 
+    Product product = productRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Product not found: " + id));
+
+    product.setActive(false);
+    productRepository.save(product);
+}
+
+    
 
 }
