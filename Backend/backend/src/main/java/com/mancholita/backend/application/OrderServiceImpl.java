@@ -8,7 +8,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import org.apache.poi.ss.usermodel.Cell;
@@ -62,28 +64,47 @@ public class OrderServiceImpl implements OrderService {
         // Validar items y calcular total con datos reales de BD
         BigDecimal total = BigDecimal.ZERO;
         List<OrderItem> orderItems = new ArrayList<>();
+        // 1) Consolidar items repetidos (productId -> suma de quantities)
+Map<Long, Integer> consolidated = new LinkedHashMap<>();
+        for (OrderCreateRequest.OrderItemRequest i : req.items) {
+    if (i.productId == null) {
+        throw new IllegalArgumentException("productId is required");
+    }
+    if (i.quantity == null || i.quantity < 1) {
+        throw new IllegalArgumentException("quantity must be >= 1 for productId=" + i.productId);
+    }
 
-        for (OrderCreateRequest.OrderItemRequest itemReq : req.items) {
-            Product p = productRepository.findById(itemReq.productId)
-                    .orElseThrow(() -> new IllegalArgumentException("Product not found: " + itemReq.productId));
+    consolidated.merge(i.productId, i.quantity, Integer::sum);
+}
 
-            if (!p.isActive()) {
-                throw new IllegalArgumentException("Product is inactive: " + itemReq.productId);
-            }
+// 2) Regla opcional anti-abuso (recomendada): máximo 50 unidades por producto
+for (Map.Entry<Long, Integer> e : consolidated.entrySet()) {
+    if (e.getValue() > 50) {
+        throw new IllegalArgumentException("quantity too large for productId=" + e.getKey());
+    }
+}
+        for (Map.Entry<Long, Integer> entry : consolidated.entrySet()) {
+    Long productId = entry.getKey();
+    int qty = entry.getValue();
 
-            int qty = itemReq.quantity;
-            BigDecimal lineTotal = p.getPrice().multiply(BigDecimal.valueOf(qty));
-            total = total.add(lineTotal);
+    Product p = productRepository.findById(productId)
+            .orElseThrow(() -> new IllegalArgumentException("Product not found: " + productId));
 
-            orderItems.add(new OrderItem(
-                    p.getId(),
-                    p.getName(),
-                    p.getPrice(),
-                    qty,
-                    lineTotal
-            ));
-        }
+    if (!p.isActive()) {
+        throw new IllegalArgumentException("Product is inactive: " + productId);
+    }
 
+    BigDecimal lineTotal = p.getPrice().multiply(BigDecimal.valueOf(qty));
+    total = total.add(lineTotal);
+
+    orderItems.add(new OrderItem(
+            p.getId(),
+            p.getName(),
+            p.getPrice(),
+            qty,
+            lineTotal
+    ));
+}
         Order order = new Order(
                 orderId,
                 LocalDateTime.now(),

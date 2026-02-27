@@ -15,7 +15,8 @@ public class OrderCreateRequest {
     public String email;
 
     @NotBlank
-    public String phone;
+@Pattern(regexp = "^[0-9]{7,15}$", message = "phone must contain only digits (7 to 15)")
+public String phone;
 
     @NotBlank
     public String documentNumber;
@@ -30,15 +31,17 @@ public class OrderCreateRequest {
     public String address;
 
     @NotEmpty
-    @Valid
-    public List<OrderItemRequest> items;
+@Size(max = 50, message = "items max is 50")
+@Valid
+public List<OrderItemRequest> items;
 
     public static class OrderItemRequest {
         @NotNull
         public Long productId;
 
         @NotNull
-        @Min(1)
-        public Integer quantity;
+@Min(1)
+@Max(value = 50, message = "quantity max is 50")
+public Integer quantity;
     }
 }
