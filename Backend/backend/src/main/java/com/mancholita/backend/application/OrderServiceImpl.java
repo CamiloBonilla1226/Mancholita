@@ -1,5 +1,6 @@
 package com.mancholita.backend.application;
 
+import java.io.ByteArrayOutputStream;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -24,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.mancholita.backend.api.dto.OrderAdminDetailDto;
 import com.mancholita.backend.api.dto.OrderAdminDto;
+import com.mancholita.backend.api.dto.OrderAdminListDto;
 import com.mancholita.backend.api.dto.OrderCreateRequest;
 import com.mancholita.backend.api.dto.OrderCreateResponse;
 import com.mancholita.backend.domain.Order;
@@ -32,8 +34,12 @@ import com.mancholita.backend.domain.Product;
 import com.mancholita.backend.infrastructure.OrderRepository;
 import com.mancholita.backend.infrastructure.ProductRepository;
 
+
+
 @Service
 public class OrderServiceImpl implements OrderService {
+
+    
 
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
@@ -153,6 +159,29 @@ public class OrderServiceImpl implements OrderService {
         );
     }
 
+     @Override
+    @Transactional(readOnly = true)
+    public Page<OrderAdminListDto> listAdmin(String q, Pageable pageable) {
+        String normalizedQ = (q == null || q.trim().isEmpty()) ? null : q.trim();
+        return orderRepository.findAdminList(normalizedQ, pageable);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public byte[] exportExcelAll() {
+        List<Order> orders = orderRepository.findAll();
+        return buildExcel(orders, "Orders-All");
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public byte[] exportExcelDaily(LocalDate date) {
+        LocalDateTime start = date.atStartOfDay();
+        LocalDateTime end = date.plusDays(1).atStartOfDay(); // exclusivo
+        List<Order> orders = orderRepository.findByCreatedAtBetween(start, end);
+        return buildExcel(orders, "Orders-" + date);
+    }
+
     @Override
     @Transactional(readOnly = true)
     public byte[] exportAdminExcel() {
@@ -217,6 +246,48 @@ public class OrderServiceImpl implements OrderService {
         StringBuilder sb = new StringBuilder(len);
         for (int i = 0; i < len; i++) sb.append(chars.charAt(r.nextInt(chars.length())));
         return sb.toString();
+    }
+
+     private byte[] buildExcel(List<Order> orders, String sheetName) {
+        try (Workbook wb = new XSSFWorkbook();
+             ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+
+            Sheet sheet = wb.createSheet(sheetName);
+
+            // Header
+            Row header = sheet.createRow(0);
+            String[] cols = {"OrderId", "CreatedAt", "CustomerName", "Phone", "Total"};
+
+            CellStyle headerStyle = wb.createCellStyle();
+            Font font = wb.createFont();
+            font.setBold(true);
+            headerStyle.setFont(font);
+
+            for (int i = 0; i < cols.length; i++) {
+                Cell c = header.createCell(i);
+                c.setCellValue(cols[i]);
+                c.setCellStyle(headerStyle);
+            }
+
+            // Rows
+            int r = 1;
+            for (Order o : orders) {
+                Row row = sheet.createRow(r++);
+                row.createCell(0).setCellValue(o.getId());
+                row.createCell(1).setCellValue(String.valueOf(o.getCreatedAt()));
+                row.createCell(2).setCellValue(o.getCustomerName());
+                row.createCell(3).setCellValue(o.getPhone());
+                row.createCell(4).setCellValue(o.getTotal().toPlainString());
+            }
+
+            for (int i = 0; i < cols.length; i++) sheet.autoSizeColumn(i);
+
+            wb.write(baos);
+            return baos.toByteArray();
+
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Failed to export Excel");
+        }
     }
 
     private String buildWhatsappText(Order order, List<OrderItem> items) {
