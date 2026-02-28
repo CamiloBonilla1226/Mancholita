@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class OrderAdminDetailDto {
-
     public String id;
     public LocalDateTime createdAt;
     public String customerName;

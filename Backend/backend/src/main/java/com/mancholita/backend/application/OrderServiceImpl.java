@@ -56,6 +56,37 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+@Transactional(readOnly = true)
+public OrderAdminDetailDto getAdminDetail(String id) {
+
+    Order o = orderRepository.findWithItemsById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Order not found: " + id));
+
+    var items = o.getItems().stream()
+            .map(i -> new OrderAdminDetailDto.Item(
+                    i.getProductId(),
+                    i.getProductName(),
+                    i.getUnitPrice(),
+                    i.getQuantity(),
+                    i.getLineTotal()
+            ))
+            .toList();
+
+    return new OrderAdminDetailDto(
+            o.getId(),
+            o.getCreatedAt(),
+            o.getCustomerName(),
+            o.getEmail(),
+            o.getPhone(),
+            o.getDocumentNumber(),
+            o.getDepartment(),
+            o.getMunicipality(),
+            o.getAddress(),
+            o.getTotal(),
+            items
+    );
+}
+    @Override
     @Transactional
     public OrderCreateResponse createPublicOrder(OrderCreateRequest req) {
 

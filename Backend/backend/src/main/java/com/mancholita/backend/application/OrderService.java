@@ -25,4 +25,5 @@ public interface OrderService {
 
     byte[] exportExcelAll();
     byte[] exportExcelDaily(LocalDate date);
+    OrderAdminDetailDto getAdminDetail(String id);
 }

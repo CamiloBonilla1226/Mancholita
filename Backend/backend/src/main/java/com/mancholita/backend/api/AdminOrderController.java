@@ -10,9 +10,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mancholita.backend.api.dto.OrderAdminDetailDto;
 import com.mancholita.backend.api.dto.OrderAdminListDto;
 import com.mancholita.backend.application.OrderService;
 
@@ -57,4 +59,9 @@ public class AdminOrderController {
         headers.setContentDisposition(ContentDisposition.attachment().filename(filename).build());
         return new ResponseEntity<>(file, headers, HttpStatus.OK);
     }
+
+    @GetMapping("/api/admin/orders/{id}")
+public OrderAdminDetailDto detail(@PathVariable String id) {
+    return orderService.getAdminDetail(id);
+}
 }
