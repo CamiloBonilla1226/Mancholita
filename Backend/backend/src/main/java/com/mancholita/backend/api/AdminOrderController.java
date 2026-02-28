@@ -64,4 +64,11 @@ public class AdminOrderController {
 public OrderAdminDetailDto detail(@PathVariable String id) {
     return orderService.getAdminDetail(id);
 }
+
+@GetMapping("/api/admin/orders/export/range")
+public ResponseEntity<byte[]> exportRange(@RequestParam java.time.LocalDate from,
+                                         @RequestParam java.time.LocalDate to) {
+    byte[] file = orderService.exportExcelRange(from, to);
+    return excelResponse(file, "orders_" + from + "to" + to + ".xlsx");
+}
 }

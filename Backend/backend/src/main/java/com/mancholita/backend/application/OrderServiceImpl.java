@@ -370,4 +370,18 @@ for (Map.Entry<Long, Integer> e : consolidated.entrySet()) {
             return baos.toByteArray();
         }
     }
+
+    @Override
+@Transactional(readOnly = true)
+public byte[] exportExcelRange(LocalDate from, LocalDate to) {
+    if (to.isBefore(from)) {
+        throw new IllegalArgumentException("to must be >= from");
+    }
+
+    LocalDateTime start = from.atStartOfDay();
+    LocalDateTime endExclusive = to.plusDays(1).atStartOfDay();
+
+    List<Order> orders = orderRepository.findByCreatedAtBetween(start, endExclusive);
+    return buildExcel(orders, "Orders-" + from + "-to-" + to);
+}
 }

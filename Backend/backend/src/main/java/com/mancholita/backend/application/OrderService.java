@@ -26,4 +26,6 @@ public interface OrderService {
     byte[] exportExcelAll();
     byte[] exportExcelDaily(LocalDate date);
     OrderAdminDetailDto getAdminDetail(String id);
+    byte[] exportExcelRange(java.time.LocalDate from, java.time.LocalDate to);
+
 }
