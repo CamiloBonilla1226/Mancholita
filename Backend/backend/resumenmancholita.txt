@@ -1,0 +1,390 @@
+
+🛍️ Mancholita Backend
+
+API REST para e-commerce de ropa desarrollada con Spring Boot + MySQL, diseñada para manejar catálogo público, panel administrativo protegido y gestión de órdenes con exportación a Excel.
+
+📌 Descripción del Proyecto
+
+Mancholita Backend es el motor del sistema de ventas para una tienda de ropa online.
+El sistema permite:
+
+Catálogo público con filtros y búsqueda
+
+Árbol de categorías (Hombre/Mujer → subcategorías)
+
+Gestión de productos (CRUD + activar/desactivar)
+
+Creación de órdenes sin login de cliente
+
+Exportación de órdenes a Excel (diario y general)
+
+Panel admin protegido con Basic Auth
+
+Manejo centralizado de errores
+
+Validaciones robustas
+
+
+🧱 Arquitectura
+
+Arquitectura basada en separación por capas (Clean Architecture simplificada).
+
+com.mancholita.backend
+│
+├── api              → Controllers + DTOs + manejo de errores
+│   ├── public
+│   ├── admin
+│   └── error
+│
+├── application      → Services (lógica de negocio)
+│
+├── domain           → Entidades JPA
+│
+├── infrastructure   → Repositories (persistencia)
+│
+└── config           → Security + CORS
+
+Principios aplicados
+
+Separación de responsabilidades
+
+DTOs para entrada/salida
+
+Validación con Jakarta Validation
+
+Manejo global de excepciones
+
+Seguridad desacoplada del dominio
+
+
+
+---
+
+⚙️ Stack Tecnológico
+
+Java 17
+
+Spring Boot
+
+Spring Web
+
+Spring Data JPA
+
+Spring Validation
+
+Spring Security (Basic Auth)
+
+MySQL 8+
+
+Apache POI (exportación Excel)
+
+Maven
+
+
+
+---
+
+🗄️ Modelo de Datos
+
+Categories
+
+id
+
+name
+
+active
+
+parent_id (nullable)
+
+
+Estructura jerárquica:
+
+Hombre
+
+Mujer
+
+Jeans
+
+Camisas
+
+Blusas
+
+etc.
+
+
+
+Los productos solo pueden asociarse a categorías hoja (sin hijos).
+
+
+---
+
+Products
+
+id
+
+name
+
+description
+
+price
+
+active
+
+image_url
+
+category_id (FK)
+
+
+
+---
+
+Orders
+
+id (formato: YYYYMMDD-XXXX)
+
+customer_name
+
+email
+
+phone
+
+document_number
+
+department
+
+municipality
+
+address
+
+total
+
+created_at
+
+
+
+---
+
+Order Items
+
+id
+
+order_id (FK)
+
+product_id
+
+product_name
+
+unit_price
+
+quantity
+
+line_total
+
+
+
+---
+
+🔐 Seguridad
+
+Se implementa autenticación Basic Auth para rutas administrativas.
+
+Público
+
+/api/public/**
+
+Sin autenticación.
+
+Admin
+
+/api/admin/**
+
+Requiere usuario ADMIN.
+
+Configuración local
+
+spring.security.user.name=admin
+spring.security.user.password=admin123
+
+Contraseñas encriptadas con BCrypt
+
+CSRF deshabilitado (API stateless)
+
+
+
+---
+
+📡 Endpoints Principales
+
+Público
+
+Obtener productos
+
+GET /api/public/products
+
+Query params opcionales:
+
+categoryId
+
+genderId
+
+q (búsqueda)
+
+page
+
+size
+
+
+
+---
+
+Árbol de categorías
+
+GET /api/public/categories/tree
+
+
+---
+
+Crear orden
+
+POST /api/public/orders
+
+Ejemplo JSON:
+
+{
+  "customerName": "Camilo Bonilla",
+  "email": "camilo@gmail.com",
+  "phone": "3001234567",
+  "documentNumber": "123456789",
+  "department": "Cauca",
+  "municipality": "Popayan",
+  "address": "Cra 10 #15-20",
+  "items": [
+    { "productId": 1, "quantity": 2 },
+    { "productId": 3, "quantity": 1 }
+  ]
+}
+
+
+---
+
+Admin (Basic Auth requerido)
+
+Listar productos
+
+GET /api/admin/products
+
+Crear producto
+
+POST /api/admin/products
+
+Actualizar producto
+
+PUT /api/admin/products/{id}
+
+Activar / Desactivar
+
+PATCH /api/admin/products/{id}/active?value=true
+
+
+---
+
+Listar órdenes
+
+GET /api/admin/orders?page=0&size=10
+
+
+---
+
+Exportar Excel
+
+GET /api/admin/orders/export/today
+GET /api/admin/orders/export/all
+
+
+---
+
+📄 Manejo de Errores
+
+Se utiliza GlobalExceptionHandler para respuestas estandarizadas.
+
+Ejemplo error validación:
+
+{
+  "status": 400,
+  "error": "Validation Error",
+  "message": "Request has invalid fields",
+  "path": "/api/public/orders",
+  "fieldErrors": {
+    "municipality": "no debe estar vacío"
+  }
+}
+
+
+---
+
+🚀 Cómo Ejecutar el Proyecto
+
+1. Configurar Base de Datos
+
+Crear base de datos:
+
+CREATE DATABASE mancholita;
+
+Configurar application.properties:
+
+spring.datasource.url=jdbc:mysql://localhost:3306/mancholita?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=America/Bogota
+spring.datasource.username=TU_USUARIO
+spring.datasource.password=TU_PASSWORD
+
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.open-in-view=false
+
+
+---
+
+2. Ejecutar Backend
+
+Ubicado en la carpeta donde está el pom.xml:
+
+Windows
+
+.\mvnw.cmd spring-boot:run
+
+Compilar
+
+.\mvnw.cmd clean install
+
+Servidor correrá en:
+
+http://localhost:8080
+
+
+---
+
+🧪 Pruebas 
+
+Público
+
+GET /api/public/products
+
+GET /api/public/categories/tree
+
+POST /api/public/orders
+
+
+Admin (Basic Auth)
+
+GET /api/admin/products
+
+PATCH activar/desactivar
+
+GET /api/admin/orders
+
+
+
+
+👨‍💻 Autor
+
+Desarrollado como proyecto de e-commerce backend con enfoque en arquitectura limpia y buenas prácticas en Spring Boot.
+
+
