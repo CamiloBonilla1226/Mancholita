@@ -4,19 +4,29 @@ import java.time.Instant;
 import java.util.Map;
 
 public class ApiError {
-    public Instant timestamp = Instant.now();
+
+    public String timestamp;
     public int status;
     public String error;
     public String message;
     public String path;
-    public Map<String, String> fieldErrors;
+    private Map<String, String> fieldErrors;
 
     public static ApiError of(int status, String error, String message, String path) {
-        ApiError a = new ApiError();
-        a.status = status;
-        a.error = error;
-        a.message = message;
-        a.path = path;
-        return a;
+        ApiError api = new ApiError();
+        api.timestamp = Instant.now().toString();
+        api.status = status;
+        api.error = error;
+        api.message = message;
+        api.path = path;
+        return api;
+    }
+
+    public void setFieldErrors(Map<String, String> fieldErrors) {
+        this.fieldErrors = fieldErrors;
+    }
+
+    public Map<String, String> getFieldErrors() {
+        return fieldErrors;
     }
 }

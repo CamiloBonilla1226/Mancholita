@@ -3,31 +3,23 @@ package com.mancholita.backend.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-//import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-
+import org.springframework.security.core.userdetails.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
-    @Value("${app.security.admin.username}")
+    @Value("${app.security.admin.username:admin}")
     private String adminUsername;
 
-    @Value("${app.security.admin.password}")
+    @Value("${app.security.admin.password:admin123}")
     private String adminPassword;
 
     @Bean
@@ -42,37 +34,20 @@ public class SecurityConfig {
                 .password(encoder.encode(adminPassword))
                 .roles("ADMIN")
                 .build();
-
         return new InMemoryUserDetailsManager(admin);
     }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-
         http
-            // API JSON sin cookies -> CSRF off
-            .csrf(csrf -> csrf.disable())
-
-            // stateless (recomendado para APIs)
-            .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-
-            // reglas de autorización
+            .csrf(csrf -> csrf.disable()) // API stateless (si luego haces JWT, se ajusta)
+            .httpBasic(Customizer.withDefaults())
             .authorizeHttpRequests(auth -> auth
-                // PUBLIC: todo lo público libre
-                .requestMatchers("/api/public/**").permitAll()
-
-                // si tienes health/check público
-                .requestMatchers("/actuator/health").permitAll()
-
-                // ADMIN: todo lo admin requiere auth
-                .requestMatchers("/api/admin/**").hasRole("ADMIN")
-
-                // cualquier otra cosa, por defecto bloqueada o autenticada
-                .anyRequest().authenticated()
-            )
-
-            // BASIC AUTH
-            .httpBasic(Customizer.withDefaults());
+                    .requestMatchers("/api/public/**").permitAll()
+                    .requestMatchers("/actuator/health").permitAll()
+                    .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                    .anyRequest().authenticated()
+            );
 
         return http.build();
     }
