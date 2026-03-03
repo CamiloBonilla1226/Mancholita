@@ -1,0 +1,260 @@
+
+1) Qué hace hoy el backend (en pocas líneas)
+
+Backend en Spring Boot + JPA (MySQL) que expone APIs REST para:
+
+Público (sin login)
+
+Listar productos activos con:
+
+paginación
+
+filtros por gender (Hombre/Mujer) y category (Jeans/Camisas/Blusas)
+
+búsqueda por texto (q) en name y description
+
+
+Obtener árbol de categorías (tree) para navegar:
+Hombre → (Jeans, Camisas)
+Mujer → (Jeans, Blusas)
+
+
+Admin (con seguridad básica)
+
+CRUD de productos (crear/editar)
+
+Activar/desactivar producto con PATCH (sin mandar todo el JSON)
+
+Validación: un producto solo puede asignarse a una categoría hoja (no a Hombre/Mujer, sino a Jeans/Camisas/Blusas).
+
+Ver listado de órdenes y crear órdenes (según lo que ya implementaste).
+
+Exportación a Excel con Apache POI (ya lo montaste, con alerta de vulnerabilidad en el plugin, pero funcionando).
+
+
+
+2) Modelo de datos que definimos (lo clave)
+
+Category (tabla categories)
+
+id
+
+name
+
+active
+
+parent_id (self join) Esto permite estructura jerárquica:
+
+Roots: Hombre(1), Mujer(2)
+
+Children: Jeans/Camisas/Blusas apuntando a un parent.
+
+
+Product (tabla products)
+
+id, name, description, price, active
+
+imageUrl
+
+category_id FK a categories Relación: Product -> ManyToOne(Category).
+
+
+👉 Gender no existe como tabla: lo inferimos con category.parent
+
+Si la categoría del producto es “Jeans Mujer”, su parent es “Mujer”.
+
+
+Orders y Order Items
+
+Ya tienes tablas:
+
+orders con datos del cliente, created_at, total, etc.
+
+order_items con product_id, product_name, unit_price, quantity, line_total, y order_id.
+
+
+
+---
+
+3) Cómo funciona el flujo principal (producto)
+
+Listado público /api/public/products
+
+En vez de devolver Product entidad, devolvemos DTO optimizado ProductPublicDto.
+
+Esto evita Lazy-loading, evita loops JSON, y entrega exactamente lo que el front necesita.
+
+Query en el repositorio con select new ProductPublicDto(...):
+
+trae categoryId/categoryName
+
+trae genderId/genderName desde category.parent
+
+
+
+Admin productos
+
+El controller ya no habla con repositorios, habla con ProductService.
+
+ProductService contiene reglas:
+
+buscar categoría por id
+
+validar que sea hoja (existsByParentId(category.getId()))
+
+crear/actualizar
+
+activar/desactivar con patch
+
+
+
+
+---
+
+4) Arquitectura que usamos (simple, limpia y práctica)
+
+No hicimos “hexagonal full”, pero sí un layered architecture bien ordenado:
+
+Capas
+
+1. api: Controllers + DTOs + request/response
+
+
+2. application: Services (reglas del negocio y orquestación)
+
+
+3. domain: Entities JPA (Product, Category, Order, etc.)
+
+
+4. infrastructure: Repositories (Spring Data JPA) + proyecciones + cosas de persistencia
+
+
+
+Regla mental:
+
+Controller -> Service -> Repository -> DB
+
+Entidades no se exponen al público (se usan DTOs).
+
+Validaciones de request con jakarta.validation.
+
+
+
+---
+
+5) Paquetes que recuerdo que tienes (los más importantes)
+
+com.mancholita.backend.domain
+
+Product
+
+Category
+
+(Order, OrderItem si ya los tienes en domain)
+
+
+com.mancholita.backend.api
+
+PublicProductController
+
+AdminProductController
+
+PublicCategoryController (tree)
+
+(AdminOrdersController / PublicOrdersController si ya existe)
+
+
+com.mancholita.backend.api.dto
+
+ProductPublicDto
+
+ProductAdminDto
+
+ProductCreateRequest
+
+OrderCreateRequest (+ OrderItemRequest interno)
+
+
+com.mancholita.backend.application
+
+ProductService (+ impl si lo separaste)
+
+OrderService (donde guardas orden y exportas excel)
+
+(CategoryService si lo creaste o lo piensas crear)
+
+
+com.mancholita.backend.infrastructure
+
+ProductRepository
+
+CategoryRepository
+
+CategoryRow (proyección para tree)
+
+repos de orders/order_items
+
+utilidades de exportación si están ahí
+
+
+Manejo de errores
+
+Estabas implementando @ControllerAdvice (GlobalExceptionHandler) para:
+
+ValidationError (400 con mapa de campos)
+
+IllegalArgumentException (400)
+
+y errores genéricos (500)
+
+
+
+
+---
+
+6) Qué endpoints típicos ya quedaron (lo que más hemos usado)
+
+Público
+
+GET /api/public/products?categoryId=&genderId=&q=&page=&size=
+
+GET /api/public/categories/tree
+
+
+Admin
+
+POST /api/admin/products
+
+PUT /api/admin/products/{id}
+
+PATCH /api/admin/products/{id}/active (activar/desactivar)
+
+GET /api/admin/products?... (paginado + filtros)
+
+POST /api/public/orders o similar para crear orden (según como lo nombraste)
+
+GET /api/admin/orders listado (código orden, nombre, celular, total)
+
+
+
+---
+
+7) Lo más importante que ya aplicaste “bien”
+
+DTOs para no exponer entidades.
+
+Query por JPQL con select new ...Dto(...).
+
+Jerarquía de categorías con parent_id.
+
+Validación: producto solo en categoría hoja.
+
+Service layer para centralizar reglas.
+
+Validaciones con @NotBlank, @NotNull, @Email, @Valid, etc.
+
+Export Excel con POI (y ya aprendiste a resolver la dependencia y build).
+
+
+
+
