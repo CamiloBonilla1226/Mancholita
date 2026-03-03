@@ -1,0 +1,17 @@
+<h1>Catálogo Mancholita</h1>
+
+<div class="catalog">
+
+  <div class="product" *ngFor="let p of products">
+
+    <img src="https://picsum.photos/300/300?random={{p.id}}">
+
+    <h3>{{p.name}}</h3>
+
+    <h2>$ {{p.price}}</h2>
+
+    <button>Agregar al carrito</button>
+
+  </div>
+
+</div>
