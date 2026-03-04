@@ -1,25 +1,41 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-type Product = {
-  id: number;
-  name: string;
-  price: number;
-  imageUrl?: string;
-  description?: string;
-};
+import { ProductService } from '../../services/products.service';
+import { Product } from '../../models/product';
+import { CartService } from '../../services/cart.service'; // Importación correcta
 
 @Component({
   selector: 'app-catalog',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './catalog.html',
-  styleUrl: './catalog.scss',
+  styleUrl: './catalog.scss'
 })
-export class CatalogComponent {
-  products: Product[] = [
-    { id: 1, name: 'Jean clásico', price: 90000 },
-    { id: 2, name: 'Blusa casual', price: 55000 },
-    { id: 3, name: 'Camisa elegante', price: 75000 },
-  ];
+
+export class CatalogComponent implements OnInit {
+
+  products: Product[] = [];
+  
+  // Inyectamos ambos servicios en el constructor
+  constructor(
+    private productService: ProductService,
+    private cartService: CartService
+  ) {}
+  
+  ngOnInit(): void {
+    this.productService.getProducts().subscribe({
+      next: (data: any) => {
+        console.log('DATA BACKEND:', data);
+        this.products = data.content;
+      },
+      error: (err) => {
+        console.error('Error cargando productos', err);
+      }
+    });
+  }
+
+  // Método para agregar al carrito
+  addToCart(product: Product): void {
+    this.cartService.addProduct(product);
+  }
 }

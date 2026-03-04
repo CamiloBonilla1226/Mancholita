@@ -4,13 +4,17 @@
 
   <div class="product" *ngFor="let p of products">
 
-    <img src="https://picsum.photos/300/300?random={{p.id}}">
+    <img [src]="p.imageUrl">
 
     <h3>{{p.name}}</h3>
 
+    <p>{{p.description}}</p>
+
     <h2>$ {{p.price}}</h2>
 
-    <button>Agregar al carrito</button>
+    <button (click)="addToCart(p)">
+Agregar al carrito
+</button>
 
   </div>
 
