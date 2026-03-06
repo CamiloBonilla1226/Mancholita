@@ -1,0 +1,33 @@
+.navbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  padding:15px 30px;
+
+  background:#0d1b4c;
+  color:white;
+}
+
+.logo{
+  font-size:20px;
+  font-weight:bold;
+}
+
+.search input{
+  width:300px;
+  padding:8px;
+  border-radius:5px;
+  border:none;
+}
+
+.cart{
+  font-size:20px;
+}
+
+.count{
+  background:red;
+  padding:3px 7px;
+  border-radius:50%;
+  font-size:14px;
+}
