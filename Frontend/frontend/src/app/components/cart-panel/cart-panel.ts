@@ -22,4 +22,8 @@ export class CartPanelComponent implements DoCheck {
     this.total = this.cartService.getTotal();
   }
 
+  remove(productId: number) {
+  this.cartService.removeProduct(productId);
+}
+
 }

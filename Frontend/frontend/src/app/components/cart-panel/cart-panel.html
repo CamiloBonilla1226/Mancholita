@@ -1,17 +1,36 @@
 <div class="cart-panel">
+
   <h2>Carrito</h2>
 
   <div *ngIf="items.length === 0">
-    El carrito está vacío
+    <p>El carrito está vacío</p>
   </div>
 
   <div *ngFor="let item of items" class="cart-item">
-    <p><strong>{{ item.product.name }}</strong></p>
-    <p>Cantidad: {{ item.quantity }}</p>
-    <p>Precio: {{ item.product.price | currency:'COP':'symbol':'1.0-0' }}</p>
+
+    <p class="product-name">
+      <strong>{{ item.product.name }}</strong>
+    </p>
+
+    <p>
+      Cantidad: {{ item.quantity }}
+    </p>
+
+    <p>
+      Precio: {{ item.product.price | currency:'COP':'symbol':'1.0-0' }}
+    </p>
+
+    <button class="remove-btn" (click)="remove(item.product.id)">
+      Eliminar
+    </button>
+
   </div>
 
   <hr>
 
-  <h3>Total: {{ total | currency:'COP':'symbol':'1.0-0' }}</h3>
+  <div class="cart-total">
+    <h3>Total:</h3>
+    <h3>{{ total | currency:'COP':'symbol':'1.0-0' }}</h3>
+  </div>
+
 </div>

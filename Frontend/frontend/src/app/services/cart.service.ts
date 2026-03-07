@@ -35,5 +35,8 @@ export class CartService {
   getTotal(): number {
     return this.items.reduce((total, item) => total + (item.product.price * item.quantity), 0);
   }
+  removeProduct(productId: number) {
+  this.items = this.items.filter(item => item.product.id !== productId);
+}
 
 }
