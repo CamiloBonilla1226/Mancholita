@@ -1,3 +1,5 @@
-<app-navbar></app-navbar>
-<app-cart-panel></app-cart-panel>
+<app-navbar (cartClicked)="toggleCart()"></app-navbar>
+
+<app-cart-panel *ngIf="cartOpen"></app-cart-panel>
+
 <app-catalog></app-catalog>

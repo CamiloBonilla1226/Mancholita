@@ -1,4 +1,4 @@
-import { Component, DoCheck } from '@angular/core';
+import { Component, DoCheck, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CartService } from '../../services/cart.service';
 
@@ -7,16 +7,22 @@ import { CartService } from '../../services/cart.service';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './navbar.html',
-  styleUrl: './navbar.scss'
+  styleUrls: ['./navbar.scss']
 })
 export class NavbarComponent implements DoCheck {
 
   cartCount = 0;
 
+  @Output() cartClicked = new EventEmitter<void>();
+
   constructor(private cartService: CartService) {}
 
   ngDoCheck(): void {
     this.cartCount = this.cartService.getCount();
+  }
+
+  openCart() {
+    this.cartClicked.emit();
   }
 
 }
