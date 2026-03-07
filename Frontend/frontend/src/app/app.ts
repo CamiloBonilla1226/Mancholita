@@ -14,9 +14,14 @@ import { CommonModule } from '@angular/common';
 export class App {
 
   cartOpen = false;
+  searchText = '';
 
   toggleCart() {
     this.cartOpen = !this.cartOpen;
+  }
+
+  onSearchChanged(text: string) {
+    this.searchText = text;
   }
 
 }

@@ -1,5 +1,8 @@
-<app-navbar (cartClicked)="toggleCart()"></app-navbar>
+<app-navbar
+  (cartClicked)="toggleCart()"
+  (searchChanged)="onSearchChanged($event)">
+</app-navbar>
 
 <app-cart-panel *ngIf="cartOpen"></app-cart-panel>
 
-<app-catalog></app-catalog>
+<app-catalog [searchText]="searchText"></app-catalog>

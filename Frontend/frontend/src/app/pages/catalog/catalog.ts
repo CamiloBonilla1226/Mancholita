@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProductService } from '../../services/products.service';
 import { Product } from '../../models/product';
@@ -13,6 +13,8 @@ import { CartService } from '../../services/cart.service';
 })
 export class CatalogComponent implements OnInit {
 
+  @Input() searchText = '';
+
   products: Product[] = [];
 
   constructor(
@@ -24,7 +26,6 @@ export class CatalogComponent implements OnInit {
   ngOnInit(): void {
     this.productService.getProducts().subscribe({
       next: (data: any) => {
-        console.log('DATA BACKEND:', data);
         this.products = data.content;
         this.cdr.detectChanges();
       },
@@ -36,6 +37,16 @@ export class CatalogComponent implements OnInit {
 
   addToCart(product: Product) {
     this.cartService.addProduct(product);
+  }
+
+  get filteredProducts(): Product[] {
+    if (!this.searchText.trim()) {
+      return this.products;
+    }
+
+    return this.products.filter(p =>
+      p.name.toLowerCase().includes(this.searchText.toLowerCase())
+    );
   }
 
 }

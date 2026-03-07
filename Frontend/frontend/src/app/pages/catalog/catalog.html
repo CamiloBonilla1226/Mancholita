@@ -1,9 +1,8 @@
 <h1>Catálogo Mancholita</h1>
-<p>Total productos: {{ products.length }}</p>
-
 <div class="catalog">
 
-  <div class="product" *ngFor="let p of products">
+  <div class="product" *ngFor="let p of filteredProducts"
+>
 
     <img [src]="p.imageUrl">
 

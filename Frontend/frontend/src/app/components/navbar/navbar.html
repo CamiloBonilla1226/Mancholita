@@ -5,9 +5,12 @@
   </div>
 
   <div class="search">
-    <input type="text" placeholder="Buscar productos...">
-  </div>
-
+  <input
+    type="text"
+    placeholder="Buscar productos..."
+    [(ngModel)]="searchText"
+    (input)="onSearchChange()">
+</div>
  <div class="cart" (click)="openCart()">
   🛒 <span class="count">{{cartCount}}</span>
 </div>
