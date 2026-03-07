@@ -10,7 +10,6 @@ export class CartService {
   private items: CartItem[] = [];
 
   addProduct(product: Product) {
-
     const existing = this.items.find(i => i.product.id === product.id);
 
     if (existing) {
@@ -22,11 +21,15 @@ export class CartService {
       });
     }
 
-    console.log("Carrito:", this.items);
+    console.log('Carrito:', this.items);
   }
 
   getItems() {
     return this.items;
+  }
+
+  getCount(): number {
+    return this.items.reduce((total, item) => total + item.quantity, 0);
   }
 
 }

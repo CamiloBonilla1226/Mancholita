@@ -1,4 +1,5 @@
 <h1>Catálogo Mancholita</h1>
+<p>Total productos: {{ products.length }}</p>
 
 <div class="catalog">
 
@@ -10,7 +11,8 @@
 
     <p>{{p.description}}</p>
 
-    <h2>$ {{p.price}}</h2>
+    <h2>{{ p.price | currency:'COP':'symbol':'1.0-0' }}</h2>
+
 
     <button (click)="addToCart(p)">
 Agregar al carrito
