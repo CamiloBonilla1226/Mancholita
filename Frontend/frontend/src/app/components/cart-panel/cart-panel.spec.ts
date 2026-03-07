@@ -1,22 +1,25 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Component, DoCheck } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { CartService } from '../../services/cart.service';
+import { CartItem } from '../../models/cart-item';
 
-import { CartPanel } from './cart-panel';
+@Component({
+  selector: 'app-cart-panel',
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: './cart-panel.html',
+  styleUrls: ['./cart-panel.scss']
+})
+export class CartPanelComponent implements DoCheck {
 
-describe('CartPanel', () => {
-  let component: CartPanel;
-  let fixture: ComponentFixture<CartPanel>;
+  items: CartItem[] = [];
+  total = 0;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [CartPanel],
-    }).compileComponents();
+  constructor(private cartService: CartService) {}
 
-    fixture = TestBed.createComponent(CartPanel);
-    component = fixture.componentInstance;
-    await fixture.whenStable();
-  });
+  ngDoCheck(): void {
+    this.items = this.cartService.getItems();
+    this.total = this.cartService.getTotal();
+  }
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+}

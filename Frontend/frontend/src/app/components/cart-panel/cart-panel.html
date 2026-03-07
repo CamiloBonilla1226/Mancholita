@@ -1,1 +1,17 @@
-<p>cart-panel works!</p>
+<div class="cart-panel">
+  <h2>Carrito</h2>
+
+  <div *ngIf="items.length === 0">
+    El carrito está vacío
+  </div>
+
+  <div *ngFor="let item of items" class="cart-item">
+    <p><strong>{{ item.product.name }}</strong></p>
+    <p>Cantidad: {{ item.quantity }}</p>
+    <p>Precio: {{ item.product.price | currency:'COP':'symbol':'1.0-0' }}</p>
+  </div>
+
+  <hr>
+
+  <h3>Total: {{ total | currency:'COP':'symbol':'1.0-0' }}</h3>
+</div>

@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
-import { CatalogComponent } from './pages/catalog/catalog';
 import { NavbarComponent } from './components/navbar/navbar';
+import { CatalogComponent } from './pages/catalog/catalog';
+import { CartPanelComponent } from './components/cart-panel/cart-panel';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CatalogComponent, NavbarComponent],
+  imports: [NavbarComponent, CatalogComponent, CartPanelComponent],
   templateUrl: './app.html',
-  styleUrl: './app.scss',
+  styleUrls: ['./app.scss']
 })
 export class App {}
