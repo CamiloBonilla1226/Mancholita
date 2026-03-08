@@ -1,4 +1,51 @@
 <div class="checkout">
+
   <h1>Finalizar pedido</h1>
-  <p>Aquí llenaremos los datos del cliente.</p>
+
+  <form>
+
+    <div class="form-group">
+      <label>Nombre completo</label>
+      <input type="text" placeholder="Tu nombre" [(ngModel)]="customerName" name="customerName">
+    </div>
+
+    <div class="form-group">
+      <label>Teléfono</label>
+      <input type="text" placeholder="Número de contacto" [(ngModel)]="phone" name="phone">
+    </div>
+
+    <div class="form-group">
+      <label>Correo</label>
+      <input type="email" placeholder="correo@email.com" [(ngModel)]="email" name="email">
+    </div>
+
+    <div class="form-group">
+      <label>Identificación</label>
+      <input type="text" placeholder="Cédula o documento" [(ngModel)]="documentNumber" name="documentNumber">
+    </div>
+
+    <div class="form-group">
+      <label>Dirección</label>
+      <input type="text" placeholder="Dirección de entrega" [(ngModel)]="address" name="address">
+    </div>
+
+    <div class="form-group">
+      <label>Departamento</label>
+      <input type="text" placeholder="Ej: Cauca" [(ngModel)]="department" name="department">
+    </div>
+
+    <div class="form-group">
+      <label>Ciudad</label>
+      <input type="text" placeholder="Ej: Popayán" [(ngModel)]="municipality" name="municipality">
+    </div>
+
+    <button
+  type="button"
+  class="checkout-button"
+  (click)="submitOrder()">
+  Enviar pedido por WhatsApp
+</button>
+
+  </form>
+
 </div>
