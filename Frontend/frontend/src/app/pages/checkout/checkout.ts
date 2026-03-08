@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { OrderService } from '../../services/order.service';
 import { CartService } from '../../services/cart.service';
+import { EventEmitter, Output } from '@angular/core';
+
 
 @Component({
   selector: 'app-checkout',
@@ -12,6 +14,8 @@ import { CartService } from '../../services/cart.service';
   styleUrls: ['./checkout.scss']
 })
 export class CheckoutComponent {
+
+  @Output() orderCompleted = new EventEmitter<void>();
 
   customerName = '';
   phone = '';
@@ -24,7 +28,7 @@ export class CheckoutComponent {
   constructor(
     private orderService: OrderService,
     private cartService: CartService
-  ) {}
+  ) { }
 
   submitOrder() {
 
@@ -51,13 +55,31 @@ export class CheckoutComponent {
 
         console.log('ORDEN CREADA:', response);
 
-        let message = `Pedido Mancholita\n\n`;
+        const cartItems = this.cartService.getItems();
+
+        const orderId = response.id ?? response.orderId ?? 'N/A';
+
+        let message = `Pedido Mancholita\n`;
+        message += `Orden #${orderId}\n\n`;
+
+        let total = 0;
 
         cartItems.forEach(item => {
-          message += `${item.product.name} x${item.quantity}\n`;
+
+          const price = item.product.price;
+          const subtotal = price * item.quantity;
+
+          total += subtotal;
+
+          message += `${item.product.name}\n`;
+          message += `Cantidad: ${item.quantity}\n`;
+          message += `Precio: $${price.toLocaleString('es-CO')}\n\n`;
+
         });
 
-        message += `\nCliente:\n`;
+        message += `TOTAL: $${total.toLocaleString('es-CO')}\n\n`;
+
+        message += `Cliente:\n`;
         message += `Nombre: ${this.customerName}\n`;
         message += `Teléfono: ${this.phone}\n`;
         message += `Correo: ${this.email}\n`;
@@ -67,9 +89,14 @@ export class CheckoutComponent {
         message += `Departamento: ${this.department}\n`;
 
         const phoneNumber = '573153504020';
+
         const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
 
         window.open(url, '_blank');
+        this.cartService.clearCart();
+        this.orderCompleted.emit();
+
+
 
       },
       error: (err) => {

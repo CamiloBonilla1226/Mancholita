@@ -5,6 +5,9 @@
 
 <app-cart-panel *ngIf="cartOpen" (checkoutClicked)="openCheckout()"></app-cart-panel>
 
-<app-checkout *ngIf="showCheckout"></app-checkout>
+<app-checkout
+  *ngIf="showCheckout"
+  (orderCompleted)="showCheckout = false">
+</app-checkout>
 
 <app-catalog *ngIf="!showCheckout" [searchText]="searchText"></app-catalog>
