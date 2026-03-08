@@ -1,4 +1,4 @@
-import { Component, DoCheck } from '@angular/core';
+import { Component, DoCheck, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CartService } from '../../services/cart.service';
 import { CartItem } from '../../models/cart-item';
@@ -15,6 +15,8 @@ export class CartPanelComponent implements DoCheck {
   items: CartItem[] = [];
   total = 0;
 
+  @Output() checkoutClicked = new EventEmitter<void>();
+
   constructor(private cartService: CartService) {}
 
   ngDoCheck(): void {
@@ -23,7 +25,12 @@ export class CartPanelComponent implements DoCheck {
   }
 
   remove(productId: number) {
-  this.cartService.removeProduct(productId);
-}
+    this.cartService.removeProduct(productId);
+  }
+
+  goToCheckout() {
+    console.log('CLICK FINALIZAR PEDIDO');
+    this.checkoutClicked.emit();
+  }
 
 }

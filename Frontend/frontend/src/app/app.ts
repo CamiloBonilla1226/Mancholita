@@ -2,12 +2,13 @@ import { Component } from '@angular/core';
 import { NavbarComponent } from './components/navbar/navbar';
 import { CatalogComponent } from './pages/catalog/catalog';
 import { CartPanelComponent } from './components/cart-panel/cart-panel';
+import { CheckoutComponent } from './pages/checkout/checkout';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, NavbarComponent, CatalogComponent, CartPanelComponent],
+  imports: [CommonModule, NavbarComponent, CatalogComponent, CartPanelComponent, CheckoutComponent],
   templateUrl: './app.html',
   styleUrls: ['./app.scss']
 })
@@ -15,6 +16,7 @@ export class App {
 
   cartOpen = false;
   searchText = '';
+  showCheckout = false;
 
   toggleCart() {
     this.cartOpen = !this.cartOpen;
@@ -22,6 +24,11 @@ export class App {
 
   onSearchChanged(text: string) {
     this.searchText = text;
+  }
+
+  openCheckout() {
+    this.showCheckout = true;
+    this.cartOpen = false;
   }
 
 }

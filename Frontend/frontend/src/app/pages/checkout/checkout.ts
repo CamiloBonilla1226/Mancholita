@@ -1,9 +1,13 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-checkout',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './checkout.html',
-  styleUrl: './checkout.scss',
+  styleUrls: ['./checkout.scss']
 })
-export class Checkout {}
+export class CheckoutComponent {
+
+}

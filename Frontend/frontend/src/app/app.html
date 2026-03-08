@@ -3,6 +3,8 @@
   (searchChanged)="onSearchChanged($event)">
 </app-navbar>
 
-<app-cart-panel *ngIf="cartOpen"></app-cart-panel>
+<app-cart-panel *ngIf="cartOpen" (checkoutClicked)="openCheckout()"></app-cart-panel>
 
-<app-catalog [searchText]="searchText"></app-catalog>
+<app-checkout *ngIf="showCheckout"></app-checkout>
+
+<app-catalog *ngIf="!showCheckout" [searchText]="searchText"></app-catalog>

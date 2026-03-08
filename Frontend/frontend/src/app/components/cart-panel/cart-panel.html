@@ -33,4 +33,9 @@
     <h3>{{ total | currency:'COP':'symbol':'1.0-0' }}</h3>
   </div>
 
+  <button class="checkout-btn" *ngIf="items.length > 0" (click)="goToCheckout()">
+  Finalizar pedido
+  </button>
+  
+
 </div>
