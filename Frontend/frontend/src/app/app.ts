@@ -18,6 +18,9 @@ export class App {
   searchText = '';
   showCheckout = false;
   selectedGender = 0;
+  selectedCategory = 0;
+
+ 
 
   toggleCart() {
     this.cartOpen = !this.cartOpen;
@@ -35,4 +38,7 @@ export class App {
     this.showCheckout = true;
     this.cartOpen = false;
   }
+  onCategoryChanged(categoryId: number) {
+  this.selectedCategory = categoryId;
+}
 }

@@ -15,6 +15,7 @@ export class CatalogComponent implements OnInit {
 
   @Input() searchText = '';
   @Input() selectedGender = 0;
+  @Input() selectedCategory = 0;
 
 
   products: Product[] = [];
@@ -23,7 +24,7 @@ export class CatalogComponent implements OnInit {
     private productService: ProductService,
     private cdr: ChangeDetectorRef,
     private cartService: CartService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.productService.getProducts().subscribe({
@@ -42,19 +43,23 @@ export class CatalogComponent implements OnInit {
   }
 
   get filteredProducts(): Product[] {
-  let filtered = this.products;
+    let filtered = this.products;
 
-  if (this.selectedGender !== 0) {
-    filtered = filtered.filter(p => p.genderId === this.selectedGender);
+    if (this.selectedGender !== 0) {
+      filtered = filtered.filter(p => p.genderId === this.selectedGender);
+    }
+
+    if (this.selectedCategory !== 0) {
+      filtered = filtered.filter(p => p.categoryId === this.selectedCategory);
+    }
+
+    if (this.searchText.trim()) {
+      filtered = filtered.filter(p =>
+        p.name.toLowerCase().includes(this.searchText.toLowerCase())
+      );
+    }
+
+    return filtered;
   }
-
-  if (this.searchText.trim()) {
-    filtered = filtered.filter(p =>
-      p.name.toLowerCase().includes(this.searchText.toLowerCase())
-    );
-  }
-
-  return filtered;
-}
 
 }
