@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
+
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { OrderService } from '../../services/order.service';
 import { CartService } from '../../services/cart.service';
-import { EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, OnInit } from '@angular/core';
 
 
 @Component({
@@ -13,7 +13,22 @@ import { EventEmitter, Output } from '@angular/core';
   templateUrl: './checkout.html',
   styleUrls: ['./checkout.scss']
 })
-export class CheckoutComponent {
+export class CheckoutComponent implements OnInit {
+  ngOnInit(): void {
+  const savedData = localStorage.getItem('checkoutData');
+
+  if (savedData) {
+    const data = JSON.parse(savedData);
+
+    this.customerName = data.customerName || '';
+    this.phone = data.phone || '';
+    this.email = data.email || '';
+    this.documentNumber = data.documentNumber || '';
+    this.address = data.address || '';
+    this.department = data.department || '';
+    this.municipality = data.municipality || '';
+  }
+}
 
   @Output() orderCompleted = new EventEmitter<void>();
 
@@ -48,6 +63,16 @@ export class CheckoutComponent {
       }))
     };
 
+    localStorage.setItem('checkoutData', JSON.stringify({
+  customerName: this.customerName,
+  phone: this.phone,
+  email: this.email,
+  documentNumber: this.documentNumber,
+  address: this.address,
+  department: this.department,
+  municipality: this.municipality
+}));
+
     console.log('ORDEN A ENVIAR:', order);
 
     this.orderService.createOrder(order).subscribe({
@@ -76,6 +101,8 @@ export class CheckoutComponent {
           message += `Precio: $${price.toLocaleString('es-CO')}\n\n`;
 
         });
+
+        
 
         message += `TOTAL: $${total.toLocaleString('es-CO')}\n\n`;
 
