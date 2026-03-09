@@ -1,8 +1,7 @@
 <h1>Catálogo Mancholita</h1>
 <div class="catalog">
 
-  <div class="product" *ngFor="let p of filteredProducts"
->
+  <div class="product" *ngFor="let p of paginatedProducts">
 
     <img [src]="p.imageUrl">
 
@@ -19,4 +18,16 @@ Agregar al carrito
 
   </div>
 
+</div>
+
+<div class="pagination" *ngIf="totalPages > 1">
+  <button (click)="prevPage()" [disabled]="currentPage === 1">
+    Anterior
+  </button>
+
+  <span>Página {{ currentPage }} de {{ totalPages }}</span>
+
+  <button (click)="nextPage()" [disabled]="currentPage === totalPages">
+    Siguiente
+  </button>
 </div>
