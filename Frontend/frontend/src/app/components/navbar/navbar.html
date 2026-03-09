@@ -5,15 +5,16 @@
   </div>
 
   <div class="search">
-  <input
-    type="text"
-    placeholder="Buscar productos..."
-    [(ngModel)]="searchText"
-    (input)="onSearchChange()">
-</div>
- <div class="cart" (click)="openCart()">
-  🛒 <span class="count">{{cartCount}}</span>
-</div>
+    <input
+      type="text"
+      placeholder="Buscar productos..."
+      [(ngModel)]="searchText"
+      (input)="onSearchChange()">
+  </div>
+
+  <div class="cart" (click)="openCart()">
+    🛒 <span class="count">{{ cartCount }}</span>
+  </div>
 
 </header>
 
@@ -21,4 +22,12 @@
   <button (click)="filterByGender(1)">Hombre</button>
   <button (click)="filterByGender(2)">Mujer</button>
   <button (click)="filterByGender(0)">Todos</button>
+</div>
+
+<div class="subfilters" *ngIf="subcategories.length > 0">
+  <button
+    *ngFor="let sub of subcategories"
+    (click)="filterByCategory(sub.id)">
+    {{ sub.name }}
+  </button>
 </div>

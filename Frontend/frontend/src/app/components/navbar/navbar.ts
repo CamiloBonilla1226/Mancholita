@@ -1,7 +1,8 @@
-import { Component, DoCheck, EventEmitter, Output } from '@angular/core';
+import { Component, DoCheck, EventEmitter, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CartService } from '../../services/cart.service';
 import { FormsModule } from '@angular/forms';
+import { CartService } from '../../services/cart.service';
+import { CategoryService, CategoryNode } from '../../services/category.service';
 
 @Component({
   selector: 'app-navbar',
@@ -10,19 +11,35 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './navbar.html',
   styleUrls: ['./navbar.scss']
 })
-export class NavbarComponent implements DoCheck {
+export class NavbarComponent implements DoCheck, OnInit {
 
   cartCount = 0;
   searchText = '';
 
+  categories: CategoryNode[] = [];
+  subcategories: CategoryNode[] = [];
+  selectedGender = 0;
+
   @Output() cartClicked = new EventEmitter<void>();
   @Output() searchChanged = new EventEmitter<string>();
   @Output() genderChanged = new EventEmitter<number>();
+  @Output() categoryChanged = new EventEmitter<number>();
 
-filterByGender(genderId: number) {
-  this.genderChanged.emit(genderId);
-}
-  constructor(private cartService: CartService) {}
+  constructor(
+    private cartService: CartService,
+    private categoryService: CategoryService
+  ) {}
+
+  ngOnInit(): void {
+    this.categoryService.getCategories().subscribe({
+      next: (data) => {
+        this.categories = data;
+      },
+      error: (err) => {
+        console.error('Error cargando categorías', err);
+      }
+    });
+  }
 
   ngDoCheck(): void {
     this.cartCount = this.cartService.getCount();
@@ -34,6 +51,25 @@ filterByGender(genderId: number) {
 
   onSearchChange() {
     this.searchChanged.emit(this.searchText);
+  }
+
+  filterByGender(genderId: number) {
+    this.selectedGender = genderId;
+    this.genderChanged.emit(genderId);
+
+    if (genderId === 0) {
+      this.subcategories = [];
+      this.categoryChanged.emit(0);
+      return;
+    }
+
+    const gender = this.categories.find(c => c.id === genderId);
+    this.subcategories = gender?.children ?? [];
+    this.categoryChanged.emit(0);
+  }
+
+  filterByCategory(categoryId: number) {
+    this.categoryChanged.emit(categoryId);
   }
 
 }
