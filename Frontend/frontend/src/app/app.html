@@ -1,6 +1,7 @@
 <app-navbar
   (cartClicked)="toggleCart()"
-  (searchChanged)="onSearchChanged($event)">
+  (searchChanged)="onSearchChanged($event)"
+  (genderChanged)="onGenderChanged($event)">
 </app-navbar>
 
 <app-cart-panel *ngIf="cartOpen" (checkoutClicked)="openCheckout()"></app-cart-panel>
@@ -10,4 +11,8 @@
   (orderCompleted)="showCheckout = false">
 </app-checkout>
 
-<app-catalog *ngIf="!showCheckout" [searchText]="searchText"></app-catalog>
+<app-catalog
+  *ngIf="!showCheckout"
+  [searchText]="searchText"
+  [selectedGender]="selectedGender">
+</app-catalog>

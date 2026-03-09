@@ -14,6 +14,8 @@ import { CartService } from '../../services/cart.service';
 export class CatalogComponent implements OnInit {
 
   @Input() searchText = '';
+  @Input() selectedGender = 0;
+
 
   products: Product[] = [];
 
@@ -40,13 +42,19 @@ export class CatalogComponent implements OnInit {
   }
 
   get filteredProducts(): Product[] {
-    if (!this.searchText.trim()) {
-      return this.products;
-    }
+  let filtered = this.products;
 
-    return this.products.filter(p =>
+  if (this.selectedGender !== 0) {
+    filtered = filtered.filter(p => p.genderId === this.selectedGender);
+  }
+
+  if (this.searchText.trim()) {
+    filtered = filtered.filter(p =>
       p.name.toLowerCase().includes(this.searchText.toLowerCase())
     );
   }
+
+  return filtered;
+}
 
 }

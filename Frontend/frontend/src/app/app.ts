@@ -17,6 +17,7 @@ export class App {
   cartOpen = false;
   searchText = '';
   showCheckout = false;
+  selectedGender = 0;
 
   toggleCart() {
     this.cartOpen = !this.cartOpen;
@@ -26,9 +27,12 @@ export class App {
     this.searchText = text;
   }
 
+  onGenderChanged(genderId: number) {
+    this.selectedGender = genderId;
+  }
+
   openCheckout() {
     this.showCheckout = true;
     this.cartOpen = false;
   }
-
 }

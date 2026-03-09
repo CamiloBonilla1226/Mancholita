@@ -17,7 +17,11 @@ export class NavbarComponent implements DoCheck {
 
   @Output() cartClicked = new EventEmitter<void>();
   @Output() searchChanged = new EventEmitter<string>();
+  @Output() genderChanged = new EventEmitter<number>();
 
+filterByGender(genderId: number) {
+  this.genderChanged.emit(genderId);
+}
   constructor(private cartService: CartService) {}
 
   ngDoCheck(): void {
