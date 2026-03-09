@@ -1,33 +1,127 @@
+.header-sticky{
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: white;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+  transition: transform 0.3s ease;
+}
+
+.header-sticky.hidden{
+  transform: translateY(-100%);
+}
 .navbar{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-
-  padding:15px 30px;
-
-  background:#0d1b4c;
-  color:white;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr auto;
+  align-items: center;
+  gap: 24px;
+  padding: 16px 36px;
+  background: #0d1b4c;
+  color: white;
 }
 
 .logo{
-  font-size:20px;
-  font-weight:bold;
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: #f5f7ff;
+  white-space: nowrap;
+  justify-self: start;
+}
+
+.main-menu{
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-self: center;
+}
+.main-menu button{
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 8px;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.main-menu button:hover{
+  background: rgba(255,255,255,0.12);
+  transform: translateY(-1px);
+}
+
+.search{
+  display: flex;
+  justify-content: center;
+  justify-self: center;
+  width: 100%;
 }
 
 .search input{
-  width:300px;
-  padding:8px;
-  border-radius:5px;
-  border:none;
+  width: 100%;
+  max-width: 420px;
+  padding: 12px 18px;
+  border-radius: 999px;
+  border: none;
+  outline: none;
+  font-size: 15px;
+  background: white;
+  color: #1f2937;
+}
+
+.search input::placeholder{
+  color: #6b7280;
 }
 
 .cart{
-  font-size:20px;
+  position: relative;
+  font-size: 24px;
+  cursor: pointer;
+  user-select: none;
 }
 
 .count{
-  background:red;
-  padding:3px 7px;
-  border-radius:50%;
-  font-size:14px;
+  position: absolute;
+  top: -8px;
+  right: -12px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: #ef4444;
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.subfilters{
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 12px 36px;
+  background: white;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.subfilters button{
+  border: 1px solid #d1d5db;
+  background: white;
+  color: #0d1b4c;
+  padding: 10px 16px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.subfilters button:hover{
+  background: #0d1b4c;
+  color: white;
+  border-color: #0d1b4c;
 }

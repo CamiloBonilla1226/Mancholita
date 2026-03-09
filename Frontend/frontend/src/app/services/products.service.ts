@@ -8,12 +8,12 @@ import { Product } from '../models/product';
 })
 export class ProductService {
 
-  private apiUrl = '/api/public/products';
+  private apiUrl = '/api/public/products?page=0&size=100';
 
   constructor(private http: HttpClient) {}
 
-  getProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>(this.apiUrl);
+  getProducts(): Observable<any> {
+    return this.http.get<any>(this.apiUrl);
   }
 
 }

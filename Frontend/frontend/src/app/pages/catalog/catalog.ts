@@ -16,8 +16,6 @@ export class CatalogComponent implements OnInit, OnChanges {
   @Input() searchText = '';
   @Input() selectedGender = 0;
   @Input() selectedCategory = 0;
-  currentPage = 1;
-  pageSize = 6;
 
 
   products: Product[] = [];
@@ -63,30 +61,8 @@ export class CatalogComponent implements OnInit, OnChanges {
 
     return filtered;
   }
-
-  get paginatedProducts(): Product[] {
-    const start = (this.currentPage - 1) * this.pageSize;
-    const end = start + this.pageSize;
-    return this.filteredProducts.slice(start, end);
-  }
-
-  get totalPages(): number {
-    return Math.ceil(this.filteredProducts.length / this.pageSize);
-  }
-
-  nextPage() {
-    if (this.currentPage < this.totalPages) {
-      this.currentPage++;
-    }
-  }
-
-  prevPage() {
-    if (this.currentPage > 1) {
-      this.currentPage--;
-    }
-  }
   ngOnChanges() {
-  this.currentPage = 1;
+
   }
 
 

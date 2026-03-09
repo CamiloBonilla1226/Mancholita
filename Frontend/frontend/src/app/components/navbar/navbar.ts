@@ -1,4 +1,4 @@
-import { Component, DoCheck, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, DoCheck, EventEmitter, OnInit, Output, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CartService } from '../../services/cart.service';
@@ -15,6 +15,8 @@ export class NavbarComponent implements DoCheck, OnInit {
 
   cartCount = 0;
   searchText = '';
+  lastScrollTop = 0;
+isVisible = true;
 
   categories: CategoryNode[] = [];
   subcategories: CategoryNode[] = [];
@@ -24,7 +26,18 @@ export class NavbarComponent implements DoCheck, OnInit {
   @Output() searchChanged = new EventEmitter<string>();
   @Output() genderChanged = new EventEmitter<number>();
   @Output() categoryChanged = new EventEmitter<number>();
+@HostListener('window:scroll', [])
+onWindowScroll() {
+  const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
 
+  if (currentScroll > this.lastScrollTop && currentScroll > 100) {
+    this.isVisible = false;
+  } else {
+    this.isVisible = true;
+  }
+
+  this.lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
+}
   constructor(
     private cartService: CartService,
     private categoryService: CategoryService
