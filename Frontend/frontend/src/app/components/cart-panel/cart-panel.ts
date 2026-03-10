@@ -16,6 +16,7 @@ export class CartPanelComponent implements DoCheck {
   total = 0;
 
   @Output() checkoutClicked = new EventEmitter<void>();
+  @Output() closePanel = new EventEmitter<void>();
 
   constructor(private cartService: CartService) {}
 
@@ -28,9 +29,19 @@ export class CartPanelComponent implements DoCheck {
     this.cartService.removeProduct(productId);
   }
 
+  increase(product: any) {
+    this.cartService.addProduct(product);
+  }
+
+  decrease(productId: number) {
+    this.cartService.removeProduct(productId);
+  }
+
   goToCheckout() {
-    console.log('CLICK FINALIZAR PEDIDO');
     this.checkoutClicked.emit();
   }
 
+  closeCart() {
+    this.closePanel.emit();
+  }
 }

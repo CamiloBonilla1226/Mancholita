@@ -20,10 +20,12 @@ export class App {
   selectedGender = 0;
   selectedCategory = 0;
 
- 
-
   toggleCart() {
     this.cartOpen = !this.cartOpen;
+  }
+
+  closeCart() {
+    this.cartOpen = false;
   }
 
   onSearchChanged(text: string) {
@@ -34,11 +36,13 @@ export class App {
     this.selectedGender = genderId;
   }
 
+  onCategoryChanged(categoryId: number) {
+    this.selectedCategory = categoryId;
+  }
+
   openCheckout() {
     this.showCheckout = true;
     this.cartOpen = false;
   }
-  onCategoryChanged(categoryId: number) {
-  this.selectedCategory = categoryId;
-}
+
 }

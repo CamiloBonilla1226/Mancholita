@@ -5,7 +5,11 @@
   (categoryChanged)="onCategoryChanged($event)">
 </app-navbar>
 
-<app-cart-panel *ngIf="cartOpen" (checkoutClicked)="openCheckout()"></app-cart-panel>
+<app-cart-panel
+  *ngIf="cartOpen"
+  (closePanel)="closeCart()"
+  (checkoutClicked)="openCheckout()">
+</app-cart-panel>
 
 <app-checkout
   *ngIf="showCheckout"

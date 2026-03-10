@@ -6,7 +6,7 @@ import { Product } from '../models/product';
   providedIn: 'root'
 })
 export class CartService {
-
+  cartOpen = false;
   private items: CartItem[] = [];
 
   addProduct(product: Product) {
@@ -49,5 +49,12 @@ export class CartService {
   clearCart() {
     this.items = [];
   }
+  openCart(){
+  this.cartOpen = true;
+}
+
+closeCart(){
+  this.cartOpen = false;
+}
 
 }

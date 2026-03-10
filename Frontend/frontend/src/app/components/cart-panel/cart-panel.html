@@ -1,41 +1,57 @@
-<div class="cart-panel">
+<div class="cart-backdrop" (click)="closeCart()">
 
-  <h2>Carrito</h2>
+  <div class="cart-panel" (click)="$event.stopPropagation()">
 
-  <div *ngIf="items.length === 0">
-    <p>El carrito está vacío</p>
-  </div>
+    <div class="cart-header">
+      <h2>Carrito</h2>
+      <button class="close-btn" (click)="closeCart()">✕</button>
+    </div>
 
-  <div *ngFor="let item of items" class="cart-item">
+    <div *ngIf="items.length === 0">
+      <p>El carrito está vacío</p>
+    </div>
 
-    <p class="product-name">
-      <strong>{{ item.product.name }}</strong>
-    </p>
+    <div *ngFor="let item of items" class="cart-item">
 
-    <p>
-      Cantidad: {{ item.quantity }}
-    </p>
+      <img class="cart-image" [src]="item.product.imageUrl">
 
-    <p>
-      Precio: {{ item.product.price | currency:'COP':'symbol':'1.0-0' }}
-    </p>
+      <div class="cart-info">
 
-    <button class="remove-btn" (click)="remove(item.product.id)">
-      Eliminar
+        <p class="product-name">
+          <strong>{{ item.product.name }}</strong>
+        </p>
+
+        <div class="quantity-controls">
+          <button class="qty-btn" (click)="decrease(item.product.id)">-</button>
+          <span>{{ item.quantity }}</span>
+          <button class="qty-btn" (click)="increase(item.product)">+</button>
+        </div>
+
+        <p>
+          {{ item.product.price | currency:'COP':'symbol':'1.0-0':'es-CO' }}
+        </p>
+
+        <button class="remove-btn" (click)="remove(item.product.id)">
+          Eliminar
+        </button>
+
+      </div>
+
+    </div>
+
+    <hr>
+
+    <div class="cart-total">
+      <h3>Total:</h3>
+      <h3 class="total-price">
+        {{ total | currency:'COP':'symbol':'1.0-0':'es-CO' }}
+      </h3>
+    </div>
+
+    <button class="checkout-btn" *ngIf="items.length > 0" (click)="goToCheckout()">
+      Finalizar pedido
     </button>
 
   </div>
-
-  <hr>
-
-  <div class="cart-total">
-    <h3>Total:</h3>
-    <h3>{{ total | currency:'COP':'symbol':'1.0-0' }}</h3>
-  </div>
-
-  <button class="checkout-btn" *ngIf="items.length > 0" (click)="goToCheckout()">
-  Finalizar pedido
-  </button>
-  
 
 </div>
