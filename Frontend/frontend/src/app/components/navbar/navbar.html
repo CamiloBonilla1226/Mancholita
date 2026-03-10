@@ -1,6 +1,5 @@
 <div class="header-sticky" [class.hidden]="!isVisible">
 
-
   <header class="navbar">
 
     <div class="logo">
@@ -8,9 +7,8 @@
     </div>
 
     <div class="main-menu">
-      <button (click)="filterByGender(1)">Hombre</button>
-      <button (click)="filterByGender(2)">Mujer</button>
-      <button (click)="filterByGender(0)">Todos</button>
+      <button (click)="filterByGender(1)">HOMBRE</button>
+      <button (click)="filterByGender(2)">MUJER</button>
     </div>
 
     <div class="search">
@@ -22,8 +20,8 @@
     </div>
 
     <div class="cart" [class.bump]="cartBump" (click)="openCart()">
-  🛒 <span class="count" [class.bump]="cartBump">{{ cartCount }}</span>
-</div>
+      🛒 <span class="count" [class.bump]="cartBump">{{ cartCount }}</span>
+    </div>
 
   </header>
 

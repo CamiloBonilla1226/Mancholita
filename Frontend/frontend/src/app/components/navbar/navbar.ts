@@ -28,17 +28,28 @@ export class NavbarComponent implements DoCheck, OnInit {
   @Output() genderChanged = new EventEmitter<number>();
   @Output() categoryChanged = new EventEmitter<number>();
   @HostListener('window:scroll', [])
-  onWindowScroll() {
-    const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
 
-    if (currentScroll > this.lastScrollTop && currentScroll > 100) {
-      this.isVisible = false;
-    } else {
-      this.isVisible = true;
-    }
 
-    this.lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
+@HostListener('window:scroll', [])
+onWindowScroll() {
+  const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+
+  if (currentScroll <= 0) {
+    this.isVisible = true;
+    this.lastScrollTop = 0;
+    return;
   }
+
+  if (currentScroll > this.lastScrollTop && currentScroll > 80) {
+    // bajando
+    this.isVisible = false;
+  } else if (currentScroll < this.lastScrollTop) {
+    // subiendo
+    this.isVisible = true;
+  }
+
+  this.lastScrollTop = currentScroll;
+}
  constructor(
   private cartService: CartService,
   private categoryService: CategoryService,
