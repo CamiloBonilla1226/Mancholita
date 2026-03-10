@@ -36,16 +36,20 @@ export class CartService {
     return this.items.reduce((total, item) => total + (item.product.price * item.quantity), 0);
   }
   removeProduct(productId: number) {
-    const item = this.items.find(i => i.product.id === productId);
+  const item = this.items.find(i => i.product.id === productId);
 
-    if (!item) return;
+  if (!item) return;
 
-    if (item.quantity > 1) {
-      item.quantity--;
-    } else {
-      this.items = this.items.filter(i => i.product.id !== productId);
-    }
+  if (item.quantity > 1) {
+    item.quantity--;
+  } else {
+    this.items = this.items.filter(i => i.product.id !== productId);
   }
+}
+
+removeAllOfProduct(productId: number) {
+  this.items = this.items.filter(i => i.product.id !== productId);
+}
   clearCart() {
     this.items = [];
   }

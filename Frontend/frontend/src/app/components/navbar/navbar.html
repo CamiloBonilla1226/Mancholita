@@ -21,9 +21,9 @@
         (input)="onSearchChange()">
     </div>
 
-    <div class="cart" (click)="openCart()">
-      🛒 <span class="count">{{ cartCount }}</span>
-    </div>
+    <div class="cart" [class.bump]="cartBump" (click)="openCart()">
+  🛒 <span class="count" [class.bump]="cartBump">{{ cartCount }}</span>
+</div>
 
   </header>
 

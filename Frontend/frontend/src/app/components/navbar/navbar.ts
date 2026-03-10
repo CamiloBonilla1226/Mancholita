@@ -1,4 +1,4 @@
-import { Component, DoCheck, EventEmitter, OnInit, Output, HostListener } from '@angular/core';
+import { Component, DoCheck, EventEmitter, OnInit, Output, HostListener, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CartService } from '../../services/cart.service';
@@ -16,7 +16,8 @@ export class NavbarComponent implements DoCheck, OnInit {
   cartCount = 0;
   searchText = '';
   lastScrollTop = 0;
-isVisible = true;
+  isVisible = true;
+  cartBump = false;
 
   categories: CategoryNode[] = [];
   subcategories: CategoryNode[] = [];
@@ -26,23 +27,23 @@ isVisible = true;
   @Output() searchChanged = new EventEmitter<string>();
   @Output() genderChanged = new EventEmitter<number>();
   @Output() categoryChanged = new EventEmitter<number>();
-@HostListener('window:scroll', [])
-onWindowScroll() {
-  const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
 
-  if (currentScroll > this.lastScrollTop && currentScroll > 100) {
-    this.isVisible = false;
-  } else {
-    this.isVisible = true;
+    if (currentScroll > this.lastScrollTop && currentScroll > 100) {
+      this.isVisible = false;
+    } else {
+      this.isVisible = true;
+    }
+
+    this.lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
   }
-
-  this.lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
-}
-  constructor(
-    private cartService: CartService,
-    private categoryService: CategoryService
-  ) {}
-
+ constructor(
+  private cartService: CartService,
+  private categoryService: CategoryService,
+  private cdr: ChangeDetectorRef
+) {}
   ngOnInit(): void {
     this.categoryService.getCategories().subscribe({
       next: (data) => {
@@ -54,10 +55,18 @@ onWindowScroll() {
     });
   }
 
-  ngDoCheck(): void {
-    this.cartCount = this.cartService.getCount();
+  previousCount = 0;
+
+ngDoCheck(): void {
+  const currentCount = this.cartService.getCount();
+  this.cartCount = currentCount;
+
+  if (currentCount > this.previousCount) {
+    this.animateCart();
   }
 
+  this.previousCount = currentCount;
+}
   openCart() {
     this.cartClicked.emit();
   }
@@ -85,4 +94,18 @@ onWindowScroll() {
     this.categoryChanged.emit(categoryId);
   }
 
+ animateCart() {
+  this.cartBump = false;
+  this.cdr.detectChanges();
+
+  setTimeout(() => {
+    this.cartBump = true;
+    this.cdr.detectChanges();
+
+    setTimeout(() => {
+      this.cartBump = false;
+      this.cdr.detectChanges();
+    }, 300);
+  }, 20);
+}
 }

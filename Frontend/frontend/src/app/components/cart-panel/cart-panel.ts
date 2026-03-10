@@ -26,17 +26,16 @@ export class CartPanelComponent implements DoCheck {
   }
 
   remove(productId: number) {
-    this.cartService.removeProduct(productId);
-  }
+  this.cartService.removeAllOfProduct(productId);
+}
 
   increase(product: any) {
-    this.cartService.addProduct(product);
-  }
+  this.cartService.addProduct(product);
+}
 
-  decrease(productId: number) {
-    this.cartService.removeProduct(productId);
-  }
-
+decrease(productId: number) {
+  this.cartService.removeProduct(productId);
+}
   goToCheckout() {
     this.checkoutClicked.emit();
   }

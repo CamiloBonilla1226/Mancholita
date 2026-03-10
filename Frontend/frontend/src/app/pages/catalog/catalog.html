@@ -1,24 +1,18 @@
-
- <div class="cart-message" *ngIf="showAddedMessage">
-  ✔ Producto agregado al carrito
-</div>
 <div class="catalog">
 
-   
   <div class="product" *ngFor="let p of filteredProducts">
 
-    <img [src]="p.imageUrl">
+    <img [src]="p.imageUrl" alt="{{ p.name }}">
 
-    <h3>{{p.name}}</h3>
+    <h3>{{ p.name }}</h3>
 
-    <p>{{p.description}}</p>
+    <p>{{ p.description }}</p>
 
-    <h2>{{ p.price | currency:'COP':'symbol':'1.0-0' }}</h2>
+    <h2>{{ p.price | currency:'COP':'symbol':'1.0-0':'es-CO' }}</h2>
 
-
-<button class="btn-cart" (click)="addToCart(p)">
-  {{ addedProductId === p.id ? '✔ Agregado' : 'Agregar al carrito' }}
-</button>
+    <button class="btn-cart" (click)="addToCart(p)">
+      {{ addedProductId === p.id ? '✔ Agregado' : 'Agregar al carrito' }}
+    </button>
 
   </div>
 
