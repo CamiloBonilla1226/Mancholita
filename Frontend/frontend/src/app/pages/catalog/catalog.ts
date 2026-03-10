@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, Input, OnChanges } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, Input, OnChanges, NgZone } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProductService } from '../../services/products.service';
 import { Product } from '../../models/product';
@@ -16,6 +16,10 @@ export class CatalogComponent implements OnInit, OnChanges {
   @Input() searchText = '';
   @Input() selectedGender = 0;
   @Input() selectedCategory = 0;
+  showAddedMessage = false;
+  addedProductId: number | null = null;
+
+
 
 
   products: Product[] = [];
@@ -23,7 +27,8 @@ export class CatalogComponent implements OnInit, OnChanges {
   constructor(
     private productService: ProductService,
     private cdr: ChangeDetectorRef,
-    private cartService: CartService
+    private cartService: CartService,
+    private zone: NgZone
   ) { }
 
   ngOnInit(): void {
@@ -40,6 +45,16 @@ export class CatalogComponent implements OnInit, OnChanges {
 
   addToCart(product: Product) {
     this.cartService.addProduct(product);
+
+    this.addedProductId = product.id;
+    this.cdr.detectChanges();
+
+    setTimeout(() => {
+      this.zone.run(() => {
+        this.addedProductId = null;
+        this.cdr.detectChanges();
+      });
+    }, 500);
   }
 
   get filteredProducts(): Product[] {

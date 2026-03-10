@@ -1,5 +1,10 @@
+
+ <div class="cart-message" *ngIf="showAddedMessage">
+  ✔ Producto agregado al carrito
+</div>
 <div class="catalog">
 
+   
   <div class="product" *ngFor="let p of filteredProducts">
 
     <img [src]="p.imageUrl">
@@ -12,7 +17,7 @@
 
 
 <button class="btn-cart" (click)="addToCart(p)">
-  🛒 Agregar al carrito
+  {{ addedProductId === p.id ? '✔ Agregado' : 'Agregar al carrito' }}
 </button>
 
   </div>
