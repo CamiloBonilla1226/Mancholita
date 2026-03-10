@@ -72,3 +72,23 @@
   background: #142a73;
 }
 
+
+.cart-panel{
+  position: fixed;
+  top: 90px;
+  right: 20px;
+  width: 320px;
+  max-height: 80vh;
+  overflow-y: auto;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  padding: 20px;
+  z-index: 1000;
+}
+
+.cart-item{
+  border-bottom: 1px solid #eee;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+}

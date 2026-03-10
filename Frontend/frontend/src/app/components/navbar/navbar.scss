@@ -5,10 +5,17 @@
   background: white;
   box-shadow: 0 2px 10px rgba(0,0,0,0.06);
   transition: transform 0.3s ease;
+  pointer-events: none;
 }
-
+.navbar,
+.menu-filtros,
+.navbar *,
+.menu-filtros *{
+  pointer-events: auto;
+}
 .header-sticky.hidden{
   transform: translateY(-100%);
+  pointer-events: none;
 }
 .navbar{
   display: grid;
