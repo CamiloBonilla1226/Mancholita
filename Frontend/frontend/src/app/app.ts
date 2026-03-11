@@ -45,4 +45,10 @@ export class App {
     this.cartOpen = false;
   }
 
+  goToAboutSection() {
+    const section = document.getElementById('nosotros');
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
 }

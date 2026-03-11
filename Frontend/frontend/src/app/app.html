@@ -22,3 +22,11 @@
   [selectedGender]="selectedGender"
   [selectedCategory]="selectedCategory">
 </app-catalog>
+
+<app-navbar
+  (logoClicked)="goToAboutSection()"
+  (cartClicked)="toggleCart()"
+  (searchChanged)="onSearchChanged($event)"
+  (genderChanged)="onGenderChanged($event)"
+  (categoryChanged)="onCategoryChanged($event)">
+</app-navbar>
