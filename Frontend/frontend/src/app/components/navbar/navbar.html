@@ -2,32 +2,33 @@
 
   <header class="navbar">
 
-    <div class="logo">
+    <div class="logo" (click)="goToHome()">
       MANCHOLITA
     </div>
 
     <div class="main-menu">
-      <button (click)="filterByGender(1)">HOMBRE</button>
-      <button (click)="filterByGender(2)">MUJER</button>
+      <button [class.active]="selectedGender === 1" (click)="filterByGender(1)">
+        HOMBRE
+      </button>
+
+      <button [class.active]="selectedGender === 2" (click)="filterByGender(2)">
+        MUJER
+      </button>
     </div>
 
     <div class="search">
-      <input
-        type="text"
-        placeholder="Buscar productos..."
-        [(ngModel)]="searchText"
-        (input)="onSearchChange()">
+      <input type="text" placeholder="Buscar productos..." [(ngModel)]="searchText" (input)="onSearchChange()">
     </div>
 
     <div class="cart" [class.bump]="cartBump" (click)="openCart()">
-      🛒 <span class="count" [class.bump]="cartBump">{{ cartCount }}</span>
+      🛒
+      <span class="count" [class.bump]="cartBump">{{ cartCount }}</span>
     </div>
 
   </header>
 
   <div class="subfilters" *ngIf="subcategories.length > 0">
-    <button
-      *ngFor="let sub of subcategories"
+    <button *ngFor="let sub of subcategories" [class.active]="selectedCategory === sub.id"
       (click)="filterByCategory(sub.id)">
       {{ sub.name }}
     </button>
