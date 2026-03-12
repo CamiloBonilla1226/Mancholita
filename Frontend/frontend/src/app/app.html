@@ -19,7 +19,7 @@
 
 <app-about
   *ngIf="showAbout && !showCheckout"
-  (productSelected)="goToProductFromAbout($event)">
+  (viewMoreClicked)="goToProductCatalog($event)">
 </app-about>
 
 <app-catalog
