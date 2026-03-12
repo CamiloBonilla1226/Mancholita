@@ -1,74 +1,75 @@
 <section class="about-page">
 
-  <div class="hero-block">
+  <section class="hero-block">
     <span class="hero-badge">Bienvenido a Mancholita</span>
 
-    <h1>Moda con estilo, delicadeza y personalidad</h1>
+    <h1>Moda con estilo, calidad y buen precio.</h1>
 
     <p class="hero-text">
-      En Mancholita queremos ofrecerte una experiencia bonita, sencilla y cercana.
-      Descubre prendas para hombre y mujer pensadas para acompañarte en cada ocasión,
-      con un estilo moderno, cómodo y fácil de combinar.
+      Compra con confianza, descubre prendas pensadas para ti y disfruta envíos 100% seguros a todo Colombia.
     </p>
-  </div>
 
-  <section class="mini-catalog-section">
-    <div class="section-head">
-      <div>
-        <h2>Selección destacada</h2>
-        <p>Una muestra de lo que puedes encontrar en nuestra tienda.</p>
-      </div>
-
-      <div class="catalog-controls">
-        <button (click)="prevProducts()">‹</button>
-        <button (click)="nextProducts()">›</button>
-      </div>
+    <div class="hero-benefits">
+      <span>✔ Calidad y estilo</span>
+      <span>✔ Buen precio</span>
+      <span>✔ Envíos seguros a todo Colombia</span>
     </div>
+  </section>
 
-    <div class="mini-catalog">
-      <article class="mini-card" *ngFor="let product of visibleProducts">
+  <section class="showcase-section">
+    <button class="slider-arrow left" (click)="prevProducts()">‹</button>
+
+    <div class="showcase-track" [class.sliding]="isAnimating">
+      <article class="showcase-card" *ngFor="let product of visibleProducts">
         <img [src]="product.imageUrl" [alt]="product.name">
 
-        <div class="mini-card-body">
+        <div class="showcase-info">
           <h3>{{ product.name }}</h3>
           <p>{{ product.description }}</p>
           <span>{{ product.price | currency:'COP':'symbol':'1.0-0':'es-CO' }}</span>
         </div>
       </article>
     </div>
+
+    <button class="slider-arrow right" (click)="nextProducts()">›</button>
   </section>
 
-  <section class="info-grid">
-
-    <article class="info-card">
-      <h3>Sobre nosotros</h3>
-      <p>
-        Somos un almacén enfocado en brindar prendas con estilo, frescura y elegancia.
-        Queremos que cada persona encuentre opciones lindas, versátiles y fáciles de llevar
-        en su día a día.
-      </p>
+  <section class="branches-section">
+    <article class="branch-card">
+      <h3>Sede 1</h3>
+      <p>Calle 1 # 10-20</p>
+      <span>Centro</span>
     </article>
 
-    <article class="info-card">
-      <h3>Redes sociales</h3>
-
-      <div class="social-links">
-        <a href="#" target="_blank">Instagram</a>
-        <a href="#" target="_blank">Facebook</a>
-        <a href="#" target="_blank">TikTok</a>
-      </div>
+    <article class="branch-card">
+      <h3>Sede 2</h3>
+      <p>Carrera 15 # 25-10</p>
+      <span>Norte</span>
     </article>
 
-    <article class="info-card">
-      <h3>Nuestras sedes</h3>
-
-      <ul class="branches">
-        <li><strong>Sede Centro:</strong> Calle 1 # 10-20</li>
-        <li><strong>Sede Norte:</strong> Carrera 15 # 25-10</li>
-        <li><strong>Sede Sur:</strong> Avenida 8 # 30-45</li>
-      </ul>
+    <article class="branch-card">
+      <h3>Sede 3</h3>
+      <p>Avenida 8 # 30-45</p>
+      <span>Sur</span>
     </article>
-
   </section>
+
+  <footer class="site-footer">
+    <div class="footer-brand">
+      <h3>MANCHOLITA</h3>
+      <p>Moda con estilo, calidad y confianza.</p>
+    </div>
+
+    <div class="footer-links">
+      <a href="#" target="_blank">Instagram</a>
+      <a href="#" target="_blank">Facebook</a>
+      <a href="#" target="_blank">TikTok</a>
+    </div>
+
+    <div class="footer-copy">
+      <p>Envíos seguros a todo Colombia</p>
+      <p>© 2026 Mancholita</p>
+    </div>
+  </footer>
 
 </section>

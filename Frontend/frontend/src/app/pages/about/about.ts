@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProductService } from '../../services/products.service';
 
@@ -9,12 +9,15 @@ import { ProductService } from '../../services/products.service';
   templateUrl: './about.html',
   styleUrls: ['./about.scss']
 })
-export class AboutComponent implements OnInit {
+export class AboutComponent implements OnInit, OnDestroy {
 
   allProducts: any[] = [];
   visibleProducts: any[] = [];
   currentIndex = 0;
   itemsPerView = 3;
+  isAnimating = false;
+
+  private autoSlideInterval: any;
 
   constructor(private productService: ProductService) {}
 
@@ -24,6 +27,7 @@ export class AboutComponent implements OnInit {
         const products = data.content ?? [];
         this.allProducts = this.shuffleArray(products);
         this.updateVisibleProducts();
+        this.startAutoSlide();
       },
       error: (err) => {
         console.error('Error cargando productos para About', err);
@@ -31,29 +35,51 @@ export class AboutComponent implements OnInit {
     });
   }
 
-  nextProducts() {
-    if (this.allProducts.length === 0) return;
-
-    this.currentIndex += this.itemsPerView;
-
-    if (this.currentIndex >= this.allProducts.length) {
-      this.currentIndex = 0;
-      this.allProducts = this.shuffleArray([...this.allProducts]);
+  ngOnDestroy(): void {
+    if (this.autoSlideInterval) {
+      clearInterval(this.autoSlideInterval);
     }
+  }
 
-    this.updateVisibleProducts();
+  nextProducts() {
+    if (this.allProducts.length === 0 || this.isAnimating) return;
+
+    this.isAnimating = true;
+
+    setTimeout(() => {
+      this.currentIndex += this.itemsPerView;
+
+      if (this.currentIndex >= this.allProducts.length) {
+        this.currentIndex = 0;
+        this.allProducts = this.shuffleArray([...this.allProducts]);
+      }
+
+      this.updateVisibleProducts();
+      this.isAnimating = false;
+    }, 250);
   }
 
   prevProducts() {
-    if (this.allProducts.length === 0) return;
+    if (this.allProducts.length === 0 || this.isAnimating) return;
 
-    this.currentIndex -= this.itemsPerView;
+    this.isAnimating = true;
 
-    if (this.currentIndex < 0) {
-      this.currentIndex = Math.max(0, this.allProducts.length - this.itemsPerView);
-    }
+    setTimeout(() => {
+      this.currentIndex -= this.itemsPerView;
 
-    this.updateVisibleProducts();
+      if (this.currentIndex < 0) {
+        this.currentIndex = Math.max(0, this.allProducts.length - this.itemsPerView);
+      }
+
+      this.updateVisibleProducts();
+      this.isAnimating = false;
+    }, 250);
+  }
+
+  private startAutoSlide() {
+    this.autoSlideInterval = setInterval(() => {
+      this.nextProducts();
+    }, 10000);
   }
 
   private updateVisibleProducts() {
