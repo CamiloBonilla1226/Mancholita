@@ -96,22 +96,43 @@
 
   <div class="product-modal-backdrop" *ngIf="selectedProduct" (click)="closeProduct()">
     <div class="product-modal" (click)="$event.stopPropagation()">
+
       <button class="close-modal-btn" (click)="closeProduct()">✕</button>
 
       <div class="product-modal-grid">
+
         <div class="product-modal-image">
           <img [src]="selectedProduct.imageUrl" [alt]="selectedProduct.name">
         </div>
 
         <div class="product-modal-info">
-          <h2>{{ selectedProduct.name }}</h2>
-          <p>{{ selectedProduct.description }}</p>
-          <h3>{{ selectedProduct.price | currency:'COP':'symbol':'1.0-0':'es-CO' }}</h3>
+          <span class="product-brand">Mancholita</span>
 
-          <button class="modal-cart-btn" (click)="addToCart(selectedProduct)">
-            Agregar al carrito
-          </button>
+          <h2>{{ selectedProduct.name }}</h2>
+
+          <p class="product-description">{{ selectedProduct.description }}</p>
+
+          <h3 class="product-price">
+            {{ selectedProduct.price | currency:'COP':'symbol':'1.0-0':'es-CO' }}
+          </h3>
+
+          <div class="modal-quantity">
+            <button (click)="decreaseQuantity()">-</button>
+            <span>{{ modalQuantity }}</span>
+            <button (click)="increaseQuantity()">+</button>
+          </div>
+
+          <div class="modal-actions">
+            <button class="modal-cart-btn" (click)="addToCart(selectedProduct)">
+              Agregar al carrito
+            </button>
+
+            <button class="modal-more-btn" (click)="viewMore(selectedProduct)">
+              Ver más
+            </button>
+          </div>
         </div>
+
       </div>
     </div>
   </div>
