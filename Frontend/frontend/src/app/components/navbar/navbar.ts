@@ -40,14 +40,13 @@ export class NavbarComponent implements DoCheck, OnInit {
   @Output() searchChanged = new EventEmitter<string>();
   @Output() genderChanged = new EventEmitter<number>();
   @Output() categoryChanged = new EventEmitter<number>();
-  @Output() logoClicked = new EventEmitter<void>();
-
+@Output() logoClicked = new EventEmitter<void>();
 
   constructor(
     private cartService: CartService,
     private categoryService: CategoryService,
     private cdr: ChangeDetectorRef
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.categoryService.getCategories().subscribe({
@@ -60,8 +59,8 @@ export class NavbarComponent implements DoCheck, OnInit {
     });
   }
   goToHome() {
-    this.logoClicked.emit();
-  }
+  this.logoClicked.emit();
+}
 
   ngDoCheck(): void {
     const currentCount = this.cartService.getCount();

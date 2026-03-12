@@ -3,21 +3,28 @@
   <header class="navbar">
 
     <div class="logo" (click)="goToHome()">
-      MANCHOLITA
-    </div>
-
+  MANCHOLITA
+</div>
     <div class="main-menu">
-      <button [class.active]="selectedGender === 1" (click)="filterByGender(1)">
+      <button
+        [class.active]="selectedGender === 1"
+        (click)="filterByGender(1)">
         HOMBRE
       </button>
 
-      <button [class.active]="selectedGender === 2" (click)="filterByGender(2)">
+      <button
+        [class.active]="selectedGender === 2"
+        (click)="filterByGender(2)">
         MUJER
       </button>
     </div>
 
     <div class="search">
-      <input type="text" placeholder="Buscar productos..." [(ngModel)]="searchText" (input)="onSearchChange()">
+      <input
+        type="text"
+        placeholder="Buscar productos..."
+        [(ngModel)]="searchText"
+        (input)="onSearchChange()">
     </div>
 
     <div class="cart" [class.bump]="cartBump" (click)="openCart()">
@@ -28,7 +35,9 @@
   </header>
 
   <div class="subfilters" *ngIf="subcategories.length > 0">
-    <button *ngFor="let sub of subcategories" [class.active]="selectedCategory === sub.id"
+    <button
+      *ngFor="let sub of subcategories"
+      [class.active]="selectedCategory === sub.id"
       (click)="filterByCategory(sub.id)">
       {{ sub.name }}
     </button>

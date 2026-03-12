@@ -4,11 +4,13 @@ import { CatalogComponent } from './pages/catalog/catalog';
 import { CartPanelComponent } from './components/cart-panel/cart-panel';
 import { CheckoutComponent } from './pages/checkout/checkout';
 import { CommonModule } from '@angular/common';
+import { AboutComponent } from './pages/about/about';
+
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, NavbarComponent, CatalogComponent, CartPanelComponent, CheckoutComponent],
+  imports: [CommonModule, NavbarComponent, CatalogComponent, CartPanelComponent, CheckoutComponent, AboutComponent],
   templateUrl: './app.html',
   styleUrls: ['./app.scss']
 })
@@ -19,10 +21,16 @@ export class App {
   showCheckout = false;
   selectedGender = 0;
   selectedCategory = 0;
+  showAbout = true;
 
   toggleCart() {
     this.cartOpen = !this.cartOpen;
   }
+  goToAbout() {
+  this.showAbout = true;
+  this.showCheckout = false;
+  this.cartOpen = false;
+}
 
   closeCart() {
     this.cartOpen = false;
@@ -33,8 +41,9 @@ export class App {
   }
 
   onGenderChanged(genderId: number) {
-    this.selectedGender = genderId;
-  }
+  this.selectedGender = genderId;
+  this.showAbout = false;
+}
 
   onCategoryChanged(categoryId: number) {
     this.selectedCategory = categoryId;
@@ -45,10 +54,4 @@ export class App {
     this.cartOpen = false;
   }
 
-  goToAboutSection() {
-    const section = document.getElementById('nosotros');
-    if (section) {
-      section.scrollIntoView({ behavior: 'smooth' });
-    }
-  }
 }

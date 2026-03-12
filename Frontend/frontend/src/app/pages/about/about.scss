@@ -1,0 +1,30 @@
+.about-section{
+  min-height: calc(100vh - 90px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+  background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+}
+
+.about-content{
+  max-width: 850px;
+  text-align: center;
+  background: white;
+  padding: 50px 40px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+}
+
+.about-content h1{
+  font-size: 48px;
+  color: #0d1b4c;
+  margin-bottom: 20px;
+}
+
+.about-content p{
+  font-size: 18px;
+  line-height: 1.7;
+  color: #4b5563;
+  margin-bottom: 16px;
+}
