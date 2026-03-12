@@ -26,11 +26,7 @@ export class App {
   toggleCart() {
     this.cartOpen = !this.cartOpen;
   }
-  goToAbout() {
-  this.showAbout = true;
-  this.showCheckout = false;
-  this.cartOpen = false;
-}
+ 
 
   closeCart() {
     this.cartOpen = false;
@@ -49,24 +45,32 @@ export class App {
     this.searchText = text;
   }
 
-  onGenderChanged(genderId: number) {
-  this.selectedGender = genderId;
-  this.showAbout = false;
-}
-
-  onCategoryChanged(categoryId: number) {
-    this.selectedCategory = categoryId;
-  }
-
   openCheckout() {
     this.showCheckout = true;
     this.cartOpen = false;
   }
- 
 
+  onGenderChanged(genderId: number) {
+  this.selectedGender = genderId;
+  this.selectedCategory = 0;
+  this.showAbout = false;
+}
 
+onCategoryChanged(categoryId: number) {
+  this.selectedCategory = categoryId;
+  this.showAbout = false;
+}
 
-  goToProductCatalog(product: any) {
+goToAbout() {
+  this.showAbout = true;
+  this.showCheckout = false;
+  this.cartOpen = false;
+  this.selectedGender = 0;
+  this.selectedCategory = 0;
+  this.searchText = '';
+}
+
+goToProductCatalog(product: any) {
   this.showAbout = false;
   this.showCheckout = false;
   this.cartOpen = false;
@@ -75,5 +79,4 @@ export class App {
   this.selectedCategory = 0;
   this.searchText = '';
 }
-
 }

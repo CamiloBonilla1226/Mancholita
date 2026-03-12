@@ -1,4 +1,6 @@
 <app-navbar
+  [currentGender]="selectedGender"
+  [currentCategory]="selectedCategory"
   (cartClicked)="toggleCart()"
   (searchChanged)="onSearchChanged($event)"
   (genderChanged)="onGenderChanged($event)"

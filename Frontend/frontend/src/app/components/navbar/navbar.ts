@@ -5,7 +5,10 @@ import {
   OnInit,
   Output,
   HostListener,
-  ChangeDetectorRef
+  ChangeDetectorRef,
+  Input,
+  OnChanges,
+  SimpleChanges
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -19,7 +22,10 @@ import { CategoryService, CategoryNode } from '../../services/category.service';
   templateUrl: './navbar.html',
   styleUrls: ['./navbar.scss']
 })
-export class NavbarComponent implements DoCheck, OnInit {
+export class NavbarComponent implements DoCheck, OnInit, OnChanges {
+
+  @Input() currentGender = 0;
+  @Input() currentCategory = 0;
 
   cartCount = 0;
   searchText = '';
@@ -52,6 +58,7 @@ export class NavbarComponent implements DoCheck, OnInit {
     this.categoryService.getCategories().subscribe({
       next: (data) => {
         this.categories = data;
+        this.syncNavbarState();
       },
       error: (err) => {
         console.error('Error cargando categorías', err);
@@ -60,6 +67,12 @@ export class NavbarComponent implements DoCheck, OnInit {
 
     this.cartCount = this.cartService.getCount();
     this.previousCount = this.cartCount;
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['currentGender'] || changes['currentCategory']) {
+      this.syncNavbarState();
+    }
   }
 
   ngDoCheck(): void {
@@ -74,6 +87,20 @@ export class NavbarComponent implements DoCheck, OnInit {
     }
 
     this.previousCount = currentCount;
+  }
+
+  private syncNavbarState() {
+    this.selectedGender = this.currentGender ?? 0;
+    this.selectedCategory = this.currentCategory ?? 0;
+
+    if (!this.categories.length) return;
+
+    if (this.selectedGender > 0) {
+      const gender = this.categories.find(c => c.id === this.selectedGender);
+      this.subcategories = gender?.children ?? [];
+    } else {
+      this.subcategories = [];
+    }
   }
 
   animateCart() {
