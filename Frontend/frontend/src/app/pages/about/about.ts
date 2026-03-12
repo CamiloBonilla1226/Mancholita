@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProductService } from '../../services/products.service';
 import { CartService } from '../../services/cart.service';
@@ -27,23 +27,30 @@ export class AboutComponent implements OnInit, OnDestroy {
   private autoSlideInterval: any;
 
   constructor(
-    private productService: ProductService,
-    private cartService: CartService
-  ) {}
+  private productService: ProductService,
+  private cartService: CartService,
+  private cdr: ChangeDetectorRef
+) {}
 
   ngOnInit(): void {
-    this.productService.getProducts().subscribe({
-      next: (data: any) => {
-        const products = data.content ?? [];
-        this.allProducts = this.shuffleArray(products);
-        this.updateVisibleProducts();
-        this.startAutoSlide();
-      },
-      error: (err) => {
-        console.error('Error cargando productos para About', err);
-      }
-    });
-  }
+  this.productService.getProducts().subscribe({
+    next: (data: any) => {
+      const products = data.content ?? [];
+      this.allProducts = this.shuffleArray(products);
+      this.updateVisibleProducts();
+
+      setTimeout(() => {
+        window.dispatchEvent(new Event('resize'));
+        this.cdr.detectChanges();
+      }, 50);
+
+      this.startAutoSlide();
+    },
+    error: (err) => {
+      console.error('Error cargando productos para About', err);
+    }
+  });
+}
 
   ngOnDestroy(): void {
     this.clearAutoSlide();
