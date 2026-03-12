@@ -21,10 +21,7 @@
 
     <div class="showcase-track" [class.sliding]="isAnimating">
       <article class="showcase-card" *ngFor="let product of visibleProducts">
-        <img
-          [src]="product.imageUrl"
-          [alt]="product.name"
-          (click)="openProduct(product)">
+        <img [src]="product.imageUrl" [alt]="product.name" (click)="openProduct(product)">
 
         <div class="showcase-info">
           <h3>{{ product.name }}</h3>
@@ -130,6 +127,10 @@
             <button class="modal-more-btn" (click)="viewMore(selectedProduct)">
               Ver más
             </button>
+          </div>
+
+          <div class="modal-added-message" *ngIf="showAddedMessage">
+            ✔ Agregado correctamente
           </div>
         </div>
 

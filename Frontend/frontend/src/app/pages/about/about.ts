@@ -22,6 +22,7 @@ export class AboutComponent implements OnInit, OnDestroy {
 
   selectedProduct: any = null;
   modalQuantity = 1;
+  showAddedMessage = false;
 
   private autoSlideInterval: any;
 
@@ -88,11 +89,13 @@ export class AboutComponent implements OnInit, OnDestroy {
   openProduct(product: any) {
     this.selectedProduct = product;
     this.modalQuantity = 1;
+    this.showAddedMessage = false;
   }
 
   closeProduct() {
     this.selectedProduct = null;
     this.modalQuantity = 1;
+    this.showAddedMessage = false;
   }
 
   increaseQuantity() {
@@ -109,6 +112,12 @@ export class AboutComponent implements OnInit, OnDestroy {
     for (let i = 0; i < this.modalQuantity; i++) {
       this.cartService.addProduct(product);
     }
+
+    this.showAddedMessage = true;
+
+    setTimeout(() => {
+      this.showAddedMessage = false;
+    }, 2000);
   }
 
   viewMore(product: any) {

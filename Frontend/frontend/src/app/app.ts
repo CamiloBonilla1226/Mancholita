@@ -62,6 +62,10 @@ export class App {
     this.showCheckout = true;
     this.cartOpen = false;
   }
+ 
+
+
+
   goToProductCatalog(product: any) {
   this.showAbout = false;
   this.showCheckout = false;
@@ -69,7 +73,7 @@ export class App {
 
   this.selectedGender = product.genderId ?? 0;
   this.selectedCategory = 0;
-  this.searchText = product.name ?? '';
+  this.searchText = '';
 }
 
 }
