@@ -1,15 +1,77 @@
-<section class="about-section">
-  <div class="about-content">
-    <h1>Bienvenido a Mancholita</h1>
-    <p>
-      En Mancholita queremos ofrecerte una experiencia sencilla, moderna y confiable
-      para descubrir prendas con estilo, comprar fácilmente y realizar tu pedido de
-      una manera práctica.
-    </p>
+<section class="about-hero">
 
-    <p>
-      Explora nuestras colecciones para hombre y mujer, encuentra tus productos
-      favoritos y disfruta de una tienda pensada para ti.
-    </p>
+  <div class="about-overlay">
+
+    <div class="about-top">
+      <div class="about-text">
+        <span class="about-badge">Bienvenido a Mancholita</span>
+
+        <h1>Moda con estilo para cada ocasión</h1>
+
+        <p>
+          En Mancholita queremos ofrecerte una experiencia sencilla, elegante y cercana.
+          Explora nuestras colecciones para hombre y mujer, descubre prendas con personalidad
+          y realiza tu pedido de forma práctica.
+        </p>
+      </div>
+    </div>
+
+    <div class="mini-catalog-section">
+      <div class="section-header">
+        <h2>Destacados</h2>
+
+        <div class="catalog-controls">
+          <button (click)="prevProducts()">‹</button>
+          <button (click)="nextProducts()">›</button>
+        </div>
+      </div>
+
+      <div class="mini-catalog">
+        <div class="mini-card" *ngFor="let product of visibleProducts">
+          <img [src]="product.imageUrl" [alt]="product.name">
+
+          <div class="mini-card-body">
+            <h3>{{ product.name }}</h3>
+            <p>{{ product.description }}</p>
+            <span>{{ product.price | currency:'COP':'symbol':'1.0-0':'es-CO' }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="about-info-grid">
+
+      <div class="info-card">
+        <h3>Sobre nosotros</h3>
+        <p>
+          Somos un almacén enfocado en brindar prendas modernas, cómodas y con estilo.
+          Queremos que cada cliente encuentre opciones ideales para su día a día,
+          con una experiencia de compra clara y agradable.
+        </p>
+      </div>
+
+      <div class="info-card">
+        <h3>Redes sociales</h3>
+
+        <div class="social-links">
+          <a href="#" target="_blank">Instagram</a>
+          <a href="#" target="_blank">Facebook</a>
+          <a href="#" target="_blank">TikTok</a>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <h3>Nuestras sedes</h3>
+
+        <ul class="branches">
+          <li><strong>Sede Centro:</strong> Calle 1 # 10-20</li>
+          <li><strong>Sede Norte:</strong> Carrera 15 # 25-10</li>
+          <li><strong>Sede Sur:</strong> Avenida 8 # 30-45</li>
+        </ul>
+      </div>
+
+    </div>
+
   </div>
+
 </section>
