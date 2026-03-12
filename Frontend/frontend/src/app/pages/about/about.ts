@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProductService } from '../../services/products.service';
 import { CartService } from '../../services/cart.service';
@@ -12,6 +12,8 @@ import { CartService } from '../../services/cart.service';
 })
 export class AboutComponent implements OnInit, OnDestroy {
 
+  @Output() viewMoreClicked = new EventEmitter<any>();
+
   allProducts: any[] = [];
   visibleProducts: any[] = [];
   currentIndex = 0;
@@ -19,6 +21,7 @@ export class AboutComponent implements OnInit, OnDestroy {
   isAnimating = false;
 
   selectedProduct: any = null;
+  modalQuantity = 1;
 
   private autoSlideInterval: any;
 
@@ -84,14 +87,33 @@ export class AboutComponent implements OnInit, OnDestroy {
 
   openProduct(product: any) {
     this.selectedProduct = product;
+    this.modalQuantity = 1;
   }
 
   closeProduct() {
     this.selectedProduct = null;
+    this.modalQuantity = 1;
+  }
+
+  increaseQuantity() {
+    this.modalQuantity++;
+  }
+
+  decreaseQuantity() {
+    if (this.modalQuantity > 1) {
+      this.modalQuantity--;
+    }
   }
 
   addToCart(product: any) {
-    this.cartService.addProduct(product);
+    for (let i = 0; i < this.modalQuantity; i++) {
+      this.cartService.addProduct(product);
+    }
+  }
+
+  viewMore(product: any) {
+    this.viewMoreClicked.emit(product);
+    this.closeProduct();
   }
 
   private startAutoSlide() {
