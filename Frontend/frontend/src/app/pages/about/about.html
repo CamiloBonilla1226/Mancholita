@@ -24,7 +24,7 @@
         <img
           [src]="product.imageUrl"
           [alt]="product.name"
-          (click)="goToProduct(product)">
+          (click)="openProduct(product)">
 
         <div class="showcase-info">
           <h3>{{ product.name }}</h3>
@@ -40,9 +40,9 @@
     <div class="about-company-content">
       <h2>Sobre nosotros</h2>
       <p>
-        Somos un emprendimiento de la ciudad de Popayán que inició en 2020 con el propósito
-        de ofrecer moda con estilo, buena atención y precios accesibles. En Mancholita nos
-        alegra acompañarte y ayudarte a encontrar prendas que te hagan sentir bien en cada ocasión.
+        Somos un emprendimiento de Popayán que inició en 2020 con la ilusión de ofrecer moda con estilo,
+        buena atención y precios accesibles. En Mancholita nos hace felices atenderte y ayudarte a encontrar
+        prendas lindas, versátiles y pensadas para cada ocasión.
       </p>
     </div>
   </section>
@@ -93,5 +93,27 @@
       <p>© 2026 Mancholita</p>
     </div>
   </footer>
+
+  <div class="product-modal-backdrop" *ngIf="selectedProduct" (click)="closeProduct()">
+    <div class="product-modal" (click)="$event.stopPropagation()">
+      <button class="close-modal-btn" (click)="closeProduct()">✕</button>
+
+      <div class="product-modal-grid">
+        <div class="product-modal-image">
+          <img [src]="selectedProduct.imageUrl" [alt]="selectedProduct.name">
+        </div>
+
+        <div class="product-modal-info">
+          <h2>{{ selectedProduct.name }}</h2>
+          <p>{{ selectedProduct.description }}</p>
+          <h3>{{ selectedProduct.price | currency:'COP':'symbol':'1.0-0':'es-CO' }}</h3>
+
+          <button class="modal-cart-btn" (click)="addToCart(selectedProduct)">
+            Agregar al carrito
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </section>

@@ -1,6 +1,7 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProductService } from '../../services/products.service';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-about',
@@ -11,17 +12,20 @@ import { ProductService } from '../../services/products.service';
 })
 export class AboutComponent implements OnInit, OnDestroy {
 
-  @Output() productSelected = new EventEmitter<any>();
-
   allProducts: any[] = [];
   visibleProducts: any[] = [];
   currentIndex = 0;
   itemsPerView = 3;
   isAnimating = false;
 
+  selectedProduct: any = null;
+
   private autoSlideInterval: any;
 
-  constructor(private productService: ProductService) {}
+  constructor(
+    private productService: ProductService,
+    private cartService: CartService
+  ) {}
 
   ngOnInit(): void {
     this.productService.getProducts().subscribe({
@@ -78,8 +82,16 @@ export class AboutComponent implements OnInit, OnDestroy {
     }, 250);
   }
 
-  goToProduct(product: any) {
-    this.productSelected.emit(product);
+  openProduct(product: any) {
+    this.selectedProduct = product;
+  }
+
+  closeProduct() {
+    this.selectedProduct = null;
+  }
+
+  addToCart(product: any) {
+    this.cartService.addProduct(product);
   }
 
   private startAutoSlide() {
