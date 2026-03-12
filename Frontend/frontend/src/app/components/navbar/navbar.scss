@@ -32,6 +32,16 @@
   display: flex;
   align-items: center;
   cursor: pointer;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.logo:hover{
+  opacity: 0.85;
+  transform: scale(1.03);
+}
+
+.logo:active{
+  transform: scale(0.97);
 }
 .main-menu{
   display: flex;

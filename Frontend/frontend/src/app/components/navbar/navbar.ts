@@ -40,7 +40,7 @@ export class NavbarComponent implements DoCheck, OnInit {
   @Output() searchChanged = new EventEmitter<string>();
   @Output() genderChanged = new EventEmitter<number>();
   @Output() categoryChanged = new EventEmitter<number>();
-@Output() logoClicked = new EventEmitter<void>();
+  @Output() logoClicked = new EventEmitter<void>();
 
   constructor(
     private cartService: CartService,
@@ -57,14 +57,17 @@ export class NavbarComponent implements DoCheck, OnInit {
         console.error('Error cargando categorías', err);
       }
     });
+
+    this.cartCount = this.cartService.getCount();
+    this.previousCount = this.cartCount;
   }
-  goToHome() {
-  this.logoClicked.emit();
-}
 
   ngDoCheck(): void {
     const currentCount = this.cartService.getCount();
-    this.cartCount = currentCount;
+
+    if (currentCount !== this.cartCount) {
+      this.cartCount = currentCount;
+    }
 
     if (currentCount > this.previousCount) {
       this.animateCart();
@@ -110,6 +113,13 @@ export class NavbarComponent implements DoCheck, OnInit {
   filterByCategory(categoryId: number) {
     this.selectedCategory = categoryId;
     this.categoryChanged.emit(categoryId);
+  }
+
+  goToHome() {
+    this.selectedGender = 0;
+    this.selectedCategory = 0;
+    this.subcategories = [];
+    this.logoClicked.emit();
   }
 
   @HostListener('window:scroll', [])
