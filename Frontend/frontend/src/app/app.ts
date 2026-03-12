@@ -36,6 +36,15 @@ export class App {
     this.cartOpen = false;
   }
 
+  goToProductFromAbout(product: any) {
+  this.showAbout = false;
+  this.showCheckout = false;
+  this.cartOpen = false;
+  this.searchText = product.name;
+  this.selectedGender = 0;
+  this.selectedCategory = 0;
+}
+
   onSearchChanged(text: string) {
     this.searchText = text;
   }

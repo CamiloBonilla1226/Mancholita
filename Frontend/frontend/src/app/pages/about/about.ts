@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProductService } from '../../services/products.service';
 
@@ -10,6 +10,8 @@ import { ProductService } from '../../services/products.service';
   styleUrls: ['./about.scss']
 })
 export class AboutComponent implements OnInit, OnDestroy {
+
+  @Output() productSelected = new EventEmitter<any>();
 
   allProducts: any[] = [];
   visibleProducts: any[] = [];
@@ -36,14 +38,13 @@ export class AboutComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.autoSlideInterval) {
-      clearInterval(this.autoSlideInterval);
-    }
+    this.clearAutoSlide();
   }
 
   nextProducts() {
     if (this.allProducts.length === 0 || this.isAnimating) return;
 
+    this.resetAutoSlide();
     this.isAnimating = true;
 
     setTimeout(() => {
@@ -62,6 +63,7 @@ export class AboutComponent implements OnInit, OnDestroy {
   prevProducts() {
     if (this.allProducts.length === 0 || this.isAnimating) return;
 
+    this.resetAutoSlide();
     this.isAnimating = true;
 
     setTimeout(() => {
@@ -76,10 +78,26 @@ export class AboutComponent implements OnInit, OnDestroy {
     }, 250);
   }
 
+  goToProduct(product: any) {
+    this.productSelected.emit(product);
+  }
+
   private startAutoSlide() {
     this.autoSlideInterval = setInterval(() => {
       this.nextProducts();
-    }, 10000);
+    }, 15000);
+  }
+
+  private resetAutoSlide() {
+    this.clearAutoSlide();
+    this.startAutoSlide();
+  }
+
+  private clearAutoSlide() {
+    if (this.autoSlideInterval) {
+      clearInterval(this.autoSlideInterval);
+      this.autoSlideInterval = null;
+    }
   }
 
   private updateVisibleProducts() {
