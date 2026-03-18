@@ -34,7 +34,7 @@
 
   </header>
 
-  <div class="subfilters" *ngIf="subcategories.length > 0">
+  <div class="subfilters" *ngIf="subcategories.length > 0 && !hideSubcategories">
     <button
       *ngFor="let sub of subcategories"
       [class.active]="selectedCategory === sub.id"

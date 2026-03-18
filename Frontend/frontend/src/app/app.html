@@ -1,6 +1,7 @@
 <app-navbar
   [currentGender]="selectedGender"
   [currentCategory]="selectedCategory"
+  [hideSubcategories]="showCheckout"
   (cartClicked)="toggleCart()"
   (searchChanged)="onSearchChanged($event)"
   (genderChanged)="onGenderChanged($event)"

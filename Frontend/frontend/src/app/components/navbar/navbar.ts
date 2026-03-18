@@ -26,6 +26,7 @@ export class NavbarComponent implements DoCheck, OnInit, OnChanges {
 
   @Input() currentGender = 0;
   @Input() currentCategory = 0;
+  @Input() hideSubcategories = false;
 
   cartCount = 0;
   searchText = '';
