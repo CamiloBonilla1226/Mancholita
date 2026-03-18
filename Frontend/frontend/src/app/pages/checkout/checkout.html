@@ -39,12 +39,16 @@
       <input type="text" placeholder="Ej: Popayán" [(ngModel)]="municipality" name="municipality">
     </div>
 
+    <div *ngIf="errorMessage" class="checkout-error">
+      {{ errorMessage }}
+    </div>
+
     <button
-  type="button"
-  class="checkout-button"
-  (click)="submitOrder()">
-  Enviar pedido por WhatsApp
-</button>
+      type="button"
+      class="checkout-button"
+      (click)="submitOrder()">
+      Enviar pedido por WhatsApp
+    </button>
 
   </form>
 

@@ -28,14 +28,22 @@ export class CheckoutComponent implements OnInit {
   department = '';
   municipality = '';
 
+  errorMessage = '';
+
   constructor(
     private orderService: OrderService,
-    private cartService: CartService
+    public cartService: CartService
   ) { }
 
   submitOrder() {
-
     const cartItems = this.cartService.getItems();
+
+    if (!cartItems.length) {
+      this.errorMessage = 'No hay productos en el carrito. Agrega algo antes de enviar el pedido.';
+      return;
+    }
+
+    this.errorMessage = '';
 
     const order = {
       customerName: this.customerName,
