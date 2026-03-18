@@ -49,9 +49,11 @@
 
 .main-menu{
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
-  gap: 28px;
+  gap: 16px;
+  justify-self: center;
+  width: 100%;
 }
 
 .main-menu button{
@@ -67,6 +69,14 @@
   align-items: center;
   transition: transform 0.15s ease, color 0.15s ease;
   position: relative;
+}
+
+.menu-divider{
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+  transform: translateY(-1px);
 }
 
 .main-menu button:hover{
