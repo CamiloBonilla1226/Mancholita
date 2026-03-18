@@ -15,20 +15,8 @@ import { Component, EventEmitter, Output, OnInit } from '@angular/core';
 })
 export class CheckoutComponent implements OnInit {
   ngOnInit(): void {
-  const savedData = localStorage.getItem('checkoutData');
-
-  if (savedData) {
-    const data = JSON.parse(savedData);
-
-    this.customerName = data.customerName || '';
-    this.phone = data.phone || '';
-    this.email = data.email || '';
-    this.documentNumber = data.documentNumber || '';
-    this.address = data.address || '';
-    this.department = data.department || '';
-    this.municipality = data.municipality || '';
+    // Always start with a clean checkout form. Previous orders should not persist.
   }
-}
 
   @Output() orderCompleted = new EventEmitter<void>();
 
@@ -63,15 +51,6 @@ export class CheckoutComponent implements OnInit {
       }))
     };
 
-    localStorage.setItem('checkoutData', JSON.stringify({
-  customerName: this.customerName,
-  phone: this.phone,
-  email: this.email,
-  documentNumber: this.documentNumber,
-  address: this.address,
-  department: this.department,
-  municipality: this.municipality
-}));
 
     console.log('ORDEN A ENVIAR:', order);
 

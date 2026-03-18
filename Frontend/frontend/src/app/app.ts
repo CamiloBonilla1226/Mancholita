@@ -47,20 +47,25 @@ export class App {
   }
 
   openCheckout() {
+    localStorage.removeItem('checkoutData');
     this.showCheckout = true;
     this.cartOpen = false;
   }
 
   onGenderChanged(genderId: number) {
-  this.selectedGender = genderId;
-  this.selectedCategory = 0;
-  this.showAbout = false;
-}
+    this.selectedGender = genderId;
+    this.selectedCategory = 0;
+    this.showAbout = false;
+    this.showCheckout = false;
+    this.cartOpen = false;
+  }
 
-onCategoryChanged(categoryId: number) {
-  this.selectedCategory = categoryId;
-  this.showAbout = false;
-}
+  onCategoryChanged(categoryId: number) {
+    this.selectedCategory = categoryId;
+    this.showAbout = false;
+    this.showCheckout = false;
+    this.cartOpen = false;
+  }
 
 goToAbout() {
   this.showAbout = true;
