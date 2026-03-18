@@ -21,6 +21,10 @@ export class AboutComponent implements OnInit, OnDestroy {
   isAnimating = false;
   slideDirection: 'left' | 'right' = 'left';
 
+  // Mapped gender IDs for the hero buttons (based on available products)
+  femaleGenderId: number | null = null;
+  maleGenderId: number | null = null;
+
   selectedProduct: any = null;
   modalQuantity = 1;
   showAddedMessage = false;
@@ -39,6 +43,7 @@ export class AboutComponent implements OnInit, OnDestroy {
       const products = data.content ?? [];
       this.allProducts = this.shuffleArray(products);
       this.updateVisibleProducts();
+      this.determineHeroGenderIds(products);
 
       setTimeout(() => {
         window.dispatchEvent(new Event('resize'));
@@ -177,5 +182,25 @@ export class AboutComponent implements OnInit, OnDestroy {
       .map(value => ({ value, sort: Math.random() }))
       .sort((a, b) => a.sort - b.sort)
       .map(({ value }) => value);
+  }
+
+  private determineHeroGenderIds(products: any[]) {
+    const genderMap = new Map<string, number>();
+
+    products.forEach((product) => {
+      const name = String(product.genderName ?? '').trim().toLowerCase();
+      if (!name) return;
+      if (!genderMap.has(name)) {
+        genderMap.set(name, product.genderId);
+      }
+    });
+
+    // Common Spanish names for gender categories
+    this.femaleGenderId = genderMap.get('mujer') ?? genderMap.get('femenino') ?? null;
+    this.maleGenderId = genderMap.get('hombre') ?? genderMap.get('masculino') ?? null;
+  }
+
+  viewCollection(genderId: number | null) {
+    this.viewMoreClicked.emit({ genderId });
   }
 }

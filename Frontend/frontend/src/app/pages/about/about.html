@@ -15,8 +15,12 @@
 
 
     <div class="hero-actions">
-      <button class="hero-btn primary">Ver colección mujer</button>
-      <button class="hero-btn secondary">Ver colección hombre</button>
+      <button class="hero-btn primary" type="button" (click)="viewCollection(femaleGenderId)" [disabled]="!femaleGenderId">
+        Ver colección mujer
+      </button>
+      <button class="hero-btn secondary" type="button" (click)="viewCollection(maleGenderId)" [disabled]="!maleGenderId">
+        Ver colección hombre
+      </button>
     </div>
 
   </div>
