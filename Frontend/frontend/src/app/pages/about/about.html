@@ -26,7 +26,7 @@
   <section class="showcase-section">
     <button class="slider-arrow left" (click)="prevProducts()">‹</button>
 
-    <div class="showcase-track" [class.sliding]="isAnimating">
+    <div class="showcase-track" [class.sliding]="isAnimating" [class.sliding-left]="isAnimating && slideDirection === 'left'" [class.sliding-right]="isAnimating && slideDirection === 'right'">
       <article class="showcase-card" *ngFor="let product of visibleProducts">
         <img [src]="product.imageUrl" [alt]="product.name" (click)="openProduct(product)">
 

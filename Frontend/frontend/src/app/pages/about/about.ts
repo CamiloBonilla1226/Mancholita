@@ -19,6 +19,7 @@ export class AboutComponent implements OnInit, OnDestroy {
   currentIndex = 0;
   itemsPerView = 3;
   isAnimating = false;
+  slideDirection: 'left' | 'right' = 'left';
 
   selectedProduct: any = null;
   modalQuantity = 1;
@@ -60,6 +61,7 @@ export class AboutComponent implements OnInit, OnDestroy {
     if (this.allProducts.length === 0 || this.isAnimating) return;
 
     this.resetAutoSlide();
+    this.slideDirection = 'left';
     this.isAnimating = true;
 
     setTimeout(() => {
@@ -71,14 +73,17 @@ export class AboutComponent implements OnInit, OnDestroy {
       }
 
       this.updateVisibleProducts();
+      this.cdr.detectChanges();
       this.isAnimating = false;
-    }, 250);
+      this.cdr.detectChanges();
+    }, 260);
   }
 
   prevProducts() {
     if (this.allProducts.length === 0 || this.isAnimating) return;
 
     this.resetAutoSlide();
+    this.slideDirection = 'right';
     this.isAnimating = true;
 
     setTimeout(() => {
@@ -89,8 +94,10 @@ export class AboutComponent implements OnInit, OnDestroy {
       }
 
       this.updateVisibleProducts();
+      this.cdr.detectChanges();
       this.isAnimating = false;
-    }, 250);
+      this.cdr.detectChanges();
+    }, 260);
   }
 
   openProduct(product: any) {
