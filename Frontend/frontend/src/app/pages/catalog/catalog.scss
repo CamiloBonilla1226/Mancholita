@@ -3,7 +3,7 @@
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 28px;
   padding: 30px 40px 50px;
-  background: radial-gradient(circle at top left, rgba(13, 27, 76, 0.15), rgba(13, 27, 76, 0.06) 45%, rgba(255, 255, 255, 0.95));
+  background: linear-gradient(135deg, rgba(255, 250, 235, 1), rgba(255, 255, 255, 1));
 }
 
 .product{

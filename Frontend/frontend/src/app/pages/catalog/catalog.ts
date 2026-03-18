@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, Input, OnChanges, NgZone } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, Input, OnChanges, NgZone, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProductService } from '../../services/products.service';
 import { Product } from '../../models/product';
@@ -16,6 +16,8 @@ export class CatalogComponent implements OnInit, OnChanges {
   @Input() searchText = '';
   @Input() selectedGender = 0;
   @Input() selectedCategory = 0;
+
+  @Output() modalOpenChange = new EventEmitter<boolean>();
 
   selectedProduct: Product | null = null;
   modalQuantity = 1;
@@ -68,12 +70,14 @@ export class CatalogComponent implements OnInit, OnChanges {
     this.selectedProduct = product;
     this.modalQuantity = 1;
     this.showAddedMessage = false;
+    this.modalOpenChange.emit(true);
   }
 
   closeProduct() {
     this.selectedProduct = null;
     this.modalQuantity = 1;
     this.showAddedMessage = false;
+    this.modalOpenChange.emit(false);
   }
 
   increaseQuantity() {

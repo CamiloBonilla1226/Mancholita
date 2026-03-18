@@ -22,6 +22,7 @@ export class App {
   selectedGender = 0;
   selectedCategory = 0;
   showAbout = true;
+  productModalOpen = false;
 
   toggleCart() {
     this.cartOpen = !this.cartOpen;
@@ -78,5 +79,9 @@ goToProductCatalog(product: any) {
   this.selectedGender = product.genderId ?? 0;
   this.selectedCategory = 0;
   this.searchText = '';
+}
+
+onProductModalChange(open: boolean) {
+  this.productModalOpen = open;
 }
 }
