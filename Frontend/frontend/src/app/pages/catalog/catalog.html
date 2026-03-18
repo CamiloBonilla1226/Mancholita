@@ -1,6 +1,6 @@
 <div class="catalog">
 
-  <div class="product" *ngFor="let p of filteredProducts">
+  <div class="product" *ngFor="let p of filteredProducts" (click)="openProduct(p)">
 
     <img [src]="p.imageUrl" alt="{{ p.name }}">
 
@@ -10,10 +10,53 @@
 
     <h2>{{ p.price | currency:'COP':'symbol':'1.0-0':'es-CO' }}</h2>
 
-    <button class="btn-cart" (click)="addToCart(p)">
+    <button class="btn-cart" (click)="addToCart(p); $event.stopPropagation()">
       {{ addedProductId === p.id ? '✔ Agregado' : 'Agregar al carrito' }}
     </button>
 
   </div>
 
+</div>
+
+<div class="product-modal-backdrop" *ngIf="selectedProduct" (click)="closeProduct()">
+  <div class="product-modal" (click)="$event.stopPropagation()">
+
+    <button class="close-modal-btn" (click)="closeProduct()">✕</button>
+
+    <div class="product-modal-grid">
+
+      <div class="product-modal-image">
+        <img [src]="selectedProduct.imageUrl" [alt]="selectedProduct.name">
+      </div>
+
+      <div class="product-modal-info">
+        <span class="product-brand">Mancholita</span>
+
+        <h2>{{ selectedProduct.name }}</h2>
+
+        <p class="product-description">{{ selectedProduct.description }}</p>
+
+        <h3 class="product-price">
+          {{ selectedProduct.price | currency:'COP':'symbol':'1.0-0':'es-CO' }}
+        </h3>
+
+        <div class="modal-quantity">
+          <button (click)="decreaseQuantity()">-</button>
+          <span>{{ modalQuantity }}</span>
+          <button (click)="increaseQuantity()">+</button>
+        </div>
+
+        <div class="modal-actions">
+          <button class="modal-cart-btn" (click)="addToCart(selectedProduct, modalQuantity)">
+            Agregar al carrito
+          </button>
+        </div>
+
+        <div class="modal-added-message" *ngIf="showAddedMessage">
+          ✔ Agregado correctamente
+        </div>
+      </div>
+
+    </div>
+  </div>
 </div>

@@ -1,11 +1,4 @@
-import {
-  Component,
-  OnInit,
-  ChangeDetectorRef,
-  Input,
-  OnChanges,
-  NgZone
-} from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, Input, OnChanges, NgZone } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProductService } from '../../services/products.service';
 import { Product } from '../../models/product';
@@ -16,7 +9,7 @@ import { CartService } from '../../services/cart.service';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './catalog.html',
-  styleUrls: ['./catalog.scss']
+  styleUrl: './catalog.scss'
 })
 export class CatalogComponent implements OnInit, OnChanges {
 
@@ -24,21 +17,22 @@ export class CatalogComponent implements OnInit, OnChanges {
   @Input() selectedGender = 0;
   @Input() selectedCategory = 0;
 
-  products: Product[] = [];
-
-  addedProductId: number | null = null;
-  showAddedMessage = false;
-
   selectedProduct: Product | null = null;
   modalQuantity = 1;
-  showModalAddedMessage = false;
+  showAddedMessage = false;
+  addedProductId: number | null = null;
+
+
+
+
+  products: Product[] = [];
 
   constructor(
     private productService: ProductService,
     private cdr: ChangeDetectorRef,
     private cartService: CartService,
     private zone: NgZone
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.productService.getProducts().subscribe({
@@ -52,10 +46,10 @@ export class CatalogComponent implements OnInit, OnChanges {
     });
   }
 
-  ngOnChanges() {}
-
-  addToCart(product: Product) {
-    this.cartService.addProduct(product);
+  addToCart(product: Product, quantity = 1) {
+    for (let i = 0; i < quantity; i++) {
+      this.cartService.addProduct(product);
+    }
 
     this.addedProductId = product.id;
     this.showAddedMessage = true;
@@ -73,13 +67,13 @@ export class CatalogComponent implements OnInit, OnChanges {
   openProduct(product: Product) {
     this.selectedProduct = product;
     this.modalQuantity = 1;
-    this.showModalAddedMessage = false;
+    this.showAddedMessage = false;
   }
 
   closeProduct() {
     this.selectedProduct = null;
     this.modalQuantity = 1;
-    this.showModalAddedMessage = false;
+    this.showAddedMessage = false;
   }
 
   increaseQuantity() {
@@ -90,22 +84,6 @@ export class CatalogComponent implements OnInit, OnChanges {
     if (this.modalQuantity > 1) {
       this.modalQuantity--;
     }
-  }
-
-  addToCartFromModal(product: Product) {
-    for (let i = 0; i < this.modalQuantity; i++) {
-      this.cartService.addProduct(product);
-    }
-
-    this.showModalAddedMessage = true;
-    this.cdr.detectChanges();
-
-    setTimeout(() => {
-      this.zone.run(() => {
-        this.showModalAddedMessage = false;
-        this.cdr.detectChanges();
-      });
-    }, 2000);
   }
 
   get filteredProducts(): Product[] {
@@ -127,4 +105,9 @@ export class CatalogComponent implements OnInit, OnChanges {
 
     return filtered;
   }
+  ngOnChanges() {
+
+  }
+
+
 }
