@@ -14,6 +14,8 @@ import { Component, EventEmitter, Output, OnInit } from '@angular/core';
   styleUrls: ['./checkout.scss']
 })
 export class CheckoutComponent implements OnInit {
+  private readonly requiredFieldsMessage = 'Por favor completa todos los campos antes de enviar el pedido.';
+
   ngOnInit(): void {
     // Always start with a clean checkout form. Previous orders should not persist.
   }
@@ -37,22 +39,49 @@ export class CheckoutComponent implements OnInit {
 
   submitOrder() {
     const cartItems = this.cartService.getItems();
+    const customerName = this.customerName.trim();
+    const phone = this.phone.trim();
+    const email = this.email.trim();
+    const documentNumber = this.documentNumber.trim();
+    const address = this.address.trim();
+    const department = this.department.trim();
+    const municipality = this.municipality.trim();
 
     if (!cartItems.length) {
       this.errorMessage = 'No hay productos en el carrito. Agrega algo antes de enviar el pedido.';
       return;
     }
 
+    if (
+      !customerName ||
+      !phone ||
+      !email ||
+      !documentNumber ||
+      !address ||
+      !department ||
+      !municipality
+    ) {
+      this.errorMessage = this.requiredFieldsMessage;
+      return;
+    }
+
     this.errorMessage = '';
+    this.customerName = customerName;
+    this.phone = phone;
+    this.email = email;
+    this.documentNumber = documentNumber;
+    this.address = address;
+    this.department = department;
+    this.municipality = municipality;
 
     const order = {
-      customerName: this.customerName,
-      phone: this.phone,
-      email: this.email,
-      documentNumber: this.documentNumber,
-      address: this.address,
-      department: this.department,
-      municipality: this.municipality,
+      customerName: customerName,
+      phone: phone,
+      email: email,
+      documentNumber: documentNumber,
+      address: address,
+      department: department,
+      municipality: municipality,
       items: cartItems.map(item => ({
         productId: item.product.id,
         quantity: item.quantity

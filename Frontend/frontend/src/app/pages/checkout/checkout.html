@@ -2,7 +2,7 @@
 
   <h1>Finalizar pedido</h1>
 
-  <form>
+  <form (ngSubmit)="submitOrder()">
 
     <div class="form-group">
       <label>Nombre completo</label>
@@ -44,9 +44,8 @@
     </div>
 
     <button
-      type="button"
-      class="checkout-button"
-      (click)="submitOrder()">
+      type="submit"
+      class="checkout-button">
       Enviar pedido por WhatsApp
     </button>
 
