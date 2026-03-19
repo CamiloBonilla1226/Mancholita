@@ -17,7 +17,7 @@ export class AboutComponent implements OnInit, OnDestroy {
   allProducts: any[] = [];
   visibleProducts: any[] = [];
   currentIndex = 0;
-  itemsPerView = 3;
+  itemsPerView = 4;
   isAnimating = false;
   slideDirection: 'left' | 'right' = 'left';
 
