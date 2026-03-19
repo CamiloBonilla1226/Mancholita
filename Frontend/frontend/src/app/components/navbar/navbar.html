@@ -1,48 +1,91 @@
-<div class="header-sticky" [class.hidden]="!isVisible">
-
-  <header class="navbar">
+<header class="header-sticky" [class.hidden]="!isVisible">
+  <nav class="navbar">
 
     <div class="logo" (click)="goToHome()">
-  MANCHOLITA
-</div>
-    <div class="main-menu">
-      <button
-        [class.active]="selectedGender === 1"
-        (click)="filterByGender(1)">
-        HOMBRE
-      </button>
-
-      <span class="menu-divider" aria-hidden="true">|</span>
-
-      <button
-        [class.active]="selectedGender === 2"
-        (click)="filterByGender(2)">
-        MUJER
-      </button>
+      MANCHOLITA
     </div>
 
-    <div class="search">
-      <input
-        type="text"
-        placeholder="Buscar productos..."
-        [(ngModel)]="searchText"
-        (input)="onSearchChange()">
+    <div class="main-menu">
+  <button
+    type="button"
+    [class.active]="selectedGender === 1"
+    (click)="filterByGender(1)">
+    Hombre
+  </button>
+
+  <button
+    type="button"
+    [class.active]="selectedGender === 2"
+    (click)="filterByGender(2)">
+    Mujer
+  </button>
+</div>
+
+    <div class="search-area">
+      <div class="search-box" [class.open]="searchOpen">
+        <button
+          type="button"
+          class="search"
+          (click)="toggleSearch()"
+          aria-label="Abrir búsqueda">
+
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.3-4.3"></path>
+          </svg>
+        </button>
+
+        <input
+          *ngIf="searchOpen"
+          type="text"
+          class="search-input"
+          placeholder="Buscar prendas..."
+          [(ngModel)]="searchText"
+          (input)="onSearchChange()"
+        />
+      </div>
     </div>
 
     <div class="cart" [class.bump]="cartBump" (click)="openCart()">
-      🛒
-      <span class="count" [class.bump]="cartBump">{{ cartCount }}</span>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round">
+        <path d="M6 2l1.5 4H20l-2 8H9L6 2z"></path>
+        <path d="M9 18a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"></path>
+        <path d="M18 18a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"></path>
+      </svg>
+
+      <span class="count" *ngIf="cartCount > 0">{{ cartCount }}</span>
     </div>
 
-  </header>
+  </nav>
 
-  <div class="subfilters" *ngIf="subcategories.length > 0 && !hideSubcategories">
+  <div
+    class="subfilters"
+    *ngIf="!hideSubcategories && selectedGender > 0 && subcategories.length > 0"
+  >
     <button
+      type="button"
       *ngFor="let sub of subcategories"
       [class.active]="selectedCategory === sub.id"
       (click)="filterByCategory(sub.id)">
       {{ sub.name }}
     </button>
   </div>
-
-</div>
+</header>

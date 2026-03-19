@@ -43,6 +43,8 @@ export class NavbarComponent implements DoCheck, OnInit, OnChanges {
   lastScrollTop = 0;
   isVisible = true;
 
+  searchOpen = false;
+
   @Output() cartClicked = new EventEmitter<void>();
   @Output() searchChanged = new EventEmitter<string>();
   @Output() genderChanged = new EventEmitter<number>();
@@ -90,7 +92,7 @@ export class NavbarComponent implements DoCheck, OnInit, OnChanges {
     this.previousCount = currentCount;
   }
 
-  private syncNavbarState() {
+  private syncNavbarState(): void {
     this.selectedGender = this.currentGender ?? 0;
     this.selectedCategory = this.currentCategory ?? 0;
 
@@ -104,7 +106,7 @@ export class NavbarComponent implements DoCheck, OnInit, OnChanges {
     }
   }
 
-  animateCart() {
+  animateCart(): void {
     this.cartBump = false;
     this.cdr.detectChanges();
 
@@ -119,15 +121,28 @@ export class NavbarComponent implements DoCheck, OnInit, OnChanges {
     }, 20);
   }
 
-  openCart() {
+  openCart(): void {
     this.cartClicked.emit();
   }
 
-  onSearchChange() {
+  onSearchChange(): void {
     this.searchChanged.emit(this.searchText);
   }
 
-  filterByGender(genderId: number) {
+  toggleSearch(): void {
+    this.searchOpen = !this.searchOpen;
+
+    if (!this.searchOpen) {
+      this.searchText = '';
+      this.searchChanged.emit('');
+    }
+  }
+
+  filterByGender(genderId: number): void {
+    if (this.selectedGender === genderId) {
+      return;
+    }
+
     this.selectedGender = genderId;
     this.selectedCategory = 0;
 
@@ -138,20 +153,27 @@ export class NavbarComponent implements DoCheck, OnInit, OnChanges {
     this.subcategories = gender?.children ?? [];
   }
 
-  filterByCategory(categoryId: number) {
+  filterByCategory(categoryId: number): void {
     this.selectedCategory = categoryId;
     this.categoryChanged.emit(categoryId);
   }
 
-  goToHome() {
+  goToHome(): void {
     this.selectedGender = 0;
     this.selectedCategory = 0;
     this.subcategories = [];
+    this.searchText = '';
+    this.searchOpen = false;
+
+    this.genderChanged.emit(0);
+    this.categoryChanged.emit(0);
+    this.searchChanged.emit('');
+
     this.logoClicked.emit();
   }
 
   @HostListener('window:scroll', [])
-  onWindowScroll() {
+  onWindowScroll(): void {
     const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
 
     if (currentScroll <= 0) {
