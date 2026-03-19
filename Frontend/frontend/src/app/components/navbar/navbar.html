@@ -8,6 +8,13 @@
     <div class="main-menu">
   <button
     type="button"
+    [class.active]="selectedGender === -1"
+    (click)="filterByGender(-1)">
+    Ver todo
+  </button>
+
+  <button
+    type="button"
     [class.active]="selectedGender === 1"
     (click)="filterByGender(1)">
     Hombre
