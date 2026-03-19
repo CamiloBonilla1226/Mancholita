@@ -44,6 +44,14 @@ export class App {
 
   onSearchChanged(text: string) {
     this.searchText = text;
+
+    if (this.showAbout && text.trim()) {
+      this.showAbout = false;
+      this.showCheckout = false;
+      this.cartOpen = false;
+      this.selectedGender = -1;
+      this.selectedCategory = 0;
+    }
   }
 
   openCheckout() {

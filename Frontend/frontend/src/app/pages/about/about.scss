@@ -139,15 +139,16 @@
   position: relative;
   max-width: 1320px;
   margin: 0 auto 64px;
-  padding: 0 48px;
+  padding: 32px 56px;
   min-height: 460px;
   overflow: hidden;
+  background: #f9f9f9;
 }
 
 .showcase-track{
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 18px;
+  gap: 15px;
   transition: transform 0.35s ease, opacity 0.35s ease;
   align-items: start;
   min-height: 390px;
@@ -166,18 +167,17 @@
 }
 
 .showcase-card{
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.99), rgba(248, 250, 252, 0.98));
-  border: 1px solid rgba(148, 163, 184, 0.12);
-  border-radius: 18px;
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 2px;
   overflow: hidden;
-  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
-  box-shadow: 0 10px 26px rgba(15, 23, 42, 0.05);
+  transition: transform 0.25s ease, border-color 0.25s ease;
+  box-shadow: none;
 }
 
 .showcase-card:hover{
-  transform: translateY(-4px);
-  border-color: rgba(13, 27, 76, 0.16);
-  box-shadow: 0 18px 38px rgba(15, 23, 42, 0.1);
+  transform: translateY(-5px);
+  border-color: #d5d5d5;
 }
 
 .showcase-card img{
@@ -185,27 +185,34 @@
   height: 320px;
   object-fit: cover;
   display: block;
-  background: #e2e8f0;
+  background: #ececec;
   cursor: pointer;
+  filter: brightness(1);
+  transition: filter 0.25s ease;
+}
+
+.showcase-card:hover img{
+  filter: brightness(1.06);
 }
 
 .showcase-info{
   padding: 16px 16px 18px;
+  text-align: left;
 }
 
 .showcase-info h3{
   margin: 0 0 8px;
-  font-size: 16px;
+  font-size: 1.1rem;
   line-height: 1.35;
-  color: #0f172a;
-  font-weight: 700;
+  color: #000000;
+  font-weight: 800;
 }
 
 .showcase-info p{
   margin: 0;
-  font-size: 13px;
+  font-size: 0.88rem;
   line-height: 1.65;
-  color: #64748b;
+  color: #666666;
   min-height: 64px;
 }
 
@@ -213,35 +220,35 @@
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 46px;
-  height: 46px;
+  width: 32px;
+  height: 48px;
   border: none;
-  border-radius: 999px;
-  background: rgba(13, 27, 76, 0.74);
-  color: rgba(255,255,255,0.96);
-  font-size: 22px;
+  border-radius: 0;
+  background: transparent;
+  color: #0d1b4c;
+  font-size: 34px;
+  font-weight: 300;
+  line-height: 1;
   cursor: pointer;
   z-index: 3;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.2s ease, opacity 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 10px 24px rgba(13, 27, 76, 0.16);
-  backdrop-filter: blur(4px);
+  transition: transform 0.2s ease, color 0.2s ease;
+  box-shadow: none;
 }
 
 .slider-arrow.left{
-  left: 2px;
+  left: 10px;
 }
 
 .slider-arrow.right{
-  right: 2px;
+  right: 10px;
 }
 
 .slider-arrow:hover{
   transform: translateY(-50%) scale(1.05);
-  opacity: 1;
-  background: #0d1b4c;
+  color: #22d3ee;
 }
 
 /* =========================
@@ -696,7 +703,7 @@
   }
 
   .showcase-section{
-    padding: 0 32px;
+    padding: 24px 36px;
     min-height: auto;
   }
 
@@ -706,17 +713,17 @@
   }
 
   .slider-arrow{
-    width: 44px;
-    height: 44px;
-    font-size: 22px;
+    width: 28px;
+    height: 42px;
+    font-size: 28px;
   }
 
   .slider-arrow.left{
-    left: 4px;
+    left: 2px;
   }
 
   .slider-arrow.right{
-    right: 4px;
+    right: 2px;
   }
 
   .branches-section{
