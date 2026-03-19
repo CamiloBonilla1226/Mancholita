@@ -93,7 +93,7 @@ export class CatalogComponent implements OnInit, OnChanges {
   get filteredProducts(): Product[] {
     let filtered = this.products;
 
-    if (this.selectedGender !== 0) {
+    if (this.selectedGender > 0) {
       filtered = filtered.filter(p => p.genderId === this.selectedGender);
     }
 
