@@ -139,10 +139,6 @@ export class NavbarComponent implements DoCheck, OnInit, OnChanges {
   }
 
   filterByGender(genderId: number): void {
-    if (this.selectedGender === genderId) {
-      return;
-    }
-
     this.selectedGender = genderId;
     this.selectedCategory = 0;
 
