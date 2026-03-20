@@ -29,8 +29,7 @@ export class AboutComponent implements OnInit, OnDestroy {
   showAddedMessage = false;
 
   private autoSlideInterval: any;
-  private slideTimeoutId: ReturnType<typeof setTimeout> | null = null;
-  private slideResetTimeoutId: ReturnType<typeof setTimeout> | null = null;
+  private animationLockTimeoutId: ReturnType<typeof setTimeout> | null = null;
 
   constructor(
   private productService: ProductService,
@@ -60,8 +59,7 @@ export class AboutComponent implements OnInit, OnDestroy {
 }
 
   ngOnDestroy(): void {
-    this.clearSlideTimeout();
-    this.clearSlideResetTimeout();
+    this.clearAnimationLock();
     this.clearAutoSlide();
   }
 
@@ -70,14 +68,16 @@ export class AboutComponent implements OnInit, OnDestroy {
 
     this.resetAutoSlide();
     this.isAnimating = true;
-    this.runSlideTransition(() => {
-      this.currentIndex += this.itemsPerView;
+    this.currentIndex += this.itemsPerView;
 
-      if (this.currentIndex >= this.allProducts.length) {
-        this.currentIndex = 0;
-        this.allProducts = this.shuffleArray([...this.allProducts]);
-      }
-    });
+    if (this.currentIndex >= this.allProducts.length) {
+      this.currentIndex = 0;
+      this.allProducts = this.shuffleArray([...this.allProducts]);
+    }
+
+    this.updateVisibleProducts();
+    this.cdr.detectChanges();
+    this.releaseAnimationLock();
   }
 
   prevProducts() {
@@ -85,13 +85,15 @@ export class AboutComponent implements OnInit, OnDestroy {
 
     this.resetAutoSlide();
     this.isAnimating = true;
-    this.runSlideTransition(() => {
-      this.currentIndex -= this.itemsPerView;
+    this.currentIndex -= this.itemsPerView;
 
-      if (this.currentIndex < 0) {
-        this.currentIndex = Math.max(0, this.allProducts.length - this.itemsPerView);
-      }
-    });
+    if (this.currentIndex < 0) {
+      this.currentIndex = Math.max(0, this.allProducts.length - this.itemsPerView);
+    }
+
+    this.updateVisibleProducts();
+    this.cdr.detectChanges();
+    this.releaseAnimationLock();
   }
 
   openProduct(product: any) {
@@ -151,33 +153,17 @@ export class AboutComponent implements OnInit, OnDestroy {
     }
   }
 
-  private clearSlideTimeout() {
-    if (this.slideTimeoutId) {
-      clearTimeout(this.slideTimeoutId);
-      this.slideTimeoutId = null;
+  private clearAnimationLock() {
+    if (this.animationLockTimeoutId) {
+      clearTimeout(this.animationLockTimeoutId);
+      this.animationLockTimeoutId = null;
     }
   }
 
-  private clearSlideResetTimeout() {
-    if (this.slideResetTimeoutId) {
-      clearTimeout(this.slideResetTimeoutId);
-      this.slideResetTimeoutId = null;
-    }
-  }
-
-  private runSlideTransition(updateIndex: () => void) {
-    this.clearSlideTimeout();
-    this.clearSlideResetTimeout();
-
-    this.slideTimeoutId = setTimeout(() => {
-      updateIndex();
-      this.updateVisibleProducts();
-      this.cdr.detectChanges();
-
-      this.slideResetTimeoutId = setTimeout(() => {
-        this.isAnimating = false;
-        this.cdr.detectChanges();
-      }, 40);
+  private releaseAnimationLock() {
+    this.clearAnimationLock();
+    this.animationLockTimeoutId = setTimeout(() => {
+      this.isAnimating = false;
     }, 180);
   }
 

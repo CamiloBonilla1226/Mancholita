@@ -10,8 +10,8 @@
       </h1>
 
       <p class="about-main-text">
-        Descubre prendas para hombre y mujer con disenos pensados para acompanarte en cada ocasion,
-        con atencion cercana y envios 100% seguros a todo Colombia.
+        Descubre prendas para hombre y mujer con diseños pensados para acompanarte en cada ocasión,
+        con atención cercana y envios 100% seguros a todo Colombia.
       </p>
 
       <div class="about-actions">
@@ -34,10 +34,7 @@
       &lsaquo;
     </button>
 
-    <div
-      class="showcase-track"
-      [class.sliding]="isAnimating"
-    >
+    <div class="showcase-track">
       <article class="showcase-card" *ngFor="let product of visibleProducts; trackBy: trackByProduct">
         <div class="image-container">
           <img [src]="product.imageUrl" [alt]="product.name" (click)="openProduct(product)">
