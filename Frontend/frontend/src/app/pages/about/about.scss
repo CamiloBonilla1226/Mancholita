@@ -549,9 +549,10 @@
 .product-modal-image img{
   width: 100%;
   height: 520px;
-  object-fit: cover;
+  object-fit: contain;
   display: block;
   background: #e2e8f0;
+  padding: 16px;
   transition: transform 0.35s ease;
 }
 

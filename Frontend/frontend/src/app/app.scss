@@ -23,26 +23,43 @@ app-root{
 }
 
 .social-link{
-  width: 38px;
-  height: 38px;
-  border-radius: 14px;
+  width: 44px;
+  height: 44px;
+  border-radius: 16px;
   display: grid;
   place-items: center;
-  background: rgba(255, 255, 255, 0.95);
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.18);
+  background: rgba(255, 255, 255, 0.98);
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  box-shadow: 0 12px 22px rgba(15, 23, 42, 0.18);
   transition: transform 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
   text-decoration: none;
+  overflow: hidden;
 }
 
 .social-link:hover{
   transform: translateY(-2px);
   background: rgba(255, 255, 255, 1);
-  box-shadow: 0 12px 22px rgba(0, 0, 0, 0.24);
+  box-shadow: 0 16px 28px rgba(15, 23, 42, 0.24);
 }
 
 .social-icon{
-  width: 20px;
-  height: 20px;
-  object-fit: contain;
+  width: 28px;
+  height: 28px;
+  display: block;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
+  border-radius: 8px;
+}
+
+.social-icon-instagram{
+  background-image: url('../assets/images/instagram.jpg');
+}
+
+.social-icon-facebook{
+  background-image: url('../assets/images/face.jpg');
+}
+
+.social-icon-tiktok{
+  background-image: url('../assets/images/tiktok.jpg');
 }
