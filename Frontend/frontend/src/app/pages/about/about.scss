@@ -359,6 +359,10 @@
 .branch-body{
   position: relative;
   padding: 24px 24px 26px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .branch-tag{
@@ -393,6 +397,7 @@
   color: #64748b;
   font-size: 14px;
   line-height: 1.7;
+  text-align: center;
 }
 
 
