@@ -2,77 +2,323 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 28px;
-  padding: 30px 40px 50px;
+  padding: 30px 40px 22px;
   background: linear-gradient(135deg, rgba(255, 250, 235, 1), rgba(255, 255, 255, 1));
+  min-height: 70vh;
+}
+
+.product-skeleton{
+  pointer-events: none;
+}
+
+.skeleton-box,
+.skeleton-line,
+.skeleton-button{
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(90deg, #eef2f7 25%, #f8fafc 50%, #eef2f7 75%);
+  background-size: 200% 100%;
+  animation: catalogSkeleton 1.4s ease-in-out infinite;
+}
+
+.skeleton-box{
+  height: 320px;
+  border-radius: 4px;
+}
+
+.skeleton-line{
+  border-radius: 999px;
+}
+
+.skeleton-title{
+  height: 18px;
+  width: 74%;
+  margin: 0 auto 12px;
+}
+
+.skeleton-text{
+  height: 10px;
+  width: 88%;
+  margin: 0 auto 8px;
+}
+
+.skeleton-text.short{
+  width: 62%;
+}
+
+.skeleton-price{
+  height: 28px;
+  width: 44%;
+  margin: 18px auto 16px;
+}
+
+.skeleton-button{
+  height: 44px;
+  width: 100%;
+  border-radius: 12px;
+}
+
+.catalog-footer{
+  margin: 0 auto;
+  width: 100%;
+  background: linear-gradient(135deg, #0d1b4c 0%, #132a67 55%, #1d376f 100%);
+  color: #ffffff;
+  padding: 10px 0 8px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 24px 48px rgba(13, 27, 76, 0.18);
+}
+
+.catalog-footer::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at top left, rgba(255,255,255,0.14), transparent 34%),
+    linear-gradient(180deg, rgba(255,255,255,0.05), transparent 36%);
+  pointer-events: none;
+}
+
+.catalog-footer-shell{
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(240px, 1.1fr) repeat(3, minmax(170px, 0.8fr));
+  column-gap: 24px;
+  row-gap: 4px;
+  align-items: start;
+  padding: 0 88px 0 32px;
+}
+
+.catalog-footer-brand,
+.catalog-footer-links,
+.catalog-footer-contact,
+.catalog-footer-copy,
+.catalog-footer-legal{
+  font-family: 'Poppins', 'Inter', 'Montserrat', sans-serif;
+}
+
+.catalog-footer-brand,
+.catalog-footer-links,
+.catalog-footer-contact,
+.catalog-footer-copy{
+  align-self: start;
+  padding-top: 4px;
+}
+
+.catalog-footer-kicker{
+  display: inline-flex;
+  margin-bottom: 6px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.18);
+  color: #ffffff;
+  font-size: 8px;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.catalog-footer-brand h3{
+  margin: 0 0 4px;
+  font-size: 15px;
+  letter-spacing: 0.14em;
+  font-weight: 400;
+  color: #ffffff;
+}
+
+.catalog-footer-brand p,
+.catalog-footer-copy p,
+.catalog-footer-contact p{
+  margin: 0;
+  color: #ffffff;
+  line-height: 1.45;
+  font-size: 10.2px;
+  font-weight: 300;
+}
+
+.catalog-footer-links,
+.catalog-footer-contact,
+.catalog-footer-copy{
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.catalog-footer-links h4,
+.catalog-footer-contact h4,
+.catalog-footer-copy h4{
+  margin: 0;
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+}
+
+.catalog-footer-contact h4,
+.catalog-footer-copy h4{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.catalog-footer-links a{
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 300;
+  font-size: 10.2px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  line-height: 1.4;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.catalog-footer-links a:hover{
+  opacity: 0.75;
+  transform: translateX(2px);
+}
+
+.catalog-footer-icon{
+  width: 12px;
+  height: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,0.92);
+  flex: 0 0 12px;
+}
+
+.catalog-footer-icon svg{
+  width: 100%;
+  height: 100%;
+}
+
+.catalog-footer-copy p{
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.catalog-footer-contact span,
+.catalog-footer-copy span{
+  color: rgba(255,255,255,0.82);
+  font-size: 9.6px;
+  line-height: 1.4;
+  font-weight: 300;
+}
+
+.catalog-footer-copy{
+  padding-right: 38px;
+}
+
+.catalog-footer-legal{
+  position: relative;
+  z-index: 1;
+  padding: 0 88px 0 32px;
+  margin-top: -2px;
+  color: rgba(255,255,255,0.36);
+  font-size: 8px;
+  font-weight: 300;
+  letter-spacing: 0.04em;
 }
 
 .product{
   background: #ffffff;
-  border: 1px solid #e5e7eb;
-  border-radius: 0;
+  border: 1.5px solid #c9d2df;
+  border-radius: 2px;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
   text-align: left;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+  box-shadow: 0 14px 30px rgba(13, 27, 76, 0.14);
+  background-image: linear-gradient(180deg, #ffffff 0%, #f7f9fc 100%);
 }
 .product:hover{
   border: 1.5px solid #0d1b4c;
-  box-shadow: 0 8px 18px rgba(13,27,76,0.18);
+  box-shadow: 0 12px 26px rgba(13,27,76,0.18);
   transform: translateY(-2px);
+}
+
+.product-image-container{
+  overflow: hidden;
+  border-radius: 4px;
+  border: 1px solid #e4eaf2;
+  background: #f6f8fb;
 }
 
 .product img{
   width: 100%;
-  height: 420px;
+  height: 320px;
   object-fit: contain;
   object-position: top center;
   display: block;
   background: #f8fafc;
   padding: 10px;
   box-sizing: border-box;
-  transition: transform 0.35s ease;
+  border-radius: 4px;
+  transition: filter 0.25s ease;
+}
+
+.product:hover img{
+  filter: brightness(1.06);
+}
+
+.product-info{
+  padding: 12px 0 0;
+  text-align: center;
+  border-top: 1px solid #e3e9f1;
+  margin-top: 12px;
 }
 
 .product h3{
-  font-size: 20px;
-  font-weight: 700;
-  color: #111827;
-  margin: 14px 16px 6px;
-  text-align: left;
+  margin: 0 0 8px;
+  font-size: 1rem;
+  line-height: 1.35;
+  color: #000000;
+  font-weight: 800;
+  text-align: center;
 }
 
 .product p{
-  font-size: 14px;
-  color: #6b7280;
-  margin: 0 16px 10px;
-  min-height: 38px;
-  text-align: left;
+  margin: 0;
+  min-height: auto;
+  font-size: 0.88rem;
+  line-height: 1.65;
+  color: #666666;
+  text-align: center;
 }
 
 .product h2{
-  color: #111827;
-  font-size: 28px;
+  color: #0d1b4c;
+  font-size: 30px;
   font-weight: 800;
-  margin: 0 16px 16px;
-  text-align: left;
+  margin: 16px 0 16px;
+  text-align: center;
 }
 
 .btn-cart{
-  margin: 0 16px 18px;
-  width: calc(100% - 32px);
-  background: #0d1b4c;
+  margin: 0;
+  width: 100%;
+  background: linear-gradient(90deg, #0d1b4c 0%, #1f3aa8 100%);
   color: white;
   border: none;
   padding: 12px 16px;
-  border-radius: 8px;
+  border-radius: 12px;
   font-weight: 700;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  box-shadow: 0 12px 24px rgba(13,27,76,0.18);
 }
 
 .btn-cart:hover{
-  background: #1f3aa8;
+  background: linear-gradient(90deg, #10225f 0%, #2846b2 100%);
   transform: translateY(-1px);
-  box-shadow: 0 8px 16px rgba(13,27,76,0.2);
+  box-shadow: 0 14px 26px rgba(13,27,76,0.24);
 }
 
 .btn-cart:active{
@@ -101,6 +347,15 @@
   to{
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes catalogSkeleton{
+  0%{
+    background-position: 200% 0;
+  }
+  100%{
+    background-position: -200% 0;
   }
 }
 
@@ -332,6 +587,28 @@
 }
 
 @media (max-width: 920px) {
+  .catalog-footer-shell{
+    grid-template-columns: 1fr;
+    padding: 0 64px 4px 18px;
+    gap: 10px;
+  }
+
+  .catalog-footer-brand,
+  .catalog-footer-links,
+  .catalog-footer-contact,
+  .catalog-footer-copy{
+    padding-top: 0;
+  }
+
+  .catalog-footer-copy{
+    padding-right: 0;
+  }
+
+  .catalog-footer-legal{
+    margin-top: 0;
+    padding: 0 64px 0 18px;
+  }
+
   .product-modal-grid{
     grid-template-columns: 1fr;
   }
@@ -342,6 +619,18 @@
 }
 
 @media (max-width: 520px) {
+  .catalog{
+    padding: 24px 18px 18px;
+  }
+
+  .catalog-footer-shell{
+    padding: 0 44px 4px 18px;
+  }
+
+  .catalog-footer-legal{
+    padding: 0 44px 0 18px;
+  }
+
   .product-modal{
     padding: 22px 18px;
   }

@@ -23,6 +23,8 @@ export class CatalogComponent implements OnInit, OnChanges {
   modalQuantity = 1;
   showAddedMessage = false;
   addedProductId: number | null = null;
+  isLoading = true;
+  readonly loadingCards = Array.from({ length: 8 });
 
 
 
@@ -40,9 +42,11 @@ export class CatalogComponent implements OnInit, OnChanges {
     this.productService.getProducts().subscribe({
       next: (data: any) => {
         this.products = data.content;
+        this.isLoading = false;
         this.cdr.detectChanges();
       },
       error: (err) => {
+        this.isLoading = false;
         console.error('Error cargando productos', err);
       }
     });
