@@ -13,11 +13,11 @@
 .about-company{
   max-width: none;
   width: 100%;
-  margin: 0 0 64px;
+  margin: 0 0 32px;
   background: url('../../../assets/images/About.jpg') center center / cover no-repeat;
   border: none;
   border-radius: 0;
-  padding: 56px 52px 52px;
+  padding: 56px 52px 32px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -93,7 +93,7 @@
   justify-content: center;
   flex-wrap: wrap;
   gap: 18px;
-  margin-top: 26px;
+  margin-top: 20px;
 }
 
 .about-btn{
@@ -135,11 +135,15 @@
 /* =========================
    SHOWCASE
 ========================= */
+.container-showcase{
+  margin-top: 16px;
+}
+
 .section-title{
   position: relative;
   width: 100%;
   max-width: none;
-  margin: 20px auto 30px;
+  margin: 28px auto 26px;
   padding: 0;
   color: #001a3f;
   font-family: 'Inter', 'Roboto', Arial, sans-serif;
@@ -155,7 +159,7 @@
   position: relative;
   max-width: 1200px;
   margin: 0 auto 64px;
-  padding: 32px 56px;
+  padding: 8px 56px 36px;
   min-height: 460px;
   overflow: hidden;
   background: #f9f9f9;
@@ -168,6 +172,9 @@
   transition: transform 0.35s ease, opacity 0.35s ease;
   align-items: start;
   min-height: 390px;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  transform: translateZ(0);
 }
 
 .showcase-track.sliding{
@@ -184,22 +191,31 @@
 
 .showcase-card{
   background: #ffffff;
-  border: 1px solid #f0f0f0;
+  border: 1px solid #d7dce5;
   border-radius: 2px;
+  padding: 15px;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
   transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
-  box-shadow: none;
+  box-shadow: 0 10px 24px rgba(13, 27, 76, 0.12);
+  background-image: linear-gradient(180deg, #ffffff 0%, #fbfbfc 100%);
 }
 
 .showcase-card:hover{
-  transform: translateY(-5px);
-  border-color: #d5d5d5;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+  border: 1.5px solid #0d1b4c;
+  box-shadow: 0 12px 26px rgba(13, 27, 76, 0.18);
+  transform: translateY(-2px);
+}
+
+.image-container{
+  overflow: hidden;
+  border-radius: 4px;
 }
 
 .showcase-card img{
   width: 100%;
-  height: 350px;
+  height: 300px;
   object-fit: cover;
   display: block;
   background: #ececec;
@@ -214,8 +230,10 @@
 }
 
 .showcase-info{
-  padding: 16px 16px 18px;
+  padding: 12px 0 0;
   text-align: center;
+  border-top: 1px solid #eef2f6;
+  margin-top: 12px;
 }
 
 .showcase-info h3{
@@ -266,7 +284,7 @@
 
 .slider-arrow:hover{
   transform: translateY(-50%) scale(1.05);
-  color: #22d3ee;
+  color: #0d1b4c;
 }
 
 /* =========================
@@ -710,7 +728,7 @@
 
   .about-actions{
     gap: 12px;
-    margin-top: 22px;
+    margin-top: 14px;
   }
 
   .about-btn{
@@ -721,7 +739,7 @@
   }
 
   .showcase-section{
-    padding: 24px 36px;
+    padding: 0 36px 24px;
     min-height: auto;
   }
 

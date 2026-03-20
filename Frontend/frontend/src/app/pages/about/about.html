@@ -40,7 +40,7 @@
       [class.sliding-left]="isAnimating && slideDirection === 'left'"
       [class.sliding-right]="isAnimating && slideDirection === 'right'"
     >
-      <article class="showcase-card" *ngFor="let product of visibleProducts">
+      <article class="showcase-card" *ngFor="let product of visibleProducts; trackBy: trackByProduct">
         <div class="image-container">
           <img [src]="product.imageUrl" [alt]="product.name" (click)="openProduct(product)">
           </div>

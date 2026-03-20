@@ -30,6 +30,7 @@ export class AboutComponent implements OnInit, OnDestroy {
   showAddedMessage = false;
 
   private autoSlideInterval: any;
+  private slideTimeoutId: ReturnType<typeof setTimeout> | null = null;
 
   constructor(
   private productService: ProductService,
@@ -59,6 +60,7 @@ export class AboutComponent implements OnInit, OnDestroy {
 }
 
   ngOnDestroy(): void {
+    this.clearSlideTimeout();
     this.clearAutoSlide();
   }
 
@@ -68,20 +70,14 @@ export class AboutComponent implements OnInit, OnDestroy {
     this.resetAutoSlide();
     this.slideDirection = 'left';
     this.isAnimating = true;
-
-    setTimeout(() => {
+    this.runSlideTransition(() => {
       this.currentIndex += this.itemsPerView;
 
       if (this.currentIndex >= this.allProducts.length) {
         this.currentIndex = 0;
         this.allProducts = this.shuffleArray([...this.allProducts]);
       }
-
-      this.updateVisibleProducts();
-      this.cdr.detectChanges();
-      this.isAnimating = false;
-      this.cdr.detectChanges();
-    }, 260);
+    });
   }
 
   prevProducts() {
@@ -90,19 +86,13 @@ export class AboutComponent implements OnInit, OnDestroy {
     this.resetAutoSlide();
     this.slideDirection = 'right';
     this.isAnimating = true;
-
-    setTimeout(() => {
+    this.runSlideTransition(() => {
       this.currentIndex -= this.itemsPerView;
 
       if (this.currentIndex < 0) {
         this.currentIndex = Math.max(0, this.allProducts.length - this.itemsPerView);
       }
-
-      this.updateVisibleProducts();
-      this.cdr.detectChanges();
-      this.isAnimating = false;
-      this.cdr.detectChanges();
-    }, 260);
+    });
   }
 
   openProduct(product: any) {
@@ -162,6 +152,30 @@ export class AboutComponent implements OnInit, OnDestroy {
     }
   }
 
+  private clearSlideTimeout() {
+    if (this.slideTimeoutId) {
+      clearTimeout(this.slideTimeoutId);
+      this.slideTimeoutId = null;
+    }
+  }
+
+  private runSlideTransition(updateIndex: () => void) {
+    this.clearSlideTimeout();
+
+    this.slideTimeoutId = setTimeout(() => {
+      updateIndex();
+      this.updateVisibleProducts();
+      this.cdr.detectChanges();
+
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          this.isAnimating = false;
+          this.cdr.detectChanges();
+        });
+      });
+    }, 260);
+  }
+
   private updateVisibleProducts() {
     this.visibleProducts = this.allProducts.slice(
       this.currentIndex,
@@ -175,6 +189,10 @@ export class AboutComponent implements OnInit, OnDestroy {
         ...this.allProducts.slice(0, faltantes)
       ];
     }
+  }
+
+  trackByProduct(index: number, product: any) {
+    return product?.id ?? product?.imageUrl ?? `${product?.name ?? 'product'}-${index}`;
   }
 
   private shuffleArray(array: any[]) {

@@ -22,10 +22,11 @@ $font-main: 'Inter', sans-serif;
 }
 
 .navbar {
-  display: grid;
-  grid-template-columns: auto 1fr auto auto;
+  position: relative;
+  display: flex;
   align-items: center;
-  column-gap: 34px;
+  justify-content: space-between;
+  gap: 18px;
   padding: 0 36px;
   min-height: 68px;
   font-family: $font-main;
@@ -49,11 +50,14 @@ $font-main: 'Inter', sans-serif;
 }
 
 .main-menu {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 26px;
-  justify-self: center;
+  z-index: 1;
 
   button {
     background: transparent;
@@ -111,6 +115,7 @@ $font-main: 'Inter', sans-serif;
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  margin-left: auto;
 }
 
 .search-box {
@@ -301,8 +306,7 @@ $font-main: 'Inter', sans-serif;
 
 @media (max-width: 900px) {
   .navbar {
-    grid-template-columns: auto 1fr auto auto;
-    column-gap: 16px;
+    gap: 16px;
     padding: 0 20px;
     min-height: 64px;
   }
@@ -336,9 +340,7 @@ $font-main: 'Inter', sans-serif;
 
 @media (max-width: 640px) {
   .navbar {
-    grid-template-columns: auto 1fr auto;
-    column-gap: 10px;
-    row-gap: 8px;
+    gap: 10px;
     padding: 0 14px;
     min-height: 60px;
   }
