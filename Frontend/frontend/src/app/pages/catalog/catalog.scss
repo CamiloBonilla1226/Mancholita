@@ -1,6 +1,7 @@
 .catalog{
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  align-items: start;
   gap: 28px;
   padding: 30px 40px 22px;
   background: linear-gradient(135deg, rgba(255, 250, 235, 1), rgba(255, 255, 255, 1));
@@ -275,7 +276,7 @@
   margin-top: 12px;
 }
 
-.product h3{
+.product-title{
   margin: 0 0 8px;
   font-size: 1rem;
   line-height: 1.35;
@@ -284,16 +285,16 @@
   text-align: center;
 }
 
-.product p{
+.product-summary{
   margin: 0;
-  min-height: auto;
   font-size: 0.88rem;
   line-height: 1.65;
   color: #666666;
   text-align: center;
+  min-height: 64px;
 }
 
-.product h2{
+.product-price-tag{
   color: #0d1b4c;
   font-size: 30px;
   font-weight: 800;
@@ -302,7 +303,7 @@
 }
 
 .btn-cart{
-  margin: 0;
+  margin-top: 16px;
   width: 100%;
   background: linear-gradient(90deg, #0d1b4c 0%, #1f3aa8 100%);
   color: white;

@@ -19,9 +19,9 @@
       </div>
 
       <div class="product-info">
-        <h3>{{ p.name }}</h3>
-        <p>{{ p.description }}</p>
-        <h2>{{ p.price | currency:'COP':'symbol':'1.0-0':'es-CO' }}</h2>
+        <h3 class="product-title">{{ p.name }}</h3>
+        <p class="product-summary">{{ p.description }}</p>
+        <h2 class="product-price-tag">{{ p.price | currency:'COP':'symbol':'1.0-0':'es-CO' }}</h2>
         <button class="btn-cart" (click)="addToCart(p); $event.stopPropagation()">
           {{ addedProductId === p.id ? '✓ Agregado' : 'Agregar al carrito' }}
         </button>
