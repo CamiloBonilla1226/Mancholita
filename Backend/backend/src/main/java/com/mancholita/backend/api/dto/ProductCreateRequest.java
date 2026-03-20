@@ -24,4 +24,7 @@ public class ProductCreateRequest {
 
     @NotNull
     public Long categoryId;
+
+    @NotNull
+    public Long genderId;
 }

@@ -4,9 +4,13 @@ import com.mancholita.backend.api.dto.ProductPublicDto;
 import com.mancholita.backend.application.ProductService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/api/public/products")
 public class PublicProductController {
 
     private final ProductService productService;
@@ -15,7 +19,7 @@ public class PublicProductController {
         this.productService = productService;
     }
 
-    @GetMapping("/api/public/products")
+    @GetMapping
     public Page<ProductPublicDto> list(
             @RequestParam(required = false) Long categoryId,
             @RequestParam(required = false) Long genderId,

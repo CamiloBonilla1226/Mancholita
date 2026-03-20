@@ -10,10 +10,8 @@ public class ProductPublicDto {
     public String imageUrl;
     public BigDecimal price;
     public boolean active;
-
     public Long categoryId;
     public String categoryName;
-
     public Long genderId;
     public String genderName;
 

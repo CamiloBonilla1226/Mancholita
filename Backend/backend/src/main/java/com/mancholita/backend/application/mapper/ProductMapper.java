@@ -15,7 +15,10 @@ public final class ProductMapper {
                 p.getImageUrl(),
                 p.getPrice(),
                 p.isActive(),
-                p.getCategory().getId()
+                p.getCategory().getId(),
+                p.getCategory().getName(),
+                p.getGender().getId(),
+                p.getGender().getName()
         );
     }
 }

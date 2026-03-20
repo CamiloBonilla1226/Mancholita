@@ -64,7 +64,7 @@ export class NavbarComponent implements DoCheck, OnInit, OnChanges {
         this.syncNavbarState();
       },
       error: (err) => {
-        console.error('Error cargando categorías', err);
+        console.error('Error cargando categorÃ­as', err);
       }
     });
 

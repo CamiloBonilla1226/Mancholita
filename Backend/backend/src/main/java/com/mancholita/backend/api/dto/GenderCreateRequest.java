@@ -2,7 +2,7 @@ package com.mancholita.backend.api.dto;
 
 import jakarta.validation.constraints.NotBlank;
 
-public class CategoryCreateRequest {
+public class GenderCreateRequest {
 
     @NotBlank
     public String name;

@@ -1,9 +1,6 @@
 package com.mancholita.backend.domain;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -13,6 +10,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "products")
@@ -39,18 +38,24 @@ public class Product {
     private String imageUrl;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id", nullable = false) // categoría obligatoria
+    @JoinColumn(name = "category_id", nullable = false)
     private Category category;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "gender_id", nullable = false)
+    private Gender gender;
 
     protected Product() { }
 
-    public Product(String name, String description, BigDecimal price, boolean active, String imageUrl, Category category) {
+    public Product(String name, String description, BigDecimal price, boolean active, String imageUrl,
+                   Category category, Gender gender) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.active = active;
         this.imageUrl = imageUrl;
         this.category = category;
+        this.gender = gender;
     }
 
     public Long getId() { return id; }
@@ -60,14 +65,17 @@ public class Product {
     public boolean isActive() { return active; }
     public String getImageUrl() { return imageUrl; }
     public Category getCategory() { return category; }
+    public Gender getGender() { return gender; }
 
     public void setActive(boolean active) { this.active = active; }
 
-    public void update(String name, String description, BigDecimal price, String imageUrl, Category category) {
+    public void update(String name, String description, BigDecimal price, String imageUrl,
+                       Category category, Gender gender) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.imageUrl = imageUrl;
         this.category = category;
+        this.gender = gender;
     }
 }

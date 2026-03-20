@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 export interface CategoryNode {
   id: number;
   name: string;
-  parentId: number | null;
   children: CategoryNode[];
 }
 

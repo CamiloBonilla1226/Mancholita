@@ -11,8 +11,22 @@ import org.springframework.data.repository.query.Param;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-    // ✅ PÚBLICO: filtros + búsqueda + paginación (DTO)
-    // (Mantengo order by para mostrar "más nuevos" primero)
+    @Query("""
+        select distinct
+            g.id as genderId,
+            g.name as genderName,
+            c.id as categoryId,
+            c.name as categoryName
+        from Product p
+        join p.category c
+        join p.gender g
+        where p.active = true
+          and c.active = true
+          and g.active = true
+        order by g.name asc, c.name asc
+    """)
+    java.util.List<GenderCategoryRow> findActiveGenderCategoryRows();
+
     @Query("""
         select new com.mancholita.backend.api.dto.ProductPublicDto(
             p.id,
@@ -23,15 +37,17 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             p.active,
             c.id,
             c.name,
-            parent.id,
-            parent.name
+            g.id,
+            g.name
         )
         from Product p
         join p.category c
-        left join c.parent parent
+        join p.gender g
         where p.active = true
+          and c.active = true
+          and g.active = true
           and (:categoryId is null or c.id = :categoryId)
-          and (:genderId is null or parent.id = :genderId)
+          and (:genderId is null or g.id = :genderId)
           and (
                 :q is null
                 or lower(p.name) like lower(concat('%', :q, '%'))
@@ -46,8 +62,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             Pageable pageable
     );
 
-    // ✅ ADMIN: listar todo (activos o inactivos) + filtros + búsqueda + paginación (DTO)
-    // ⚠️ IMPORTANTE: sin ORDER BY para permitir sort dinámico desde Pageable
     @Query("""
         select new com.mancholita.backend.api.dto.ProductAdminDto(
             p.id,
@@ -56,11 +70,16 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             p.imageUrl,
             p.price,
             p.active,
-            c.id
+            c.id,
+            c.name,
+            g.id,
+            g.name
         )
         from Product p
         join p.category c
+        join p.gender g
         where (:categoryId is null or c.id = :categoryId)
+          and (:genderId is null or g.id = :genderId)
           and (:active is null or p.active = :active)
           and (
                 :q is null
@@ -70,6 +89,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     """)
     Page<ProductAdminDto> findAdminProducts(
             @Param("categoryId") Long categoryId,
+            @Param("genderId") Long genderId,
             @Param("active") Boolean active,
             @Param("q") String q,
             Pageable pageable

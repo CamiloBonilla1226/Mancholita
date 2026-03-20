@@ -11,11 +11,11 @@ import jakarta.persistence.UniqueConstraint;
 
 @Entity
 @Table(
-    name = "categories",
-    uniqueConstraints = @UniqueConstraint(name = "uk_categories_name", columnNames = "name")
+    name = "genders",
+    uniqueConstraints = @UniqueConstraint(name = "uk_genders_name", columnNames = "name")
 )
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Category {
+public class Gender {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,9 +27,9 @@ public class Category {
     @Column(nullable = false)
     private boolean active = true;
 
-    protected Category() {}
+    protected Gender() {}
 
-    public Category(String name, boolean active) {
+    public Gender(String name, boolean active) {
         this.name = name;
         this.active = active;
     }
@@ -38,6 +38,6 @@ public class Category {
     public String getName() { return name; }
     public boolean isActive() { return active; }
 
-    public void setActive(boolean active) { this.active = active; }
     public void setName(String name) { this.name = name; }
+    public void setActive(boolean active) { this.active = active; }
 }
