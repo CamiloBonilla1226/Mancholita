@@ -37,8 +37,6 @@
     <div
       class="showcase-track"
       [class.sliding]="isAnimating"
-      [class.sliding-left]="isAnimating && slideDirection === 'left'"
-      [class.sliding-right]="isAnimating && slideDirection === 'right'"
     >
       <article class="showcase-card" *ngFor="let product of visibleProducts; trackBy: trackByProduct">
         <div class="image-container">
@@ -58,6 +56,8 @@
     </button>
   </section>
 </div>
+
+  <h2 class="section-title section-title-branches">VISITANOS EN CASA</h2>
 
   <section class="branches-section">
     <article class="branch-card">

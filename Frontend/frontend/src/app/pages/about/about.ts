@@ -19,7 +19,6 @@ export class AboutComponent implements OnInit, OnDestroy {
   currentIndex = 0;
   itemsPerView = 4;
   isAnimating = false;
-  slideDirection: 'left' | 'right' = 'left';
 
   // Mapped gender IDs for the hero buttons (based on available products)
   femaleGenderId: number | null = null;
@@ -31,6 +30,7 @@ export class AboutComponent implements OnInit, OnDestroy {
 
   private autoSlideInterval: any;
   private slideTimeoutId: ReturnType<typeof setTimeout> | null = null;
+  private slideResetTimeoutId: ReturnType<typeof setTimeout> | null = null;
 
   constructor(
   private productService: ProductService,
@@ -61,6 +61,7 @@ export class AboutComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.clearSlideTimeout();
+    this.clearSlideResetTimeout();
     this.clearAutoSlide();
   }
 
@@ -68,7 +69,6 @@ export class AboutComponent implements OnInit, OnDestroy {
     if (this.allProducts.length === 0 || this.isAnimating) return;
 
     this.resetAutoSlide();
-    this.slideDirection = 'left';
     this.isAnimating = true;
     this.runSlideTransition(() => {
       this.currentIndex += this.itemsPerView;
@@ -84,7 +84,6 @@ export class AboutComponent implements OnInit, OnDestroy {
     if (this.allProducts.length === 0 || this.isAnimating) return;
 
     this.resetAutoSlide();
-    this.slideDirection = 'right';
     this.isAnimating = true;
     this.runSlideTransition(() => {
       this.currentIndex -= this.itemsPerView;
@@ -159,21 +158,27 @@ export class AboutComponent implements OnInit, OnDestroy {
     }
   }
 
+  private clearSlideResetTimeout() {
+    if (this.slideResetTimeoutId) {
+      clearTimeout(this.slideResetTimeoutId);
+      this.slideResetTimeoutId = null;
+    }
+  }
+
   private runSlideTransition(updateIndex: () => void) {
     this.clearSlideTimeout();
+    this.clearSlideResetTimeout();
 
     this.slideTimeoutId = setTimeout(() => {
       updateIndex();
       this.updateVisibleProducts();
       this.cdr.detectChanges();
 
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          this.isAnimating = false;
-          this.cdr.detectChanges();
-        });
-      });
-    }, 260);
+      this.slideResetTimeoutId = setTimeout(() => {
+        this.isAnimating = false;
+        this.cdr.detectChanges();
+      }, 40);
+    }, 180);
   }
 
   private updateVisibleProducts() {
