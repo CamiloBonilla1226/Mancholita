@@ -407,11 +407,12 @@
 .site-footer{
   margin: 0 auto;
   width: 100%;
-  background: linear-gradient(135deg, #0d1b4c 0%, #132a67 55%, #1d376f 100%);
-  color: #ffffff;
+  background:
+    linear-gradient(135deg, #f8eee8 0%, #f5e7df 52%, #efddd3 100%);
+  color: #3f2f2a;
   padding: 10px 0 8px;
   border-radius: 0;
-  box-shadow: 0 24px 48px rgba(13, 27, 76, 0.18);
+  box-shadow: 0 24px 48px rgba(124, 88, 70, 0.12);
   position: relative;
   overflow: hidden;
 }
@@ -421,8 +422,8 @@
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at top left, rgba(255,255,255,0.14), transparent 34%),
-    linear-gradient(180deg, rgba(255,255,255,0.05), transparent 36%);
+    radial-gradient(circle at top left, rgba(255,255,255,0.5), transparent 34%),
+    linear-gradient(180deg, rgba(255,255,255,0.22), transparent 36%);
   pointer-events: none;
 }
 
@@ -453,9 +454,9 @@
   margin-bottom: 6px;
   padding: 3px 8px;
   border-radius: 999px;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.18);
-  color: #ffffff;
+  background: rgba(255,255,255,0.38);
+  border: 1px solid rgba(124, 88, 70, 0.16);
+  color: #6f5144;
   font-size: 8px;
   font-weight: 400;
   letter-spacing: 0.22em;
@@ -475,7 +476,7 @@
   font-size: 15px;
   letter-spacing: 0.14em;
   font-weight: 400;
-  color: #ffffff;
+  color: #4a332c;
   min-height: auto;
 }
 
@@ -483,7 +484,7 @@
 .footer-copy p,
 .footer-contact p{
   margin: 0;
-  color: #ffffff;
+  color: #5f4a43;
   line-height: 1.45;
   font-size: 10.2px;
   font-weight: 300;
@@ -501,7 +502,7 @@
 .footer-contact h4,
 .footer-copy h4{
   margin: 0;
-  color: #ffffff;
+  color: #7a5a4b;
   font-size: 10px;
   font-weight: 400;
   letter-spacing: 0.26em;
@@ -523,19 +524,20 @@
 }
 
 .footer-links a{
-  color: #ffffff;
+  color: #4f392f;
   text-decoration: none;
-  font-weight: 300;
+  font-weight: 400;
   font-size: 10.2px;
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  transition: color 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
   line-height: 1.4;
 }
 
 .footer-links a:hover{
-  opacity: 0.75;
+  color: #9d5f45;
+  opacity: 0.88;
   transform: translateX(2px);
 }
 
@@ -545,7 +547,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: rgba(255,255,255,0.92);
+  color: rgba(122, 90, 75, 0.92);
   flex: 0 0 12px;
 }
 
@@ -562,7 +564,7 @@
 
 .footer-contact span,
 .footer-copy span{
-  color: rgba(255,255,255,0.82);
+  color: rgba(95, 74, 67, 0.86);
   font-size: 9.6px;
   line-height: 1.4;
   font-weight: 300;
@@ -577,7 +579,7 @@
   z-index: 1;
   margin-top: -8px;
   padding: 0 88px 0 32px;
-  color: rgba(255,255,255,0.36);
+  color: rgba(95, 74, 67, 0.64);
   font-size: 7.8px;
   font-weight: 300;
   letter-spacing: 0.04em;
