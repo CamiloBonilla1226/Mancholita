@@ -1,5 +1,4 @@
 <section class="about-page">
-
   <section class="about-company">
     <div class="about-company-content">
       <p class="about-label">MANCHOLITA</p>
@@ -10,8 +9,8 @@
       </h1>
 
       <p class="about-main-text">
-        Descubre prendas para hombre y mujer con diseños pensados para acompanarte en cada ocasión,
-        con atención cercana y envios 100% seguros a todo Colombia.
+        Descubre prendas para hombre y mujer con diseÃ±os pensados para acompanarte en cada ocasiÃ³n,
+        con atenciÃ³n cercana y envios 100% seguros a todo Colombia.
       </p>
 
       <div class="about-actions">
@@ -26,33 +25,32 @@
   </section>
 
   <div class="container-showcase">
-  
-  <h2 class="section-title">EXPLORA TU ESTILO</h2>
+    <h2 class="section-title">EXPLORA TU ESTILO</h2>
 
-  <section class="showcase-section">
-    <button class="slider-arrow left" (click)="prevProducts()" aria-label="Anterior">
-      &lsaquo;
-    </button>
+    <section class="showcase-section">
+      <button class="slider-arrow left" (click)="prevProducts()" aria-label="Anterior">
+        &lsaquo;
+      </button>
 
-    <div class="showcase-track">
-      <article class="showcase-card" *ngFor="let product of visibleProducts; trackBy: trackByProduct">
-        <div class="image-container">
-          <img [src]="product.imageUrl" [alt]="product.name" (click)="openProduct(product)">
+      <div class="showcase-track">
+        <article class="showcase-card" *ngFor="let product of visibleProducts; trackBy: trackByProduct">
+          <div class="image-container">
+            <img [src]="product.imageUrl" [alt]="product.name" (click)="openProduct(product)">
           </div>
 
-        <div class="showcase-info">
-          <h3>{{ product.name }}</h3>
-          <p>{{ product.description }}</p>
-          <span class="product-price">$99.900</span> 
-        </div>
-      </article>
-    </div>
+          <div class="showcase-info">
+            <h3>{{ product.name }}</h3>
+            <p>{{ product.description }}</p>
+            <span class="product-price">$99.900</span>
+          </div>
+        </article>
+      </div>
 
-    <button class="slider-arrow right" (click)="nextProducts()" aria-label="Siguiente">
-      &rsaquo;
-    </button>
-  </section>
-</div>
+      <button class="slider-arrow right" (click)="nextProducts()" aria-label="Siguiente">
+        &rsaquo;
+      </button>
+    </section>
+  </div>
 
   <h2 class="section-title section-title-branches">VISITANOS EN CASA</h2>
 
@@ -64,7 +62,7 @@
       <div class="branch-body">
         <h3>SEDE 1</h3>
         <p>Calle 6 #10-63</p>
-        <span>Popayan · Barrio Valencia</span>
+        <span>Popayan Â· Barrio Valencia</span>
       </div>
     </article>
 
@@ -75,7 +73,7 @@
       <div class="branch-body">
         <h3>SEDE 2</h3>
         <p>Carrera 8 # 6-10</p>
-        <span>Popayan · Diagonal al Servientrega</span>
+        <span>Popayan Â· Diagonal al Servientrega</span>
       </div>
     </article>
 
@@ -86,88 +84,10 @@
       <div class="branch-body">
         <h3>SEDE 3</h3>
         <p>Carrera7 #6-20</p>
-        <span>Popayan · Centro</span>
+        <span>Popayan Â· Centro</span>
       </div>
     </article>
   </section>
-
-  <footer class="site-footer">
-    <div class="footer-shell">
-      <div class="footer-brand">
-        <h3>MANCHOLITA</h3>
-        <p>Lo mejor en precio y calidad, Bueno Bonito Barato.</p>
-      </div>
-
-      <div class="footer-links">
-        <h4>EXPLORA</h4>
-        <a href="#" target="_blank">
-          <span class="footer-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="3" y="3" width="18" height="18" rx="5"></rect>
-              <circle cx="12" cy="12" r="4"></circle>
-              <circle cx="17.5" cy="6.5" r="0.8" fill="currentColor" stroke="none"></circle>
-            </svg>
-          </span>
-          <span>Instagram</span>
-        </a>
-        <a href="#" target="_blank">
-          <span class="footer-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M14 9h3V4h-3c-2.2 0-4 1.8-4 4v3H7v4h3v5h4v-5h3l1-4h-4V8c0-.6.4-1 1-1z"></path>
-            </svg>
-          </span>
-          <span>Facebook</span>
-        </a>
-        <a href="#" target="_blank">
-          <span class="footer-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M14 3v8.3a4.7 4.7 0 1 1-4-4.6"></path>
-              <path d="M14 6c1.4 1.4 3.1 2.2 5 2.3"></path>
-            </svg>
-          </span>
-          <span>TikTok</span>
-        </a>
-      </div>
-
-      <div class="footer-contact">
-        <h4>
-          <span class="footer-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="8"></circle>
-              <path d="M12 7v5l3 2"></path>
-            </svg>
-          </span>
-          <span>ATENCIÓN</span>
-        </h4>
-        <p>Lunes a Sábado de: 9:00 a.m. - 7:00 p.m.</p>
-        <p>Domingo de: 10:00 a.m. - 5:00 p.m.</p>
-        <span>Envíos seguros a todo Colombia</span>
-      </div>
-
-      <div class="footer-copy">
-        <h4>CONTACTO</h4>
-        <p>
-          <span class="footer-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 21s6-5.7 6-11a6 6 0 1 0-12 0c0 5.3 6 11 6 11z"></path>
-              <circle cx="12" cy="10" r="2.2"></circle>
-            </svg>
-          </span>
-          <span>Popayan, Cauca</span>
-        </p>
-        <p>
-          <span class="footer-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M4 6h16v12H4z"></path>
-              <path d="m4 7 8 6 8-6"></path>
-            </svg>
-          </span>
-          <span>mancholitaoficial@gmail.com</span>
-        </p>
-      </div>
-    </div>
-    <div class="footer-legal">&copy; 2026 Mancholita. Todos los derechos reservados.</div>
-  </footer>
 
   <div class="product-modal-backdrop" *ngIf="selectedProduct" (click)="closeProduct()">
     <div class="product-modal" (click)="$event.stopPropagation()">
@@ -212,5 +132,4 @@
       </div>
     </div>
   </div>
-
 </section>

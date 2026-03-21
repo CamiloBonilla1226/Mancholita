@@ -5,12 +5,13 @@ import { CartPanelComponent } from './components/cart-panel/cart-panel';
 import { CheckoutComponent } from './pages/checkout/checkout';
 import { CommonModule } from '@angular/common';
 import { AboutComponent } from './pages/about/about';
+import { FooterComponent } from './components/footer/footer';
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, NavbarComponent, CatalogComponent, CartPanelComponent, CheckoutComponent, AboutComponent],
+  imports: [CommonModule, NavbarComponent, CatalogComponent, CartPanelComponent, CheckoutComponent, AboutComponent, FooterComponent],
   templateUrl: './app.html',
   styleUrls: ['./app.scss']
 })
