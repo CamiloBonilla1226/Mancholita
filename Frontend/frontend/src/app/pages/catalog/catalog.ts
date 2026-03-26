@@ -12,6 +12,7 @@ import { CartService } from '../../services/cart.service';
   styleUrl: './catalog.scss'
 })
 export class CatalogComponent implements OnInit, OnChanges, OnDestroy {
+  private readonly addedFeedbackDuration = 900;
 
   @Input() searchText = '';
   @Input() selectedGender = 0;
@@ -68,7 +69,7 @@ export class CatalogComponent implements OnInit, OnChanges, OnDestroy {
         this.resetAddedState();
         this.cdr.detectChanges();
       });
-    }, 2000);
+    }, this.addedFeedbackDuration);
   }
 
   openProduct(product: Product) {
