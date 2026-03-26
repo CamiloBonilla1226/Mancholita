@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, Input, OnChanges, NgZone, Output, EventEmitter } from '@angular/core';
+import { Component, OnDestroy, OnInit, Input, OnChanges, Output, EventEmitter, ChangeDetectorRef, NgZone } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProductService } from '../../services/products.service';
 import { Product } from '../../models/product';
@@ -11,7 +11,7 @@ import { CartService } from '../../services/cart.service';
   templateUrl: './catalog.html',
   styleUrl: './catalog.scss'
 })
-export class CatalogComponent implements OnInit, OnChanges {
+export class CatalogComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input() searchText = '';
   @Input() selectedGender = 0;
@@ -25,6 +25,7 @@ export class CatalogComponent implements OnInit, OnChanges {
   addedProductId: number | null = null;
   isLoading = true;
   readonly loadingCards = Array.from({ length: 8 });
+  private addedStateTimeout: ReturnType<typeof setTimeout> | null = null;
 
 
 
@@ -48,6 +49,7 @@ export class CatalogComponent implements OnInit, OnChanges {
       error: (err) => {
         this.isLoading = false;
         console.error('Error cargando productos', err);
+        this.cdr.detectChanges();
       }
     });
   }
@@ -60,11 +62,10 @@ export class CatalogComponent implements OnInit, OnChanges {
     this.addedProductId = product.id;
     this.showAddedMessage = true;
     this.cdr.detectChanges();
-
-    setTimeout(() => {
+    this.clearAddedStateTimeout();
+    this.addedStateTimeout = setTimeout(() => {
       this.zone.run(() => {
-        this.addedProductId = null;
-        this.showAddedMessage = false;
+        this.resetAddedState();
         this.cdr.detectChanges();
       });
     }, 2000);
@@ -80,7 +81,7 @@ export class CatalogComponent implements OnInit, OnChanges {
   closeProduct() {
     this.selectedProduct = null;
     this.modalQuantity = 1;
-    this.showAddedMessage = false;
+    this.resetAddedState();
     this.modalOpenChange.emit(false);
   }
 
@@ -115,6 +116,23 @@ export class CatalogComponent implements OnInit, OnChanges {
   }
   ngOnChanges() {
 
+  }
+
+  ngOnDestroy(): void {
+    this.clearAddedStateTimeout();
+  }
+
+  private resetAddedState() {
+    this.addedProductId = null;
+    this.showAddedMessage = false;
+    this.clearAddedStateTimeout();
+  }
+
+  private clearAddedStateTimeout() {
+    if (this.addedStateTimeout) {
+      clearTimeout(this.addedStateTimeout);
+      this.addedStateTimeout = null;
+    }
   }
 
 
