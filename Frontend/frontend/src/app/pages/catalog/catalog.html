@@ -4,8 +4,6 @@
       <div class="product-image-container skeleton-box"></div>
       <div class="product-info">
         <div class="skeleton-line skeleton-title"></div>
-        <div class="skeleton-line skeleton-text"></div>
-        <div class="skeleton-line skeleton-text short"></div>
         <div class="skeleton-line skeleton-price"></div>
         <div class="skeleton-button"></div>
       </div>
@@ -20,10 +18,9 @@
 
       <div class="product-info">
         <h3 class="product-title">{{ p.name }}</h3>
-        <p class="product-summary">{{ p.description }}</p>
         <h2 class="product-price-tag">{{ p.price | currency:'COP':'symbol':'1.0-0':'es-CO' }}</h2>
         <button class="btn-cart" (click)="addToCart(p); $event.stopPropagation()">
-          {{ addedProductId === p.id ? 'âœ“ Agregado' : 'Agregar al carrito' }}
+          {{ addedProductId === p.id ? 'Agregado' : 'Agregar al carrito' }}
         </button>
       </div>
     </div>
@@ -32,7 +29,7 @@
 
 <div class="product-modal-backdrop" *ngIf="selectedProduct" (click)="closeProduct()">
   <div class="product-modal" (click)="$event.stopPropagation()">
-    <button class="close-modal-btn" (click)="closeProduct()">âœ•</button>
+    <button class="close-modal-btn" (click)="closeProduct()">x</button>
 
     <div class="product-modal-grid">
       <div class="product-modal-image">
@@ -60,7 +57,7 @@
         </div>
 
         <div class="modal-added-message" *ngIf="showAddedMessage">
-          âœ“ Agregado correctamente
+          Agregado correctamente
         </div>
       </div>
     </div>
