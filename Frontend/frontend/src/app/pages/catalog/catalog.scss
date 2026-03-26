@@ -1,7 +1,7 @@
 .catalog{
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  align-items: stretch;
+  align-items: start;
   gap: 28px;
   padding: 30px 40px 22px;
   background: linear-gradient(135deg, rgba(255, 250, 235, 1), rgba(255, 255, 255, 1));
@@ -24,7 +24,7 @@
 
 .skeleton-box{
   height: 320px;
-  border-radius: 4px;
+  border-radius: 14px;
 }
 
 .skeleton-line{
@@ -56,8 +56,6 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  height: 100%;
-  min-height: 490px;
   padding: 16px;
   text-align: left;
   transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
@@ -75,7 +73,7 @@
   border-radius: 14px;
   border: 1px solid #e4eaf2;
   background: linear-gradient(180deg, #f8fafc 0%, #f4efe8 100%);
-  aspect-ratio: 4 / 5;
+  height: 320px;
 }
 
 .product img{
@@ -95,8 +93,8 @@
 .product-info{
   display: grid;
   grid-template-rows: minmax(48px, auto) auto auto;
-  gap: 12px;
-  padding: 16px 6px 4px;
+  gap: 10px;
+  padding: 14px 6px 4px;
   text-align: center;
   border-top: 1px solid #e3e9f1;
   margin-top: 14px;
@@ -120,10 +118,11 @@
 
 .product-price-tag{
   color: #0d1b4c;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: "Poppins", "Inter", "Montserrat", sans-serif;
   font-size: 1.7rem;
   font-weight: 600;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.01em;
+  font-variant-numeric: lining-nums tabular-nums;
   margin: 0;
   text-align: center;
 }
@@ -347,7 +346,10 @@
   margin: 0 0 22px;
   font-size: 28px;
   color: #111827;
-  font-weight: 800;
+  font-family: "Poppins", "Inter", "Montserrat", sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  font-variant-numeric: lining-nums tabular-nums;
 }
 
 .modal-quantity{
@@ -432,8 +434,11 @@
   }
 
   .product{
-    min-height: 450px;
     padding: 14px;
+  }
+
+  .product-image-container{
+    height: 280px;
   }
 
   .product-modal{
