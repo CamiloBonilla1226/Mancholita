@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { OrderService } from '../../services/order.service';
 import { CartService } from '../../services/cart.service';
 import { Component, EventEmitter, Output, OnInit } from '@angular/core';
+import { COLOMBIA_DEPARTMENTS, ColombiaDepartmentOption } from './colombia-locations';
 
 
 @Component({
@@ -15,6 +16,8 @@ import { Component, EventEmitter, Output, OnInit } from '@angular/core';
 })
 export class CheckoutComponent implements OnInit {
   private readonly requiredFieldsMessage = 'Por favor completa todos los campos antes de enviar el pedido.';
+  readonly departments: ColombiaDepartmentOption[] = COLOMBIA_DEPARTMENTS;
+  availableMunicipalities: string[] = [];
 
   ngOnInit(): void {
     // Always start with a clean checkout form. Previous orders should not persist.
@@ -46,6 +49,8 @@ export class CheckoutComponent implements OnInit {
     const address = this.address.trim();
     const department = this.department.trim();
     const municipality = this.municipality.trim();
+    const departmentLabel = this.formatCoverageLabel(department);
+    const municipalityLabel = this.formatCoverageLabel(municipality);
 
     if (!cartItems.length) {
       this.errorMessage = 'No hay productos en el carrito. Agrega algo antes de enviar el pedido.';
@@ -80,8 +85,8 @@ export class CheckoutComponent implements OnInit {
       email: email,
       documentNumber: documentNumber,
       address: address,
-      department: department,
-      municipality: municipality,
+      department: departmentLabel,
+      municipality: municipalityLabel,
       items: cartItems.map(item => ({
         productId: item.product.id,
         quantity: item.quantity
@@ -128,8 +133,8 @@ export class CheckoutComponent implements OnInit {
         message += `Correo: ${this.email}\n`;
         message += `Identificación: ${this.documentNumber}\n`;
         message += `Dirección: ${this.address}\n`;
-        message += `Ciudad: ${this.municipality}\n`;
-        message += `Departamento: ${this.department}\n`;
+        message += `Ciudad: ${municipalityLabel}\n`;
+        message += `Departamento: ${departmentLabel}\n`;
 
         const phoneNumber = '573153504020';
 
@@ -147,6 +152,28 @@ export class CheckoutComponent implements OnInit {
       }
     });
 
+  }
+
+  onDepartmentChange() {
+    const selectedDepartment = this.departments.find(
+      (department) => department.name === this.department
+    );
+
+    this.availableMunicipalities = selectedDepartment?.municipalities ?? [];
+    this.municipality = '';
+  }
+
+  formatCoverageLabel(value: string) {
+    const baseValue = value.split('\\')[0].replace(/_/g, ' ').replace(/\s+/g, ' ').trim();
+    if (!baseValue) {
+      return '';
+    }
+
+    return baseValue
+      .toLocaleLowerCase('es-CO')
+      .replace(/(^|[\s(])([\p{L}])/gu, (_, prefix: string, letter: string) => {
+        return `${prefix}${letter.toLocaleUpperCase('es-CO')}`;
+      });
   }
 
 }
