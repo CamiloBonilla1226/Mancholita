@@ -6,6 +6,14 @@ import { CartService } from '../../services/cart.service';
 import { Component, EventEmitter, Output, OnInit } from '@angular/core';
 import { COLOMBIA_DEPARTMENTS, ColombiaDepartmentOption } from './colombia-locations';
 
+type CheckoutField =
+  | 'customerName'
+  | 'phone'
+  | 'email'
+  | 'documentNumber'
+  | 'address'
+  | 'department'
+  | 'municipality';
 
 @Component({
   selector: 'app-checkout',
@@ -34,6 +42,15 @@ export class CheckoutComponent implements OnInit {
   municipality = '';
 
   errorMessage = '';
+  fieldErrors: Record<CheckoutField, string> = {
+    customerName: '',
+    phone: '',
+    email: '',
+    documentNumber: '',
+    address: '',
+    department: '',
+    municipality: ''
+  };
 
   constructor(
     private orderService: OrderService,
@@ -49,31 +66,25 @@ export class CheckoutComponent implements OnInit {
     const address = this.address.trim();
     const department = this.department.trim();
     const municipality = this.municipality.trim();
+    const normalizedPhone = phone.replace(/\D/g, '');
+    const normalizedEmail = email.toLowerCase();
     const departmentLabel = this.formatCoverageLabel(department);
     const municipalityLabel = this.formatCoverageLabel(municipality);
 
     if (!cartItems.length) {
+      this.resetFieldErrors();
       this.errorMessage = 'No hay productos en el carrito. Agrega algo antes de enviar el pedido.';
       return;
     }
 
-    if (
-      !customerName ||
-      !phone ||
-      !email ||
-      !documentNumber ||
-      !address ||
-      !department ||
-      !municipality
-    ) {
-      this.errorMessage = this.requiredFieldsMessage;
+    if (!this.validateForm(customerName, phone, email, documentNumber, address, department, municipality)) {
       return;
     }
 
     this.errorMessage = '';
     this.customerName = customerName;
-    this.phone = phone;
-    this.email = email;
+    this.phone = normalizedPhone;
+    this.email = normalizedEmail;
     this.documentNumber = documentNumber;
     this.address = address;
     this.department = department;
@@ -81,8 +92,8 @@ export class CheckoutComponent implements OnInit {
 
     const order = {
       customerName: customerName,
-      phone: phone,
-      email: email,
+      phone: normalizedPhone,
+      email: normalizedEmail,
       documentNumber: documentNumber,
       address: address,
       department: departmentLabel,
@@ -161,6 +172,8 @@ export class CheckoutComponent implements OnInit {
 
     this.availableMunicipalities = selectedDepartment?.municipalities ?? [];
     this.municipality = '';
+    this.clearFieldError('department');
+    this.clearFieldError('municipality');
   }
 
   formatCoverageLabel(value: string) {
@@ -174,6 +187,109 @@ export class CheckoutComponent implements OnInit {
       .replace(/(^|[\s(])([\p{L}])/gu, (_, prefix: string, letter: string) => {
         return `${prefix}${letter.toLocaleUpperCase('es-CO')}`;
       });
+  }
+
+  clearFieldError(field: CheckoutField) {
+    this.fieldErrors[field] = '';
+    if (this.errorMessage === this.requiredFieldsMessage || this.errorMessage === 'Revisa los campos marcados y corrige la informacion.') {
+      this.errorMessage = '';
+    }
+  }
+
+  private resetFieldErrors() {
+    Object.keys(this.fieldErrors).forEach((field) => {
+      this.fieldErrors[field as CheckoutField] = '';
+    });
+  }
+
+  private validateForm(
+    customerName: string,
+    phone: string,
+    email: string,
+    documentNumber: string,
+    address: string,
+    department: string,
+    municipality: string
+  ) {
+    this.resetFieldErrors();
+    let hasMissingRequiredField = false;
+
+    if (!customerName) {
+      this.fieldErrors.customerName = 'Ingresa tu nombre completo.';
+      hasMissingRequiredField = true;
+    } else if (!this.isValidName(customerName)) {
+      this.fieldErrors.customerName = 'El nombre solo puede contener letras y espacios.';
+    }
+
+    if (!phone) {
+      this.fieldErrors.phone = 'Ingresa un numero de telefono.';
+      hasMissingRequiredField = true;
+    } else if (!this.isValidPhone(phone)) {
+      this.fieldErrors.phone = 'Ingresa un telefono valido. Usa solo numeros o un formato telefonico real.';
+    }
+
+    if (!email) {
+      this.fieldErrors.email = 'Ingresa un correo electronico.';
+      hasMissingRequiredField = true;
+    } else if (!this.isValidEmail(email)) {
+      this.fieldErrors.email = 'Ingresa un correo valido.';
+    }
+
+    if (!documentNumber) {
+      this.fieldErrors.documentNumber = 'Ingresa tu numero de identificacion.';
+      hasMissingRequiredField = true;
+    } else if (!this.isValidDocument(documentNumber)) {
+      this.fieldErrors.documentNumber = 'La identificacion debe contener solo numeros y tener entre 5 y 20 digitos.';
+    }
+
+    if (!address) {
+      this.fieldErrors.address = 'Ingresa la direccion de entrega.';
+      hasMissingRequiredField = true;
+    } else if (!this.isValidAddress(address)) {
+      this.fieldErrors.address = 'Ingresa una direccion mas completa y coherente.';
+    }
+
+    if (!department) {
+      this.fieldErrors.department = 'Selecciona un departamento.';
+      hasMissingRequiredField = true;
+    }
+
+    if (!municipality) {
+      this.fieldErrors.municipality = 'Selecciona una ciudad.';
+      hasMissingRequiredField = true;
+    }
+
+    const hasErrors = Object.values(this.fieldErrors).some(Boolean);
+    if (hasErrors) {
+      this.errorMessage = hasMissingRequiredField
+        ? this.requiredFieldsMessage
+        : 'Revisa los campos marcados y corrige la informacion.';
+    }
+
+    return !hasErrors;
+  }
+
+  private isValidName(value: string) {
+    const onlyLetters = value.replace(/[^\p{L}\s'.-]/gu, '');
+    return /^[\p{L}\s'.-]+$/u.test(value) && onlyLetters.replace(/\s+/g, '').length >= 3;
+  }
+
+  private isValidPhone(value: string) {
+    const digits = value.replace(/\D/g, '');
+    return /^[0-9+\s()-]+$/.test(value) && digits.length >= 7 && digits.length <= 15;
+  }
+
+  private isValidEmail(value: string) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i.test(value);
+  }
+
+  private isValidDocument(value: string) {
+    return /^\d{5,20}$/.test(value);
+  }
+
+  private isValidAddress(value: string) {
+    const hasLetters = /[\p{L}]/u.test(value);
+    return value.length >= 8 && hasLetters;
   }
 
 }

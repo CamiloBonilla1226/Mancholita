@@ -11,45 +11,97 @@
     <div class="checkout-grid">
       <div class="form-group form-group-wide">
         <label>Nombre completo</label>
-        <input type="text" placeholder="Tu nombre completo" [(ngModel)]="customerName" name="customerName">
+        <input
+          type="text"
+          placeholder="Tu nombre completo"
+          [(ngModel)]="customerName"
+          (ngModelChange)="clearFieldError('customerName')"
+          name="customerName"
+          [class.is-invalid]="fieldErrors.customerName"
+        >
+        <p class="field-error" *ngIf="fieldErrors.customerName">{{ fieldErrors.customerName }}</p>
       </div>
 
       <div class="form-group">
         <label>Telefono</label>
-        <input type="text" placeholder="Numero de contacto" [(ngModel)]="phone" name="phone">
+        <input
+          type="text"
+          placeholder="Numero de contacto"
+          [(ngModel)]="phone"
+          (ngModelChange)="clearFieldError('phone')"
+          name="phone"
+          [class.is-invalid]="fieldErrors.phone"
+        >
+        <p class="field-error" *ngIf="fieldErrors.phone">{{ fieldErrors.phone }}</p>
       </div>
 
       <div class="form-group">
         <label>Correo</label>
-        <input type="email" placeholder="correo@email.com" [(ngModel)]="email" name="email">
+        <input
+          type="email"
+          placeholder="correo@email.com"
+          [(ngModel)]="email"
+          (ngModelChange)="clearFieldError('email')"
+          name="email"
+          [class.is-invalid]="fieldErrors.email"
+        >
+        <p class="field-error" *ngIf="fieldErrors.email">{{ fieldErrors.email }}</p>
       </div>
 
       <div class="form-group">
         <label>Identificacion</label>
-        <input type="text" placeholder="Cedula o documento" [(ngModel)]="documentNumber" name="documentNumber">
+        <input
+          type="text"
+          placeholder="Cedula o documento"
+          [(ngModel)]="documentNumber"
+          (ngModelChange)="clearFieldError('documentNumber')"
+          name="documentNumber"
+          [class.is-invalid]="fieldErrors.documentNumber"
+        >
+        <p class="field-error" *ngIf="fieldErrors.documentNumber">{{ fieldErrors.documentNumber }}</p>
       </div>
 
       <div class="form-group form-group-wide">
         <label>Direccion</label>
-        <input type="text" placeholder="Direccion de entrega" [(ngModel)]="address" name="address">
+        <input
+          type="text"
+          placeholder="Direccion de entrega"
+          [(ngModel)]="address"
+          (ngModelChange)="clearFieldError('address')"
+          name="address"
+          [class.is-invalid]="fieldErrors.address"
+        >
+        <p class="field-error" *ngIf="fieldErrors.address">{{ fieldErrors.address }}</p>
       </div>
 
       <div class="form-group">
         <label>Departamento</label>
         <div class="select-wrap">
-          <select [(ngModel)]="department" name="department" (ngModelChange)="onDepartmentChange()">
+          <select
+            [(ngModel)]="department"
+            name="department"
+            (ngModelChange)="onDepartmentChange()"
+            [class.is-invalid]="fieldErrors.department"
+          >
             <option [ngValue]="''" disabled>Selecciona un departamento</option>
             <option *ngFor="let item of departments" [ngValue]="item.name">
               {{ formatCoverageLabel(item.name) }}
             </option>
           </select>
         </div>
+        <p class="field-error" *ngIf="fieldErrors.department">{{ fieldErrors.department }}</p>
       </div>
 
       <div class="form-group">
         <label>Ciudad</label>
         <div class="select-wrap">
-          <select [(ngModel)]="municipality" name="municipality" [disabled]="!department">
+          <select
+            [(ngModel)]="municipality"
+            name="municipality"
+            [disabled]="!department"
+            (ngModelChange)="clearFieldError('municipality')"
+            [class.is-invalid]="fieldErrors.municipality"
+          >
             <option [ngValue]="''" disabled>
               {{ department ? 'Selecciona una ciudad' : 'Primero elige un departamento' }}
             </option>
@@ -58,6 +110,7 @@
             </option>
           </select>
         </div>
+        <p class="field-error" *ngIf="fieldErrors.municipality">{{ fieldErrors.municipality }}</p>
       </div>
     </div>
 
