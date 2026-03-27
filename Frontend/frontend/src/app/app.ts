@@ -1,4 +1,4 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { NavbarComponent } from './components/navbar/navbar';
 import { CatalogComponent } from './pages/catalog/catalog';
 import { CartPanelComponent } from './components/cart-panel/cart-panel';
@@ -6,6 +6,8 @@ import { CheckoutComponent } from './pages/checkout/checkout';
 import { CommonModule } from '@angular/common';
 import { AboutComponent } from './pages/about/about';
 import { FooterComponent } from './components/footer/footer';
+import { CartService } from './services/cart.service';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -15,7 +17,7 @@ import { FooterComponent } from './components/footer/footer';
   templateUrl: './app.html',
   styleUrls: ['./app.scss']
 })
-export class App implements AfterViewInit {
+export class App implements OnInit, AfterViewInit, OnDestroy {
 
   cartOpen = false;
   searchText = '';
@@ -24,9 +26,23 @@ export class App implements AfterViewInit {
   selectedCategory = 0;
   showAbout = true;
   productModalOpen = false;
+  private cartSubscription?: Subscription;
+
+  constructor(private cartService: CartService) {}
+
+  ngOnInit(): void {
+    this.cartSubscription = this.cartService.productAdded$.subscribe(() => {
+      this.showCheckout = false;
+      this.cartOpen = false;
+    });
+  }
 
   ngAfterViewInit(): void {
     this.scrollToTop('auto');
+  }
+
+  ngOnDestroy(): void {
+    this.cartSubscription?.unsubscribe();
   }
 
   toggleCart() {

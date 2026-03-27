@@ -119,6 +119,8 @@ export class AboutComponent implements OnInit, OnDestroy {
   }
 
   addToCart(product: any) {
+    const addedFromModal = this.selectedProduct?.id === product.id;
+
     for (let i = 0; i < this.modalQuantity; i++) {
       this.cartService.addProduct(product);
     }
@@ -128,6 +130,10 @@ export class AboutComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.showAddedMessage = false;
     }, 2000);
+
+    if (addedFromModal) {
+      this.closeProduct();
+    }
   }
 
   viewMore(product: any) {

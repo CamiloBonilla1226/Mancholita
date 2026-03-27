@@ -56,6 +56,8 @@ export class CatalogComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   addToCart(product: Product, quantity = 1) {
+    const addedFromModal = this.selectedProduct?.id === product.id;
+
     for (let i = 0; i < quantity; i++) {
       this.cartService.addProduct(product);
     }
@@ -70,6 +72,10 @@ export class CatalogComponent implements OnInit, OnChanges, OnDestroy {
         this.cdr.detectChanges();
       });
     }, this.addedFeedbackDuration);
+
+    if (addedFromModal) {
+      this.closeProduct();
+    }
   }
 
   openProduct(product: Product) {

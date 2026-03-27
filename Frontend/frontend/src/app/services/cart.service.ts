@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 import { CartItem } from '../models/cart-item';
 import { Product } from '../models/product';
 
@@ -8,6 +9,8 @@ import { Product } from '../models/product';
 export class CartService {
   cartOpen = false;
   private items: CartItem[] = [];
+  private readonly productAddedSource = new Subject<void>();
+  readonly productAdded$ = this.productAddedSource.asObservable();
 
   addProduct(product: Product) {
     const existing = this.items.find(i => i.product.id === product.id);
@@ -21,6 +24,7 @@ export class CartService {
       });
     }
 
+    this.productAddedSource.next();
     console.log('Carrito:', this.items);
   }
 

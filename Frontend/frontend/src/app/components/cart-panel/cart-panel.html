@@ -4,53 +4,59 @@
 
     <div class="cart-header">
       <h2>Carrito</h2>
-      <button class="close-btn" (click)="closeCart()">✕</button>
+      <button class="close-btn" (click)="closeCart()">×</button>
     </div>
 
-    <div *ngIf="items.length === 0">
-      <p>El carrito está vacío</p>
-    </div>
-
-    <div *ngFor="let item of items" class="cart-item">
-
-      <img class="cart-image" [src]="item.product.imageUrl">
-
-      <div class="cart-info">
-
-        <p class="product-name">
-          <strong>{{ item.product.name }}</strong>
-        </p>
-
-        <div class="quantity-controls">
-          <button class="qty-btn" (click)="decrease(item.product.id)">-</button>
-          <span>{{ item.quantity }}</span>
-          <button class="qty-btn" (click)="increase(item.product)">+</button>
-        </div>
-
-        <p>
-          {{ item.product.price | currency:'COP':'symbol':'1.0-0':'es-CO' }}
-        </p>
-
-        <button class="remove-btn" (click)="remove(item.product.id)">
-          Eliminar
-        </button>
-
+    <div class="cart-content">
+      <div *ngIf="items.length === 0" class="cart-empty">
+        <p>El carrito esta vacio</p>
       </div>
 
+      <div class="cart-items" *ngIf="items.length > 0">
+        <div *ngFor="let item of items" class="cart-item">
+
+          <img class="cart-image" [src]="item.product.imageUrl">
+
+          <div class="cart-info">
+
+            <p class="product-name">
+              <strong>{{ item.product.name }}</strong>
+            </p>
+
+            <div class="quantity-controls">
+              <button class="qty-btn" (click)="decrease(item.product.id)">-</button>
+              <span>{{ item.quantity }}</span>
+              <button class="qty-btn" (click)="increase(item.product)">+</button>
+            </div>
+
+            <p>
+              {{ item.product.price | currency:'COP':'symbol':'1.0-0':'es-CO' }}
+            </p>
+
+            <button class="remove-btn" (click)="remove(item.product.id)">
+              Eliminar
+            </button>
+
+          </div>
+
+        </div>
+      </div>
     </div>
 
-    <hr>
+    <div class="cart-footer" *ngIf="items.length > 0">
+      <hr>
 
-    <div class="cart-total">
-      <h3>Total:</h3>
-      <h3 class="total-price">
-        {{ total | currency:'COP':'symbol':'1.0-0':'es-CO' }}
-      </h3>
+      <div class="cart-total">
+        <h3>Total:</h3>
+        <h3 class="total-price">
+          {{ total | currency:'COP':'symbol':'1.0-0':'es-CO' }}
+        </h3>
+      </div>
+
+      <button class="checkout-btn" (click)="goToCheckout()">
+        Finalizar pedido
+      </button>
     </div>
-
-    <button class="checkout-btn" *ngIf="items.length > 0" (click)="goToCheckout()">
-      Finalizar pedido
-    </button>
 
   </div>
 

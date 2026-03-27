@@ -2,6 +2,7 @@ import {
   Component,
   DoCheck,
   EventEmitter,
+  OnDestroy,
   OnInit,
   Output,
   HostListener,
@@ -14,6 +15,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CartService } from '../../services/cart.service';
 import { CategoryService, CategoryNode } from '../../services/category.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
@@ -22,7 +24,7 @@ import { CategoryService, CategoryNode } from '../../services/category.service';
   templateUrl: './navbar.html',
   styleUrls: ['./navbar.scss']
 })
-export class NavbarComponent implements DoCheck, OnInit, OnChanges {
+export class NavbarComponent implements DoCheck, OnInit, OnChanges, OnDestroy {
 
   @Input() currentGender = 0;
   @Input() currentCategory = 0;
@@ -44,6 +46,7 @@ export class NavbarComponent implements DoCheck, OnInit, OnChanges {
   isVisible = true;
 
   searchOpen = false;
+  private productAddedSubscription?: Subscription;
 
   @Output() cartClicked = new EventEmitter<void>();
   @Output() searchChanged = new EventEmitter<string>();
@@ -70,6 +73,14 @@ export class NavbarComponent implements DoCheck, OnInit, OnChanges {
 
     this.cartCount = this.cartService.getCount();
     this.previousCount = this.cartCount;
+    this.productAddedSubscription = this.cartService.productAdded$.subscribe(() => {
+      this.isVisible = true;
+      this.cdr.detectChanges();
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.productAddedSubscription?.unsubscribe();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
